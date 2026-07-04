@@ -1,0 +1,9 @@
+{
+  "name": "overwatch-hero-stats",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "stats:fetch": "node fetch-hero-stats.mjs"
+  }
+}

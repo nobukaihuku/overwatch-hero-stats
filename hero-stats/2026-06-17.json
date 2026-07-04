@@ -1,0 +1,7271 @@
+{
+  "capturedAt": "2026-06-17T08:23:40.572Z",
+  "source": "https://overwatch.blizzard.com/ja-jp/rates/",
+  "note": "Blizzard 公式 rates ページより取得。公開表示時は出典明記・数値のみ使用。",
+  "patch": null,
+  "snapshots": [
+    {
+      "filters": {
+        "input": "PC",
+        "map": "all-maps",
+        "region": "Americas",
+        "role": "All",
+        "rq": "0",
+        "tier": "All"
+      },
+      "url": "https://overwatch.blizzard.com/ja-jp/rates/?input=PC&map=all-maps&region=Americas&role=All&rq=0&tier=All",
+      "heroCount": 51,
+      "heroes": {
+        "ana": {
+          "win": 46.7,
+          "pick": 23.9,
+          "ban": 0
+        },
+        "anran": {
+          "win": 52.4,
+          "pick": 11.5,
+          "ban": 0
+        },
+        "ashe": {
+          "win": 49.7,
+          "pick": 11.1,
+          "ban": 0
+        },
+        "baptiste": {
+          "win": 47.1,
+          "pick": 5.5,
+          "ban": 0
+        },
+        "bastion": {
+          "win": 48.5,
+          "pick": 12.2,
+          "ban": 0
+        },
+        "brigitte": {
+          "win": 54.2,
+          "pick": 6.5,
+          "ban": 0
+        },
+        "cassidy": {
+          "win": 47.6,
+          "pick": 15,
+          "ban": 0
+        },
+        "domina": {
+          "win": 51.8,
+          "pick": 8.5,
+          "ban": 0
+        },
+        "doomfist": {
+          "win": 50.5,
+          "pick": 7.6,
+          "ban": 0
+        },
+        "dva": {
+          "win": 45.7,
+          "pick": 9.4,
+          "ban": 0
+        },
+        "echo": {
+          "win": 48.9,
+          "pick": 6,
+          "ban": 0
+        },
+        "emre": {
+          "win": 47.5,
+          "pick": 9.3,
+          "ban": 0
+        },
+        "freja": {
+          "win": 45.6,
+          "pick": 5,
+          "ban": 0
+        },
+        "genji": {
+          "win": 50.7,
+          "pick": 11.1,
+          "ban": 0
+        },
+        "hanzo": {
+          "win": 49.2,
+          "pick": 8.5,
+          "ban": 0
+        },
+        "hazard": {
+          "win": 51.5,
+          "pick": 3.9,
+          "ban": 0
+        },
+        "illari": {
+          "win": 50.7,
+          "pick": 6.7,
+          "ban": 0
+        },
+        "jetpack-cat": {
+          "win": 48.8,
+          "pick": 9.6,
+          "ban": 0
+        },
+        "junker-queen": {
+          "win": 53.2,
+          "pick": 4.9,
+          "ban": 0
+        },
+        "junkrat": {
+          "win": 51.5,
+          "pick": 11.1,
+          "ban": 0
+        },
+        "juno": {
+          "win": 50.8,
+          "pick": 20.1,
+          "ban": 0
+        },
+        "kiriko": {
+          "win": 47.8,
+          "pick": 23.1,
+          "ban": 0
+        },
+        "lifeweaver": {
+          "win": 50.3,
+          "pick": 16.2,
+          "ban": 0
+        },
+        "lucio": {
+          "win": 51.5,
+          "pick": 8,
+          "ban": 0
+        },
+        "mauga": {
+          "win": 50.9,
+          "pick": 6.9,
+          "ban": 0
+        },
+        "mei": {
+          "win": 53,
+          "pick": 6.9,
+          "ban": 0
+        },
+        "mercy": {
+          "win": 49.2,
+          "pick": 25.7,
+          "ban": 0
+        },
+        "mizuki": {
+          "win": 52.4,
+          "pick": 13.8,
+          "ban": 0
+        },
+        "moira": {
+          "win": 49.9,
+          "pick": 20.4,
+          "ban": 0
+        },
+        "orisa": {
+          "win": 46.6,
+          "pick": 10.2,
+          "ban": 0
+        },
+        "pharah": {
+          "win": 52.6,
+          "pick": 4.7,
+          "ban": 0
+        },
+        "ramattra": {
+          "win": 50.6,
+          "pick": 9.5,
+          "ban": 0
+        },
+        "reaper": {
+          "win": 53.7,
+          "pick": 9.5,
+          "ban": 0
+        },
+        "reinhardt": {
+          "win": 54,
+          "pick": 11.4,
+          "ban": 0
+        },
+        "roadhog": {
+          "win": 46.6,
+          "pick": 8.5,
+          "ban": 0
+        },
+        "sierra": {
+          "win": 52.2,
+          "pick": 23.3,
+          "ban": 0
+        },
+        "sigma": {
+          "win": 51.2,
+          "pick": 7.9,
+          "ban": 0
+        },
+        "sojourn": {
+          "win": 44.2,
+          "pick": 6.7,
+          "ban": 0
+        },
+        "soldier-76": {
+          "win": 48.8,
+          "pick": 12.6,
+          "ban": 0
+        },
+        "sombra": {
+          "win": 47.4,
+          "pick": 5.5,
+          "ban": 0
+        },
+        "symmetra": {
+          "win": 55.1,
+          "pick": 3.2,
+          "ban": 0
+        },
+        "torbjorn": {
+          "win": 56.2,
+          "pick": 4.4,
+          "ban": 0
+        },
+        "tracer": {
+          "win": 49.2,
+          "pick": 6.5,
+          "ban": 0
+        },
+        "vendetta": {
+          "win": 49.8,
+          "pick": 4.7,
+          "ban": 0
+        },
+        "venture": {
+          "win": 52.8,
+          "pick": 3.4,
+          "ban": 0
+        },
+        "widowmaker": {
+          "win": 45.2,
+          "pick": 7.4,
+          "ban": 0
+        },
+        "winston": {
+          "win": 51.9,
+          "pick": 4,
+          "ban": 0
+        },
+        "wrecking-ball": {
+          "win": 50.2,
+          "pick": 3.1,
+          "ban": 0
+        },
+        "wuyang": {
+          "win": 50.7,
+          "pick": 8.6,
+          "ban": 0
+        },
+        "zarya": {
+          "win": 47.4,
+          "pick": 4.3,
+          "ban": 0
+        },
+        "zenyatta": {
+          "win": 54.7,
+          "pick": 11.9,
+          "ban": 0
+        }
+      }
+    },
+    {
+      "filters": {
+        "input": "PC",
+        "map": "all-maps",
+        "region": "Americas",
+        "role": "All",
+        "rq": "1",
+        "tier": "All"
+      },
+      "url": "https://overwatch.blizzard.com/ja-jp/rates/?input=PC&map=all-maps&region=Americas&role=All&rq=1&tier=All",
+      "heroCount": 51,
+      "heroes": {
+        "ana": {
+          "win": 47.5,
+          "pick": 24.9,
+          "ban": 11
+        },
+        "anran": {
+          "win": 51.7,
+          "pick": 9.6,
+          "ban": 16.1
+        },
+        "ashe": {
+          "win": 50.5,
+          "pick": 11,
+          "ban": 1.3
+        },
+        "baptiste": {
+          "win": 46.9,
+          "pick": 7.4,
+          "ban": 0.2
+        },
+        "bastion": {
+          "win": 47.1,
+          "pick": 14.6,
+          "ban": 5.1
+        },
+        "brigitte": {
+          "win": 51.1,
+          "pick": 5.3,
+          "ban": 0.2
+        },
+        "cassidy": {
+          "win": 47.7,
+          "pick": 18.1,
+          "ban": 5.5
+        },
+        "domina": {
+          "win": 51.4,
+          "pick": 6,
+          "ban": 18.4
+        },
+        "doomfist": {
+          "win": 52.4,
+          "pick": 6.2,
+          "ban": 18.1
+        },
+        "dva": {
+          "win": 46,
+          "pick": 6.8,
+          "ban": 11.4
+        },
+        "echo": {
+          "win": 49.6,
+          "pick": 5.1,
+          "ban": 0.6
+        },
+        "emre": {
+          "win": 47.9,
+          "pick": 10.8,
+          "ban": 1.5
+        },
+        "freja": {
+          "win": 46.7,
+          "pick": 3.4,
+          "ban": 0.6
+        },
+        "genji": {
+          "win": 52.5,
+          "pick": 10.7,
+          "ban": 4
+        },
+        "hanzo": {
+          "win": 50.4,
+          "pick": 7.2,
+          "ban": 1.1
+        },
+        "hazard": {
+          "win": 52.7,
+          "pick": 4.2,
+          "ban": 8.3
+        },
+        "illari": {
+          "win": 49.8,
+          "pick": 6.5,
+          "ban": 0.5
+        },
+        "jetpack-cat": {
+          "win": 50,
+          "pick": 4.2,
+          "ban": 25.6
+        },
+        "junker-queen": {
+          "win": 51.8,
+          "pick": 4,
+          "ban": 0.4
+        },
+        "junkrat": {
+          "win": 49.6,
+          "pick": 10.2,
+          "ban": 2.5
+        },
+        "juno": {
+          "win": 50.7,
+          "pick": 18.3,
+          "ban": 0.3
+        },
+        "kiriko": {
+          "win": 47.8,
+          "pick": 35.2,
+          "ban": 4
+        },
+        "lifeweaver": {
+          "win": 50,
+          "pick": 15,
+          "ban": 0.6
+        },
+        "lucio": {
+          "win": 50,
+          "pick": 6.4,
+          "ban": 0.9
+        },
+        "mauga": {
+          "win": 50.2,
+          "pick": 7.1,
+          "ban": 13.6
+        },
+        "mei": {
+          "win": 49.2,
+          "pick": 8.4,
+          "ban": 2.6
+        },
+        "mercy": {
+          "win": 51,
+          "pick": 20.3,
+          "ban": 8.1
+        },
+        "mizuki": {
+          "win": 51.2,
+          "pick": 13.6,
+          "ban": 2.2
+        },
+        "moira": {
+          "win": 47.4,
+          "pick": 25.4,
+          "ban": 3.3
+        },
+        "orisa": {
+          "win": 44.9,
+          "pick": 11.4,
+          "ban": 7.2
+        },
+        "pharah": {
+          "win": 51.8,
+          "pick": 4.9,
+          "ban": 5.2
+        },
+        "ramattra": {
+          "win": 48.6,
+          "pick": 9.6,
+          "ban": 7.4
+        },
+        "reaper": {
+          "win": 52.1,
+          "pick": 13.1,
+          "ban": 4
+        },
+        "reinhardt": {
+          "win": 52.5,
+          "pick": 11.1,
+          "ban": 1.9
+        },
+        "roadhog": {
+          "win": 47.6,
+          "pick": 7.6,
+          "ban": 14.8
+        },
+        "sierra": {
+          "win": 52,
+          "pick": 14.6,
+          "ban": 47.3
+        },
+        "sigma": {
+          "win": 50.9,
+          "pick": 11.5,
+          "ban": 4.4
+        },
+        "sojourn": {
+          "win": 44.6,
+          "pick": 11.3,
+          "ban": 1.3
+        },
+        "soldier-76": {
+          "win": 48.8,
+          "pick": 18.1,
+          "ban": 0.6
+        },
+        "sombra": {
+          "win": 47.4,
+          "pick": 3.4,
+          "ban": 35.2
+        },
+        "symmetra": {
+          "win": 50.1,
+          "pick": 3.6,
+          "ban": 3.5
+        },
+        "torbjorn": {
+          "win": 51.1,
+          "pick": 5,
+          "ban": 0.6
+        },
+        "tracer": {
+          "win": 50.6,
+          "pick": 7.3,
+          "ban": 7.8
+        },
+        "vendetta": {
+          "win": 49.2,
+          "pick": 2.5,
+          "ban": 10.6
+        },
+        "venture": {
+          "win": 51.3,
+          "pick": 2.8,
+          "ban": 0.9
+        },
+        "widowmaker": {
+          "win": 50.2,
+          "pick": 3.8,
+          "ban": 5.9
+        },
+        "winston": {
+          "win": 49.6,
+          "pick": 6.1,
+          "ban": 6.3
+        },
+        "wrecking-ball": {
+          "win": 51.5,
+          "pick": 3,
+          "ban": 9.6
+        },
+        "wuyang": {
+          "win": 51.5,
+          "pick": 6.5,
+          "ban": 0.2
+        },
+        "zarya": {
+          "win": 47.5,
+          "pick": 5.2,
+          "ban": 46
+        },
+        "zenyatta": {
+          "win": 53.2,
+          "pick": 11.3,
+          "ban": 2.3
+        }
+      }
+    },
+    {
+      "filters": {
+        "input": "PC",
+        "map": "all-maps",
+        "region": "Americas",
+        "role": "All",
+        "rq": "1",
+        "tier": "Bronze"
+      },
+      "url": "https://overwatch.blizzard.com/ja-jp/rates/?input=PC&map=all-maps&region=Americas&role=All&rq=1&tier=Bronze",
+      "heroCount": 51,
+      "heroes": {
+        "ana": {
+          "win": 47.5,
+          "pick": 12.9,
+          "ban": 4.5
+        },
+        "anran": {
+          "win": 51.7,
+          "pick": 12.2,
+          "ban": 14.3
+        },
+        "ashe": {
+          "win": 49.3,
+          "pick": 9.6,
+          "ban": 0.5
+        },
+        "baptiste": {
+          "win": 45.8,
+          "pick": 5.4,
+          "ban": 0.1
+        },
+        "bastion": {
+          "win": 47.7,
+          "pick": 19.6,
+          "ban": 3
+        },
+        "brigitte": {
+          "win": 52,
+          "pick": 4.2,
+          "ban": 0.2
+        },
+        "cassidy": {
+          "win": 49.2,
+          "pick": 10.7,
+          "ban": 0.8
+        },
+        "domina": {
+          "win": 51.6,
+          "pick": 7,
+          "ban": 19.6
+        },
+        "doomfist": {
+          "win": 54.4,
+          "pick": 3.7,
+          "ban": 12.1
+        },
+        "dva": {
+          "win": 45.6,
+          "pick": 11.1,
+          "ban": 6.3
+        },
+        "echo": {
+          "win": 47.5,
+          "pick": 5.7,
+          "ban": 0.8
+        },
+        "emre": {
+          "win": 47.6,
+          "pick": 9.8,
+          "ban": 0.5
+        },
+        "freja": {
+          "win": 45.7,
+          "pick": 4.3,
+          "ban": 0.2
+        },
+        "genji": {
+          "win": 52.6,
+          "pick": 7.1,
+          "ban": 2.4
+        },
+        "hanzo": {
+          "win": 49.6,
+          "pick": 7.2,
+          "ban": 0.5
+        },
+        "hazard": {
+          "win": 52.2,
+          "pick": 3.1,
+          "ban": 1.9
+        },
+        "illari": {
+          "win": 49.2,
+          "pick": 6.7,
+          "ban": 0.3
+        },
+        "jetpack-cat": {
+          "win": 49.2,
+          "pick": 4.4,
+          "ban": 33.3
+        },
+        "junker-queen": {
+          "win": 51.9,
+          "pick": 3.3,
+          "ban": 0.4
+        },
+        "junkrat": {
+          "win": 49.7,
+          "pick": 15.2,
+          "ban": 4
+        },
+        "juno": {
+          "win": 50.5,
+          "pick": 23.9,
+          "ban": 0.6
+        },
+        "kiriko": {
+          "win": 48.3,
+          "pick": 29.7,
+          "ban": 1.3
+        },
+        "lifeweaver": {
+          "win": 49.5,
+          "pick": 14.4,
+          "ban": 0.4
+        },
+        "lucio": {
+          "win": 49.3,
+          "pick": 8,
+          "ban": 0.8
+        },
+        "mauga": {
+          "win": 48.8,
+          "pick": 7.2,
+          "ban": 13.6
+        },
+        "mei": {
+          "win": 51.6,
+          "pick": 9,
+          "ban": 3.5
+        },
+        "mercy": {
+          "win": 48.4,
+          "pick": 25,
+          "ban": 6.6
+        },
+        "mizuki": {
+          "win": 52.4,
+          "pick": 15.4,
+          "ban": 0.9
+        },
+        "moira": {
+          "win": 49.6,
+          "pick": 32.1,
+          "ban": 9.2
+        },
+        "orisa": {
+          "win": 45.5,
+          "pick": 14.7,
+          "ban": 9
+        },
+        "pharah": {
+          "win": 49.7,
+          "pick": 6.1,
+          "ban": 5.1
+        },
+        "ramattra": {
+          "win": 50.5,
+          "pick": 12.1,
+          "ban": 10.9
+        },
+        "reaper": {
+          "win": 53.5,
+          "pick": 10.8,
+          "ban": 3.8
+        },
+        "reinhardt": {
+          "win": 53.5,
+          "pick": 10.9,
+          "ban": 4.3
+        },
+        "roadhog": {
+          "win": 46.1,
+          "pick": 5.7,
+          "ban": 7.6
+        },
+        "sierra": {
+          "win": 52.8,
+          "pick": 16.3,
+          "ban": 55.6
+        },
+        "sigma": {
+          "win": 51.1,
+          "pick": 12.1,
+          "ban": 4.9
+        },
+        "sojourn": {
+          "win": 43.7,
+          "pick": 11.3,
+          "ban": 0.4
+        },
+        "soldier-76": {
+          "win": 48.8,
+          "pick": 17,
+          "ban": 0.6
+        },
+        "sombra": {
+          "win": 48.1,
+          "pick": 2.7,
+          "ban": 61.2
+        },
+        "symmetra": {
+          "win": 51.3,
+          "pick": 3.8,
+          "ban": 3.7
+        },
+        "torbjorn": {
+          "win": 52.8,
+          "pick": 6.3,
+          "ban": 0.6
+        },
+        "tracer": {
+          "win": 49.8,
+          "pick": 4.6,
+          "ban": 6.9
+        },
+        "vendetta": {
+          "win": 50,
+          "pick": 3.5,
+          "ban": 10.7
+        },
+        "venture": {
+          "win": 53,
+          "pick": 3,
+          "ban": 0.6
+        },
+        "widowmaker": {
+          "win": 46.3,
+          "pick": 4,
+          "ban": 4.4
+        },
+        "winston": {
+          "win": 50.9,
+          "pick": 4,
+          "ban": 7.5
+        },
+        "wrecking-ball": {
+          "win": 52.1,
+          "pick": 1.9,
+          "ban": 8
+        },
+        "wuyang": {
+          "win": 49.9,
+          "pick": 7.1,
+          "ban": 0.2
+        },
+        "zarya": {
+          "win": 49,
+          "pick": 3,
+          "ban": 46.5
+        },
+        "zenyatta": {
+          "win": 53,
+          "pick": 10.9,
+          "ban": 1.1
+        }
+      }
+    },
+    {
+      "filters": {
+        "input": "PC",
+        "map": "all-maps",
+        "region": "Americas",
+        "role": "All",
+        "rq": "1",
+        "tier": "Silver"
+      },
+      "url": "https://overwatch.blizzard.com/ja-jp/rates/?input=PC&map=all-maps&region=Americas&role=All&rq=1&tier=Silver",
+      "heroCount": 51,
+      "heroes": {
+        "ana": {
+          "win": 47.3,
+          "pick": 18.4,
+          "ban": 8.4
+        },
+        "anran": {
+          "win": 51.7,
+          "pick": 11,
+          "ban": 17.9
+        },
+        "ashe": {
+          "win": 50.2,
+          "pick": 10.3,
+          "ban": 0.8
+        },
+        "baptiste": {
+          "win": 46.5,
+          "pick": 6.4,
+          "ban": 0.2
+        },
+        "bastion": {
+          "win": 47.1,
+          "pick": 18.2,
+          "ban": 4.2
+        },
+        "brigitte": {
+          "win": 51.3,
+          "pick": 4.5,
+          "ban": 0.2
+        },
+        "cassidy": {
+          "win": 48.6,
+          "pick": 13.6,
+          "ban": 1.6
+        },
+        "domina": {
+          "win": 51.2,
+          "pick": 6.6,
+          "ban": 22.3
+        },
+        "doomfist": {
+          "win": 53.7,
+          "pick": 4.5,
+          "ban": 15.2
+        },
+        "dva": {
+          "win": 45.5,
+          "pick": 7.6,
+          "ban": 5.3
+        },
+        "echo": {
+          "win": 48.3,
+          "pick": 4.9,
+          "ban": 0.6
+        },
+        "emre": {
+          "win": 47.8,
+          "pick": 10.3,
+          "ban": 0.8
+        },
+        "freja": {
+          "win": 46.2,
+          "pick": 3.5,
+          "ban": 0.4
+        },
+        "genji": {
+          "win": 53,
+          "pick": 8,
+          "ban": 3.1
+        },
+        "hanzo": {
+          "win": 50.3,
+          "pick": 7.1,
+          "ban": 0.6
+        },
+        "hazard": {
+          "win": 52,
+          "pick": 3.3,
+          "ban": 2.7
+        },
+        "illari": {
+          "win": 49.2,
+          "pick": 6.7,
+          "ban": 0.3
+        },
+        "jetpack-cat": {
+          "win": 49.8,
+          "pick": 4.2,
+          "ban": 27.8
+        },
+        "junker-queen": {
+          "win": 51.9,
+          "pick": 3.6,
+          "ban": 0.4
+        },
+        "junkrat": {
+          "win": 49.1,
+          "pick": 13,
+          "ban": 3.1
+        },
+        "juno": {
+          "win": 50.7,
+          "pick": 19.2,
+          "ban": 0.4
+        },
+        "kiriko": {
+          "win": 48.1,
+          "pick": 32.1,
+          "ban": 2.2
+        },
+        "lifeweaver": {
+          "win": 50,
+          "pick": 15.4,
+          "ban": 0.5
+        },
+        "lucio": {
+          "win": 49.5,
+          "pick": 7.2,
+          "ban": 0.8
+        },
+        "mauga": {
+          "win": 49.5,
+          "pick": 7.3,
+          "ban": 13.1
+        },
+        "mei": {
+          "win": 49.8,
+          "pick": 9.5,
+          "ban": 3.1
+        },
+        "mercy": {
+          "win": 49.5,
+          "pick": 21.8,
+          "ban": 6.2
+        },
+        "mizuki": {
+          "win": 52.1,
+          "pick": 15.3,
+          "ban": 1.3
+        },
+        "moira": {
+          "win": 47.9,
+          "pick": 31.6,
+          "ban": 5
+        },
+        "orisa": {
+          "win": 44.9,
+          "pick": 13.5,
+          "ban": 8
+        },
+        "pharah": {
+          "win": 50.9,
+          "pick": 5.4,
+          "ban": 5.7
+        },
+        "ramattra": {
+          "win": 49.6,
+          "pick": 11.6,
+          "ban": 9.6
+        },
+        "reaper": {
+          "win": 52.5,
+          "pick": 13.2,
+          "ban": 3.7
+        },
+        "reinhardt": {
+          "win": 53,
+          "pick": 11.9,
+          "ban": 2.4
+        },
+        "roadhog": {
+          "win": 46.7,
+          "pick": 6.8,
+          "ban": 9
+        },
+        "sierra": {
+          "win": 52.5,
+          "pick": 16,
+          "ban": 54.7
+        },
+        "sigma": {
+          "win": 50.6,
+          "pick": 12,
+          "ban": 4.3
+        },
+        "sojourn": {
+          "win": 43.5,
+          "pick": 10,
+          "ban": 0.6
+        },
+        "soldier-76": {
+          "win": 48.6,
+          "pick": 18.7,
+          "ban": 0.6
+        },
+        "sombra": {
+          "win": 48.3,
+          "pick": 3,
+          "ban": 50.2
+        },
+        "symmetra": {
+          "win": 49.9,
+          "pick": 3.9,
+          "ban": 3.8
+        },
+        "torbjorn": {
+          "win": 51.4,
+          "pick": 5.9,
+          "ban": 0.6
+        },
+        "tracer": {
+          "win": 50.5,
+          "pick": 4.8,
+          "ban": 5
+        },
+        "vendetta": {
+          "win": 49.5,
+          "pick": 3,
+          "ban": 12.2
+        },
+        "venture": {
+          "win": 51.5,
+          "pick": 2.8,
+          "ban": 0.8
+        },
+        "widowmaker": {
+          "win": 49.3,
+          "pick": 3.5,
+          "ban": 3.6
+        },
+        "winston": {
+          "win": 50.1,
+          "pick": 5,
+          "ban": 7
+        },
+        "wrecking-ball": {
+          "win": 52.6,
+          "pick": 2,
+          "ban": 7.5
+        },
+        "wuyang": {
+          "win": 51.2,
+          "pick": 6,
+          "ban": 0.2
+        },
+        "zarya": {
+          "win": 48.9,
+          "pick": 4,
+          "ban": 55.5
+        },
+        "zenyatta": {
+          "win": 53.4,
+          "pick": 11.1,
+          "ban": 1.5
+        }
+      }
+    },
+    {
+      "filters": {
+        "input": "PC",
+        "map": "all-maps",
+        "region": "Americas",
+        "role": "All",
+        "rq": "1",
+        "tier": "Gold"
+      },
+      "url": "https://overwatch.blizzard.com/ja-jp/rates/?input=PC&map=all-maps&region=Americas&role=All&rq=1&tier=Gold",
+      "heroCount": 51,
+      "heroes": {
+        "ana": {
+          "win": 47.5,
+          "pick": 24.2,
+          "ban": 12
+        },
+        "anran": {
+          "win": 51.7,
+          "pick": 9.8,
+          "ban": 18.6
+        },
+        "ashe": {
+          "win": 50.8,
+          "pick": 11.5,
+          "ban": 1.5
+        },
+        "baptiste": {
+          "win": 46.9,
+          "pick": 7.5,
+          "ban": 0.2
+        },
+        "bastion": {
+          "win": 46.7,
+          "pick": 15.3,
+          "ban": 5.2
+        },
+        "brigitte": {
+          "win": 50.9,
+          "pick": 4.8,
+          "ban": 0.2
+        },
+        "cassidy": {
+          "win": 47.9,
+          "pick": 17.6,
+          "ban": 3.9
+        },
+        "domina": {
+          "win": 51,
+          "pick": 6.1,
+          "ban": 21.5
+        },
+        "doomfist": {
+          "win": 53.1,
+          "pick": 5.7,
+          "ban": 19.3
+        },
+        "dva": {
+          "win": 46.2,
+          "pick": 6.4,
+          "ban": 7.1
+        },
+        "echo": {
+          "win": 49.3,
+          "pick": 4.8,
+          "ban": 0.6
+        },
+        "emre": {
+          "win": 47.7,
+          "pick": 10.7,
+          "ban": 1.1
+        },
+        "freja": {
+          "win": 46.7,
+          "pick": 3.4,
+          "ban": 0.6
+        },
+        "genji": {
+          "win": 52.9,
+          "pick": 9.9,
+          "ban": 4
+        },
+        "hanzo": {
+          "win": 50.7,
+          "pick": 7.4,
+          "ban": 1
+        },
+        "hazard": {
+          "win": 52.8,
+          "pick": 3.8,
+          "ban": 5
+        },
+        "illari": {
+          "win": 49.5,
+          "pick": 6.3,
+          "ban": 0.3
+        },
+        "jetpack-cat": {
+          "win": 49.9,
+          "pick": 4.2,
+          "ban": 24.1
+        },
+        "junker-queen": {
+          "win": 51.5,
+          "pick": 4,
+          "ban": 0.3
+        },
+        "junkrat": {
+          "win": 49.4,
+          "pick": 10.6,
+          "ban": 2.5
+        },
+        "juno": {
+          "win": 50.7,
+          "pick": 17.5,
+          "ban": 0.3
+        },
+        "kiriko": {
+          "win": 47.9,
+          "pick": 34.8,
+          "ban": 3.4
+        },
+        "lifeweaver": {
+          "win": 50,
+          "pick": 16.1,
+          "ban": 0.6
+        },
+        "lucio": {
+          "win": 50.3,
+          "pick": 5.7,
+          "ban": 0.6
+        },
+        "mauga": {
+          "win": 50.2,
+          "pick": 7,
+          "ban": 12.6
+        },
+        "mei": {
+          "win": 48.9,
+          "pick": 9.1,
+          "ban": 2.7
+        },
+        "mercy": {
+          "win": 51.3,
+          "pick": 20.1,
+          "ban": 7
+        },
+        "mizuki": {
+          "win": 51.1,
+          "pick": 13.8,
+          "ban": 1.9
+        },
+        "moira": {
+          "win": 47.1,
+          "pick": 27.6,
+          "ban": 2.6
+        },
+        "orisa": {
+          "win": 44.7,
+          "pick": 11.9,
+          "ban": 7.6
+        },
+        "pharah": {
+          "win": 51.6,
+          "pick": 4.8,
+          "ban": 5.1
+        },
+        "ramattra": {
+          "win": 48.4,
+          "pick": 10,
+          "ban": 7.8
+        },
+        "reaper": {
+          "win": 51.6,
+          "pick": 13.6,
+          "ban": 3.5
+        },
+        "reinhardt": {
+          "win": 52.8,
+          "pick": 11.9,
+          "ban": 1.6
+        },
+        "roadhog": {
+          "win": 47.6,
+          "pick": 7.9,
+          "ban": 14.2
+        },
+        "sierra": {
+          "win": 52.5,
+          "pick": 15.2,
+          "ban": 52
+        },
+        "sigma": {
+          "win": 50.6,
+          "pick": 11.6,
+          "ban": 4
+        },
+        "sojourn": {
+          "win": 44.2,
+          "pick": 10.3,
+          "ban": 1
+        },
+        "soldier-76": {
+          "win": 48.5,
+          "pick": 18.8,
+          "ban": 0.6
+        },
+        "sombra": {
+          "win": 47.8,
+          "pick": 3.4,
+          "ban": 36.7
+        },
+        "symmetra": {
+          "win": 49.6,
+          "pick": 3.8,
+          "ban": 3.9
+        },
+        "torbjorn": {
+          "win": 51,
+          "pick": 5.1,
+          "ban": 0.6
+        },
+        "tracer": {
+          "win": 50.6,
+          "pick": 5.9,
+          "ban": 5.4
+        },
+        "vendetta": {
+          "win": 49.1,
+          "pick": 2.5,
+          "ban": 12.3
+        },
+        "venture": {
+          "win": 50.7,
+          "pick": 2.8,
+          "ban": 1
+        },
+        "widowmaker": {
+          "win": 50.7,
+          "pick": 3.6,
+          "ban": 4.5
+        },
+        "winston": {
+          "win": 49.6,
+          "pick": 5.7,
+          "ban": 6.7
+        },
+        "wrecking-ball": {
+          "win": 52,
+          "pick": 2.5,
+          "ban": 9.1
+        },
+        "wuyang": {
+          "win": 51.6,
+          "pick": 6,
+          "ban": 0.2
+        },
+        "zarya": {
+          "win": 47.3,
+          "pick": 5.1,
+          "ban": 51.6
+        },
+        "zenyatta": {
+          "win": 53.4,
+          "pick": 11.3,
+          "ban": 2.1
+        }
+      }
+    },
+    {
+      "filters": {
+        "input": "PC",
+        "map": "all-maps",
+        "region": "Americas",
+        "role": "All",
+        "rq": "1",
+        "tier": "Platinum"
+      },
+      "url": "https://overwatch.blizzard.com/ja-jp/rates/?input=PC&map=all-maps&region=Americas&role=All&rq=1&tier=Platinum",
+      "heroCount": 51,
+      "heroes": {
+        "ana": {
+          "win": 47.7,
+          "pick": 30.2,
+          "ban": 13.3
+        },
+        "anran": {
+          "win": 51.9,
+          "pick": 8.6,
+          "ban": 16.2
+        },
+        "ashe": {
+          "win": 50.7,
+          "pick": 12,
+          "ban": 2.1
+        },
+        "baptiste": {
+          "win": 47.1,
+          "pick": 8.3,
+          "ban": 0.2
+        },
+        "bastion": {
+          "win": 46.7,
+          "pick": 12.1,
+          "ban": 5.7
+        },
+        "brigitte": {
+          "win": 51,
+          "pick": 5.4,
+          "ban": 0.2
+        },
+        "cassidy": {
+          "win": 47.1,
+          "pick": 21.8,
+          "ban": 7.9
+        },
+        "domina": {
+          "win": 51.9,
+          "pick": 5.7,
+          "ban": 16.6
+        },
+        "doomfist": {
+          "win": 52,
+          "pick": 7.4,
+          "ban": 22.5
+        },
+        "dva": {
+          "win": 46.5,
+          "pick": 5.9,
+          "ban": 13.2
+        },
+        "echo": {
+          "win": 50.8,
+          "pick": 4.9,
+          "ban": 0.6
+        },
+        "emre": {
+          "win": 48.1,
+          "pick": 11.1,
+          "ban": 1.8
+        },
+        "freja": {
+          "win": 47,
+          "pick": 3.2,
+          "ban": 1
+        },
+        "genji": {
+          "win": 52.6,
+          "pick": 12.8,
+          "ban": 5.3
+        },
+        "hanzo": {
+          "win": 50.4,
+          "pick": 7.5,
+          "ban": 1.5
+        },
+        "hazard": {
+          "win": 52.9,
+          "pick": 4.9,
+          "ban": 10.7
+        },
+        "illari": {
+          "win": 50.2,
+          "pick": 6.1,
+          "ban": 0.3
+        },
+        "jetpack-cat": {
+          "win": 50.2,
+          "pick": 4.2,
+          "ban": 22.6
+        },
+        "junker-queen": {
+          "win": 51.7,
+          "pick": 4.5,
+          "ban": 0.4
+        },
+        "junkrat": {
+          "win": 50.1,
+          "pick": 8.1,
+          "ban": 2.1
+        },
+        "juno": {
+          "win": 50.8,
+          "pick": 17,
+          "ban": 0.2
+        },
+        "kiriko": {
+          "win": 47.5,
+          "pick": 37.3,
+          "ban": 4.8
+        },
+        "lifeweaver": {
+          "win": 50.1,
+          "pick": 15.3,
+          "ban": 1
+        },
+        "lucio": {
+          "win": 50.6,
+          "pick": 5.3,
+          "ban": 0.6
+        },
+        "mauga": {
+          "win": 50.8,
+          "pick": 6.8,
+          "ban": 13
+        },
+        "mei": {
+          "win": 48.4,
+          "pick": 7.9,
+          "ban": 2.2
+        },
+        "mercy": {
+          "win": 52.4,
+          "pick": 18.8,
+          "ban": 9.4
+        },
+        "mizuki": {
+          "win": 50.3,
+          "pick": 12.5,
+          "ban": 2.7
+        },
+        "moira": {
+          "win": 46.5,
+          "pick": 21.2,
+          "ban": 1.6
+        },
+        "orisa": {
+          "win": 44.5,
+          "pick": 9.6,
+          "ban": 6.5
+        },
+        "pharah": {
+          "win": 52.9,
+          "pick": 4.4,
+          "ban": 4.5
+        },
+        "ramattra": {
+          "win": 47.2,
+          "pick": 8,
+          "ban": 5.5
+        },
+        "reaper": {
+          "win": 51.7,
+          "pick": 13.3,
+          "ban": 3.6
+        },
+        "reinhardt": {
+          "win": 52.1,
+          "pick": 11.1,
+          "ban": 1.3
+        },
+        "roadhog": {
+          "win": 48.1,
+          "pick": 8.4,
+          "ban": 20.3
+        },
+        "sierra": {
+          "win": 51.6,
+          "pick": 14.1,
+          "ban": 44.5
+        },
+        "sigma": {
+          "win": 51,
+          "pick": 11.1,
+          "ban": 4.4
+        },
+        "sojourn": {
+          "win": 45.2,
+          "pick": 11.4,
+          "ban": 1.8
+        },
+        "soldier-76": {
+          "win": 48.7,
+          "pick": 18,
+          "ban": 0.5
+        },
+        "sombra": {
+          "win": 46.9,
+          "pick": 3.8,
+          "ban": 23.3
+        },
+        "symmetra": {
+          "win": 49.7,
+          "pick": 3.4,
+          "ban": 3.4
+        },
+        "torbjorn": {
+          "win": 50.8,
+          "pick": 4.3,
+          "ban": 0.6
+        },
+        "tracer": {
+          "win": 50.7,
+          "pick": 8.1,
+          "ban": 8.1
+        },
+        "vendetta": {
+          "win": 49.1,
+          "pick": 2.1,
+          "ban": 10.2
+        },
+        "venture": {
+          "win": 51.2,
+          "pick": 2.8,
+          "ban": 1.1
+        },
+        "widowmaker": {
+          "win": 51.6,
+          "pick": 3.9,
+          "ban": 7.2
+        },
+        "winston": {
+          "win": 49.3,
+          "pick": 6.8,
+          "ban": 6.1
+        },
+        "wrecking-ball": {
+          "win": 51.7,
+          "pick": 3.5,
+          "ban": 12.2
+        },
+        "wuyang": {
+          "win": 52.1,
+          "pick": 6.6,
+          "ban": 0.2
+        },
+        "zarya": {
+          "win": 46.3,
+          "pick": 6,
+          "ban": 40.2
+        },
+        "zenyatta": {
+          "win": 53.2,
+          "pick": 11.5,
+          "ban": 3
+        }
+      }
+    },
+    {
+      "filters": {
+        "input": "PC",
+        "map": "all-maps",
+        "region": "Americas",
+        "role": "All",
+        "rq": "1",
+        "tier": "Diamond"
+      },
+      "url": "https://overwatch.blizzard.com/ja-jp/rates/?input=PC&map=all-maps&region=Americas&role=All&rq=1&tier=Diamond",
+      "heroCount": 51,
+      "heroes": {
+        "ana": {
+          "win": 47.8,
+          "pick": 35.3,
+          "ban": 13.5
+        },
+        "anran": {
+          "win": 51.7,
+          "pick": 7.3,
+          "ban": 11.3
+        },
+        "ashe": {
+          "win": 50.7,
+          "pick": 11.1,
+          "ban": 2
+        },
+        "baptiste": {
+          "win": 47.3,
+          "pick": 8.5,
+          "ban": 0.1
+        },
+        "bastion": {
+          "win": 47.4,
+          "pick": 9.1,
+          "ban": 6.6
+        },
+        "brigitte": {
+          "win": 50.9,
+          "pick": 7,
+          "ban": 0.4
+        },
+        "cassidy": {
+          "win": 46.7,
+          "pick": 25.4,
+          "ban": 13.3
+        },
+        "domina": {
+          "win": 51.6,
+          "pick": 4.8,
+          "ban": 9.6
+        },
+        "doomfist": {
+          "win": 50.8,
+          "pick": 9.5,
+          "ban": 20.1
+        },
+        "dva": {
+          "win": 46.6,
+          "pick": 5.5,
+          "ban": 25.4
+        },
+        "echo": {
+          "win": 51.7,
+          "pick": 5.5,
+          "ban": 0.9
+        },
+        "emre": {
+          "win": 48.6,
+          "pick": 11.8,
+          "ban": 3
+        },
+        "freja": {
+          "win": 47.7,
+          "pick": 3.3,
+          "ban": 1.2
+        },
+        "genji": {
+          "win": 51.7,
+          "pick": 15.8,
+          "ban": 5
+        },
+        "hanzo": {
+          "win": 50.1,
+          "pick": 6.7,
+          "ban": 1.6
+        },
+        "hazard": {
+          "win": 53.2,
+          "pick": 6,
+          "ban": 21
+        },
+        "illari": {
+          "win": 50.6,
+          "pick": 6.3,
+          "ban": 0.6
+        },
+        "jetpack-cat": {
+          "win": 50.2,
+          "pick": 4,
+          "ban": 23.6
+        },
+        "junker-queen": {
+          "win": 52.3,
+          "pick": 5,
+          "ban": 0.4
+        },
+        "junkrat": {
+          "win": 51.1,
+          "pick": 5.9,
+          "ban": 1.5
+        },
+        "juno": {
+          "win": 51,
+          "pick": 17.2,
+          "ban": 0.2
+        },
+        "kiriko": {
+          "win": 47.5,
+          "pick": 39.1,
+          "ban": 7.4
+        },
+        "lifeweaver": {
+          "win": 50.3,
+          "pick": 13,
+          "ban": 1.1
+        },
+        "lucio": {
+          "win": 50.4,
+          "pick": 6,
+          "ban": 0.8
+        },
+        "mauga": {
+          "win": 51.3,
+          "pick": 7,
+          "ban": 14.9
+        },
+        "mei": {
+          "win": 48.5,
+          "pick": 6.1,
+          "ban": 1.3
+        },
+        "mercy": {
+          "win": 53.2,
+          "pick": 18.2,
+          "ban": 12.7
+        },
+        "mizuki": {
+          "win": 49.7,
+          "pick": 11.4,
+          "ban": 3.8
+        },
+        "moira": {
+          "win": 46.5,
+          "pick": 15,
+          "ban": 0.9
+        },
+        "orisa": {
+          "win": 44.9,
+          "pick": 7.5,
+          "ban": 5.4
+        },
+        "pharah": {
+          "win": 53.9,
+          "pick": 4.4,
+          "ban": 4.7
+        },
+        "ramattra": {
+          "win": 46.6,
+          "pick": 6,
+          "ban": 3.5
+        },
+        "reaper": {
+          "win": 52.2,
+          "pick": 12.6,
+          "ban": 4.4
+        },
+        "reinhardt": {
+          "win": 51.4,
+          "pick": 9.6,
+          "ban": 1.1
+        },
+        "roadhog": {
+          "win": 48.4,
+          "pick": 8.6,
+          "ban": 23.6
+        },
+        "sierra": {
+          "win": 50.2,
+          "pick": 12.2,
+          "ban": 30.8
+        },
+        "sigma": {
+          "win": 51.2,
+          "pick": 10.3,
+          "ban": 5.1
+        },
+        "sojourn": {
+          "win": 45.7,
+          "pick": 13.9,
+          "ban": 2.7
+        },
+        "soldier-76": {
+          "win": 49.6,
+          "pick": 16.8,
+          "ban": 0.5
+        },
+        "sombra": {
+          "win": 46.5,
+          "pick": 4,
+          "ban": 11.6
+        },
+        "symmetra": {
+          "win": 51,
+          "pick": 2.7,
+          "ban": 2.2
+        },
+        "torbjorn": {
+          "win": 50.2,
+          "pick": 3.8,
+          "ban": 0.5
+        },
+        "tracer": {
+          "win": 50.8,
+          "pick": 12.4,
+          "ban": 14.4
+        },
+        "vendetta": {
+          "win": 47.7,
+          "pick": 1.6,
+          "ban": 6.2
+        },
+        "venture": {
+          "win": 51.1,
+          "pick": 2.7,
+          "ban": 1
+        },
+        "widowmaker": {
+          "win": 51.2,
+          "pick": 4.2,
+          "ban": 10.8
+        },
+        "winston": {
+          "win": 49.2,
+          "pick": 8.1,
+          "ban": 4.5
+        },
+        "wrecking-ball": {
+          "win": 50.4,
+          "pick": 5,
+          "ban": 13
+        },
+        "wuyang": {
+          "win": 52.1,
+          "pick": 7.4,
+          "ban": 0.2
+        },
+        "zarya": {
+          "win": 46.9,
+          "pick": 6.8,
+          "ban": 29
+        },
+        "zenyatta": {
+          "win": 52.5,
+          "pick": 11.5,
+          "ban": 3.8
+        }
+      }
+    },
+    {
+      "filters": {
+        "input": "PC",
+        "map": "all-maps",
+        "region": "Americas",
+        "role": "All",
+        "rq": "1",
+        "tier": "Master"
+      },
+      "url": "https://overwatch.blizzard.com/ja-jp/rates/?input=PC&map=all-maps&region=Americas&role=All&rq=1&tier=Master",
+      "heroCount": 51,
+      "heroes": {
+        "ana": {
+          "win": 47.5,
+          "pick": 36.2,
+          "ban": 15
+        },
+        "anran": {
+          "win": 50.9,
+          "pick": 5.5,
+          "ban": 5.2
+        },
+        "ashe": {
+          "win": 51.7,
+          "pick": 9.6,
+          "ban": 1.1
+        },
+        "baptiste": {
+          "win": 48.3,
+          "pick": 8.4,
+          "ban": 0.1
+        },
+        "bastion": {
+          "win": 48.4,
+          "pick": 6.9,
+          "ban": 7.2
+        },
+        "brigitte": {
+          "win": 51.2,
+          "pick": 9.6,
+          "ban": 0.8
+        },
+        "cassidy": {
+          "win": 46.9,
+          "pick": 26.3,
+          "ban": 18.1
+        },
+        "domina": {
+          "win": 52.3,
+          "pick": 4,
+          "ban": 3.8
+        },
+        "doomfist": {
+          "win": 49.3,
+          "pick": 10.4,
+          "ban": 13.1
+        },
+        "dva": {
+          "win": 46.9,
+          "pick": 5.4,
+          "ban": 39.2
+        },
+        "echo": {
+          "win": 52.5,
+          "pick": 6.7,
+          "ban": 1
+        },
+        "emre": {
+          "win": 48.6,
+          "pick": 12.6,
+          "ban": 4.6
+        },
+        "freja": {
+          "win": 47.6,
+          "pick": 3.6,
+          "ban": 1.3
+        },
+        "genji": {
+          "win": 50.5,
+          "pick": 17,
+          "ban": 3.1
+        },
+        "hanzo": {
+          "win": 50,
+          "pick": 5.7,
+          "ban": 1.1
+        },
+        "hazard": {
+          "win": 52.8,
+          "pick": 6.9,
+          "ban": 31.8
+        },
+        "illari": {
+          "win": 51.7,
+          "pick": 7.6,
+          "ban": 2.1
+        },
+        "jetpack-cat": {
+          "win": 50.4,
+          "pick": 3.9,
+          "ban": 24.9
+        },
+        "junker-queen": {
+          "win": 51.7,
+          "pick": 5.2,
+          "ban": 0.5
+        },
+        "junkrat": {
+          "win": 52.1,
+          "pick": 4,
+          "ban": 1.1
+        },
+        "juno": {
+          "win": 50.3,
+          "pick": 17.2,
+          "ban": 0.3
+        },
+        "kiriko": {
+          "win": 48.2,
+          "pick": 43.4,
+          "ban": 10.6
+        },
+        "lifeweaver": {
+          "win": 49.8,
+          "pick": 10,
+          "ban": 1
+        },
+        "lucio": {
+          "win": 50.6,
+          "pick": 8.3,
+          "ban": 2.2
+        },
+        "mauga": {
+          "win": 51.8,
+          "pick": 7.4,
+          "ban": 21.5
+        },
+        "mei": {
+          "win": 48.3,
+          "pick": 4.6,
+          "ban": 0.6
+        },
+        "mercy": {
+          "win": 52.5,
+          "pick": 17.1,
+          "ban": 14.2
+        },
+        "mizuki": {
+          "win": 49.5,
+          "pick": 10.5,
+          "ban": 4.9
+        },
+        "moira": {
+          "win": 46.3,
+          "pick": 9.2,
+          "ban": 0.6
+        },
+        "orisa": {
+          "win": 47.3,
+          "pick": 7,
+          "ban": 4.8
+        },
+        "pharah": {
+          "win": 54.4,
+          "pick": 4.7,
+          "ban": 6.8
+        },
+        "ramattra": {
+          "win": 47.4,
+          "pick": 4.8,
+          "ban": 2.6
+        },
+        "reaper": {
+          "win": 53.5,
+          "pick": 13.3,
+          "ban": 8
+        },
+        "reinhardt": {
+          "win": 50.1,
+          "pick": 8,
+          "ban": 1.1
+        },
+        "roadhog": {
+          "win": 48.8,
+          "pick": 8.1,
+          "ban": 20.3
+        },
+        "sierra": {
+          "win": 48,
+          "pick": 8.8,
+          "ban": 13
+        },
+        "sigma": {
+          "win": 52.2,
+          "pick": 9.9,
+          "ban": 5.2
+        },
+        "sojourn": {
+          "win": 46.7,
+          "pick": 18,
+          "ban": 3.3
+        },
+        "soldier-76": {
+          "win": 50.5,
+          "pick": 15.7,
+          "ban": 0.5
+        },
+        "sombra": {
+          "win": 46.1,
+          "pick": 3.5,
+          "ban": 3.6
+        },
+        "symmetra": {
+          "win": 52,
+          "pick": 2.7,
+          "ban": 1.6
+        },
+        "torbjorn": {
+          "win": 49.6,
+          "pick": 3.7,
+          "ban": 0.4
+        },
+        "tracer": {
+          "win": 50.7,
+          "pick": 18.5,
+          "ban": 22.6
+        },
+        "vendetta": {
+          "win": 47.8,
+          "pick": 1.2,
+          "ban": 2.5
+        },
+        "venture": {
+          "win": 50.9,
+          "pick": 2.6,
+          "ban": 0.9
+        },
+        "widowmaker": {
+          "win": 49.7,
+          "pick": 4.3,
+          "ban": 12.4
+        },
+        "winston": {
+          "win": 49.1,
+          "pick": 9,
+          "ban": 2.5
+        },
+        "wrecking-ball": {
+          "win": 48.8,
+          "pick": 6.2,
+          "ban": 8.8
+        },
+        "wuyang": {
+          "win": 52.2,
+          "pick": 8.1,
+          "ban": 0.1
+        },
+        "zarya": {
+          "win": 48,
+          "pick": 7.6,
+          "ban": 23.1
+        },
+        "zenyatta": {
+          "win": 52,
+          "pick": 10.3,
+          "ban": 4
+        }
+      }
+    },
+    {
+      "filters": {
+        "input": "PC",
+        "map": "all-maps",
+        "region": "Americas",
+        "role": "All",
+        "rq": "1",
+        "tier": "Grandmaster"
+      },
+      "url": "https://overwatch.blizzard.com/ja-jp/rates/?input=PC&map=all-maps&region=Americas&role=All&rq=1&tier=Grandmaster",
+      "heroCount": 51,
+      "heroes": {
+        "ana": {
+          "win": 47.4,
+          "pick": 32.5,
+          "ban": 15
+        },
+        "anran": {
+          "win": 48.7,
+          "pick": 2.8,
+          "ban": 1
+        },
+        "ashe": {
+          "win": 52.4,
+          "pick": 8.6,
+          "ban": 0.4
+        },
+        "baptiste": {
+          "win": 48.3,
+          "pick": 7.6,
+          "ban": 0.1
+        },
+        "bastion": {
+          "win": 49.4,
+          "pick": 5.7,
+          "ban": 8.1
+        },
+        "brigitte": {
+          "win": 51.5,
+          "pick": 11.1,
+          "ban": 1.3
+        },
+        "cassidy": {
+          "win": 48.9,
+          "pick": 25.1,
+          "ban": 19.6
+        },
+        "domina": {
+          "win": 52.5,
+          "pick": 3.5,
+          "ban": 1.3
+        },
+        "doomfist": {
+          "win": 48.1,
+          "pick": 8.9,
+          "ban": 6.3
+        },
+        "dva": {
+          "win": 46.5,
+          "pick": 6.3,
+          "ban": 45.7
+        },
+        "echo": {
+          "win": 51,
+          "pick": 8.3,
+          "ban": 1
+        },
+        "emre": {
+          "win": 48.6,
+          "pick": 12.4,
+          "ban": 4.4
+        },
+        "freja": {
+          "win": 45.5,
+          "pick": 3.8,
+          "ban": 1
+        },
+        "genji": {
+          "win": 47.8,
+          "pick": 13.2,
+          "ban": 1.3
+        },
+        "hanzo": {
+          "win": 49.5,
+          "pick": 5,
+          "ban": 0.8
+        },
+        "hazard": {
+          "win": 53.1,
+          "pick": 8.5,
+          "ban": 32.2
+        },
+        "illari": {
+          "win": 51.3,
+          "pick": 10.4,
+          "ban": 8.3
+        },
+        "jetpack-cat": {
+          "win": 50.1,
+          "pick": 4,
+          "ban": 28.9
+        },
+        "junker-queen": {
+          "win": 50.6,
+          "pick": 3.2,
+          "ban": 0.3
+        },
+        "junkrat": {
+          "win": 52,
+          "pick": 3.6,
+          "ban": 1.1
+        },
+        "juno": {
+          "win": 49.3,
+          "pick": 13.9,
+          "ban": 0.3
+        },
+        "kiriko": {
+          "win": 49.3,
+          "pick": 51.8,
+          "ban": 13.3
+        },
+        "lifeweaver": {
+          "win": 50.9,
+          "pick": 7.6,
+          "ban": 0.8
+        },
+        "lucio": {
+          "win": 50.2,
+          "pick": 12.3,
+          "ban": 10.4
+        },
+        "mauga": {
+          "win": 52.4,
+          "pick": 8.5,
+          "ban": 27.3
+        },
+        "mei": {
+          "win": 49.1,
+          "pick": 4.2,
+          "ban": 0.5
+        },
+        "mercy": {
+          "win": 51.1,
+          "pick": 15,
+          "ban": 8.8
+        },
+        "mizuki": {
+          "win": 49.7,
+          "pick": 10.8,
+          "ban": 5.2
+        },
+        "moira": {
+          "win": 47.6,
+          "pick": 5.7,
+          "ban": 0.3
+        },
+        "orisa": {
+          "win": 49.3,
+          "pick": 8.6,
+          "ban": 5.1
+        },
+        "pharah": {
+          "win": 53.2,
+          "pick": 6,
+          "ban": 9.9
+        },
+        "ramattra": {
+          "win": 47.6,
+          "pick": 4.6,
+          "ban": 2.2
+        },
+        "reaper": {
+          "win": 53.7,
+          "pick": 13.2,
+          "ban": 17.3
+        },
+        "reinhardt": {
+          "win": 49.1,
+          "pick": 5.9,
+          "ban": 1.3
+        },
+        "roadhog": {
+          "win": 49.4,
+          "pick": 6.8,
+          "ban": 15.3
+        },
+        "sierra": {
+          "win": 47.2,
+          "pick": 4,
+          "ban": 2.3
+        },
+        "sigma": {
+          "win": 51.9,
+          "pick": 11.5,
+          "ban": 7.4
+        },
+        "sojourn": {
+          "win": 47.3,
+          "pick": 23.1,
+          "ban": 3.1
+        },
+        "soldier-76": {
+          "win": 51,
+          "pick": 14.3,
+          "ban": 0.8
+        },
+        "sombra": {
+          "win": 43.7,
+          "pick": 2.4,
+          "ban": 0.6
+        },
+        "symmetra": {
+          "win": 53.7,
+          "pick": 3.6,
+          "ban": 1
+        },
+        "torbjorn": {
+          "win": 48,
+          "pick": 4.2,
+          "ban": 0.5
+        },
+        "tracer": {
+          "win": 51.3,
+          "pick": 26.8,
+          "ban": 25
+        },
+        "vendetta": {
+          "win": 48.7,
+          "pick": 0.8,
+          "ban": 0.5
+        },
+        "venture": {
+          "win": 51.3,
+          "pick": 2.4,
+          "ban": 0.6
+        },
+        "widowmaker": {
+          "win": 48.2,
+          "pick": 6.3,
+          "ban": 10.6
+        },
+        "winston": {
+          "win": 47.6,
+          "pick": 8.8,
+          "ban": 1.2
+        },
+        "wrecking-ball": {
+          "win": 47.5,
+          "pick": 6.4,
+          "ban": 4.9
+        },
+        "wuyang": {
+          "win": 50.9,
+          "pick": 8.4,
+          "ban": 0.2
+        },
+        "zarya": {
+          "win": 51.1,
+          "pick": 8.5,
+          "ban": 21.2
+        },
+        "zenyatta": {
+          "win": 51.3,
+          "pick": 8.4,
+          "ban": 2.2
+        }
+      }
+    },
+    {
+      "filters": {
+        "input": "PC",
+        "map": "all-maps",
+        "region": "Asia",
+        "role": "All",
+        "rq": "0",
+        "tier": "All"
+      },
+      "url": "https://overwatch.blizzard.com/ja-jp/rates/?input=PC&map=all-maps&region=Asia&role=All&rq=0&tier=All",
+      "heroCount": 51,
+      "heroes": {
+        "ana": {
+          "win": 47.7,
+          "pick": 44.7,
+          "ban": 0
+        },
+        "anran": {
+          "win": 53.2,
+          "pick": 11.4,
+          "ban": 0
+        },
+        "ashe": {
+          "win": 50,
+          "pick": 8.7,
+          "ban": 0
+        },
+        "baptiste": {
+          "win": 47.3,
+          "pick": 5.7,
+          "ban": 0
+        },
+        "bastion": {
+          "win": 48.4,
+          "pick": 9.2,
+          "ban": 0
+        },
+        "brigitte": {
+          "win": 51.9,
+          "pick": 5,
+          "ban": 0
+        },
+        "cassidy": {
+          "win": 47.3,
+          "pick": 21.3,
+          "ban": 0
+        },
+        "domina": {
+          "win": 52.7,
+          "pick": 6.1,
+          "ban": 0
+        },
+        "doomfist": {
+          "win": 51.5,
+          "pick": 9.8,
+          "ban": 0
+        },
+        "dva": {
+          "win": 46.3,
+          "pick": 7.8,
+          "ban": 0
+        },
+        "echo": {
+          "win": 50.4,
+          "pick": 4.8,
+          "ban": 0
+        },
+        "emre": {
+          "win": 47.9,
+          "pick": 10,
+          "ban": 0
+        },
+        "freja": {
+          "win": 47,
+          "pick": 5.9,
+          "ban": 0
+        },
+        "genji": {
+          "win": 50.8,
+          "pick": 12.6,
+          "ban": 0
+        },
+        "hanzo": {
+          "win": 49.3,
+          "pick": 6.5,
+          "ban": 0
+        },
+        "hazard": {
+          "win": 52,
+          "pick": 4.6,
+          "ban": 0
+        },
+        "illari": {
+          "win": 51.7,
+          "pick": 7.4,
+          "ban": 0
+        },
+        "jetpack-cat": {
+          "win": 48.1,
+          "pick": 6.6,
+          "ban": 0
+        },
+        "junker-queen": {
+          "win": 53.5,
+          "pick": 3.2,
+          "ban": 0
+        },
+        "junkrat": {
+          "win": 51.1,
+          "pick": 6.8,
+          "ban": 0
+        },
+        "juno": {
+          "win": 50.2,
+          "pick": 11.5,
+          "ban": 0
+        },
+        "kiriko": {
+          "win": 49.1,
+          "pick": 43.2,
+          "ban": 0
+        },
+        "lifeweaver": {
+          "win": 50.3,
+          "pick": 9.2,
+          "ban": 0
+        },
+        "lucio": {
+          "win": 50.1,
+          "pick": 6.3,
+          "ban": 0
+        },
+        "mauga": {
+          "win": 49.6,
+          "pick": 11.1,
+          "ban": 0
+        },
+        "mei": {
+          "win": 53.6,
+          "pick": 5.5,
+          "ban": 0
+        },
+        "mercy": {
+          "win": 46.9,
+          "pick": 9,
+          "ban": 0
+        },
+        "mizuki": {
+          "win": 52,
+          "pick": 12.8,
+          "ban": 0
+        },
+        "moira": {
+          "win": 49.9,
+          "pick": 13,
+          "ban": 0
+        },
+        "orisa": {
+          "win": 47.1,
+          "pick": 10.9,
+          "ban": 0
+        },
+        "pharah": {
+          "win": 52.4,
+          "pick": 6.4,
+          "ban": 0
+        },
+        "ramattra": {
+          "win": 49.9,
+          "pick": 6.8,
+          "ban": 0
+        },
+        "reaper": {
+          "win": 53.7,
+          "pick": 12,
+          "ban": 0
+        },
+        "reinhardt": {
+          "win": 52,
+          "pick": 8,
+          "ban": 0
+        },
+        "roadhog": {
+          "win": 45.1,
+          "pick": 6.4,
+          "ban": 0
+        },
+        "sierra": {
+          "win": 51.6,
+          "pick": 22.5,
+          "ban": 0
+        },
+        "sigma": {
+          "win": 53,
+          "pick": 9.4,
+          "ban": 0
+        },
+        "sojourn": {
+          "win": 44.7,
+          "pick": 9.9,
+          "ban": 0
+        },
+        "soldier-76": {
+          "win": 48.5,
+          "pick": 13.9,
+          "ban": 0
+        },
+        "sombra": {
+          "win": 46.9,
+          "pick": 5.4,
+          "ban": 0
+        },
+        "symmetra": {
+          "win": 56.6,
+          "pick": 3.2,
+          "ban": 0
+        },
+        "torbjorn": {
+          "win": 55.3,
+          "pick": 3.4,
+          "ban": 0
+        },
+        "tracer": {
+          "win": 49.8,
+          "pick": 10.2,
+          "ban": 0
+        },
+        "vendetta": {
+          "win": 49,
+          "pick": 3.3,
+          "ban": 0
+        },
+        "venture": {
+          "win": 53.1,
+          "pick": 2.5,
+          "ban": 0
+        },
+        "widowmaker": {
+          "win": 46.1,
+          "pick": 4.5,
+          "ban": 0
+        },
+        "winston": {
+          "win": 51.4,
+          "pick": 5.9,
+          "ban": 0
+        },
+        "wrecking-ball": {
+          "win": 49.5,
+          "pick": 3.5,
+          "ban": 0
+        },
+        "wuyang": {
+          "win": 52.7,
+          "pick": 13,
+          "ban": 0
+        },
+        "zarya": {
+          "win": 48.9,
+          "pick": 6.5,
+          "ban": 0
+        },
+        "zenyatta": {
+          "win": 54.4,
+          "pick": 12.3,
+          "ban": 0
+        }
+      }
+    },
+    {
+      "filters": {
+        "input": "PC",
+        "map": "all-maps",
+        "region": "Asia",
+        "role": "All",
+        "rq": "1",
+        "tier": "All"
+      },
+      "url": "https://overwatch.blizzard.com/ja-jp/rates/?input=PC&map=all-maps&region=Asia&role=All&rq=1&tier=All",
+      "heroCount": 51,
+      "heroes": {
+        "ana": {
+          "win": 50,
+          "pick": 47.3,
+          "ban": 11.5
+        },
+        "anran": {
+          "win": 51.9,
+          "pick": 9.9,
+          "ban": 10.6
+        },
+        "ashe": {
+          "win": 50.3,
+          "pick": 8.5,
+          "ban": 0.3
+        },
+        "baptiste": {
+          "win": 46.1,
+          "pick": 6,
+          "ban": 0.1
+        },
+        "bastion": {
+          "win": 47.6,
+          "pick": 8.1,
+          "ban": 1.8
+        },
+        "brigitte": {
+          "win": 49,
+          "pick": 4.2,
+          "ban": 0.2
+        },
+        "cassidy": {
+          "win": 47.3,
+          "pick": 24.8,
+          "ban": 3
+        },
+        "domina": {
+          "win": 52,
+          "pick": 4.3,
+          "ban": 4.7
+        },
+        "doomfist": {
+          "win": 52.1,
+          "pick": 6.6,
+          "ban": 40.3
+        },
+        "dva": {
+          "win": 48.3,
+          "pick": 7,
+          "ban": 22.5
+        },
+        "echo": {
+          "win": 50.3,
+          "pick": 4.7,
+          "ban": 1
+        },
+        "emre": {
+          "win": 48.7,
+          "pick": 11.5,
+          "ban": 1.7
+        },
+        "freja": {
+          "win": 47.8,
+          "pick": 4.8,
+          "ban": 6.4
+        },
+        "genji": {
+          "win": 52,
+          "pick": 13.6,
+          "ban": 1.9
+        },
+        "hanzo": {
+          "win": 49,
+          "pick": 6.4,
+          "ban": 0.4
+        },
+        "hazard": {
+          "win": 53.1,
+          "pick": 5.7,
+          "ban": 4.2
+        },
+        "illari": {
+          "win": 50.6,
+          "pick": 8.1,
+          "ban": 3.9
+        },
+        "jetpack-cat": {
+          "win": 46.5,
+          "pick": 3,
+          "ban": 30
+        },
+        "junker-queen": {
+          "win": 49.2,
+          "pick": 2.5,
+          "ban": 0.2
+        },
+        "junkrat": {
+          "win": 48.3,
+          "pick": 5.2,
+          "ban": 0.5
+        },
+        "juno": {
+          "win": 49.2,
+          "pick": 7.4,
+          "ban": 0.1
+        },
+        "kiriko": {
+          "win": 49.8,
+          "pick": 54.1,
+          "ban": 2.7
+        },
+        "lifeweaver": {
+          "win": 47.6,
+          "pick": 6.6,
+          "ban": 0.6
+        },
+        "lucio": {
+          "win": 47.2,
+          "pick": 4.9,
+          "ban": 0.2
+        },
+        "mauga": {
+          "win": 47.5,
+          "pick": 9.4,
+          "ban": 19.6
+        },
+        "mei": {
+          "win": 49.7,
+          "pick": 6.5,
+          "ban": 1
+        },
+        "mercy": {
+          "win": 47.1,
+          "pick": 7,
+          "ban": 1
+        },
+        "mizuki": {
+          "win": 50.3,
+          "pick": 9.8,
+          "ban": 6.4
+        },
+        "moira": {
+          "win": 47.5,
+          "pick": 14.3,
+          "ban": 1.8
+        },
+        "orisa": {
+          "win": 47.2,
+          "pick": 12.2,
+          "ban": 9.2
+        },
+        "pharah": {
+          "win": 53.2,
+          "pick": 5.4,
+          "ban": 34.6
+        },
+        "ramattra": {
+          "win": 48.4,
+          "pick": 6.1,
+          "ban": 2.2
+        },
+        "reaper": {
+          "win": 52.8,
+          "pick": 16,
+          "ban": 6.6
+        },
+        "reinhardt": {
+          "win": 49,
+          "pick": 7.4,
+          "ban": 1
+        },
+        "roadhog": {
+          "win": 43.5,
+          "pick": 6.1,
+          "ban": 3.3
+        },
+        "sierra": {
+          "win": 50.6,
+          "pick": 17.4,
+          "ban": 18.6
+        },
+        "sigma": {
+          "win": 53.5,
+          "pick": 12.9,
+          "ban": 6
+        },
+        "sojourn": {
+          "win": 45,
+          "pick": 11.5,
+          "ban": 0.4
+        },
+        "soldier-76": {
+          "win": 48.2,
+          "pick": 14.8,
+          "ban": 0.3
+        },
+        "sombra": {
+          "win": 48,
+          "pick": 3.1,
+          "ban": 49.2
+        },
+        "symmetra": {
+          "win": 53.4,
+          "pick": 3.8,
+          "ban": 4.9
+        },
+        "torbjorn": {
+          "win": 49.1,
+          "pick": 3.5,
+          "ban": 0.4
+        },
+        "tracer": {
+          "win": 50.4,
+          "pick": 11.1,
+          "ban": 8.5
+        },
+        "vendetta": {
+          "win": 47.8,
+          "pick": 2,
+          "ban": 3.5
+        },
+        "venture": {
+          "win": 52,
+          "pick": 3,
+          "ban": 0.6
+        },
+        "widowmaker": {
+          "win": 49.2,
+          "pick": 4.2,
+          "ban": 1.8
+        },
+        "winston": {
+          "win": 51.2,
+          "pick": 9.3,
+          "ban": 5.4
+        },
+        "wrecking-ball": {
+          "win": 48.3,
+          "pick": 3.2,
+          "ban": 7.8
+        },
+        "wuyang": {
+          "win": 52.6,
+          "pick": 12.8,
+          "ban": 0.6
+        },
+        "zarya": {
+          "win": 49.9,
+          "pick": 7.4,
+          "ban": 36.2
+        },
+        "zenyatta": {
+          "win": 53,
+          "pick": 14.3,
+          "ban": 1.5
+        }
+      }
+    },
+    {
+      "filters": {
+        "input": "PC",
+        "map": "all-maps",
+        "region": "Asia",
+        "role": "All",
+        "rq": "1",
+        "tier": "Bronze"
+      },
+      "url": "https://overwatch.blizzard.com/ja-jp/rates/?input=PC&map=all-maps&region=Asia&role=All&rq=1&tier=Bronze",
+      "heroCount": 51,
+      "heroes": {
+        "ana": {
+          "win": 49.2,
+          "pick": 27.1,
+          "ban": 8.6
+        },
+        "anran": {
+          "win": 52.6,
+          "pick": 11.8,
+          "ban": 10.3
+        },
+        "ashe": {
+          "win": 49.1,
+          "pick": 7.8,
+          "ban": 0.3
+        },
+        "baptiste": {
+          "win": 45.8,
+          "pick": 5.5,
+          "ban": 0.1
+        },
+        "bastion": {
+          "win": 47.8,
+          "pick": 14.1,
+          "ban": 1.6
+        },
+        "brigitte": {
+          "win": 50.3,
+          "pick": 3,
+          "ban": 0.1
+        },
+        "cassidy": {
+          "win": 48.5,
+          "pick": 14.9,
+          "ban": 0.9
+        },
+        "domina": {
+          "win": 51.3,
+          "pick": 6.4,
+          "ban": 7.7
+        },
+        "doomfist": {
+          "win": 52,
+          "pick": 3.4,
+          "ban": 42.1
+        },
+        "dva": {
+          "win": 47.2,
+          "pick": 8.6,
+          "ban": 9.6
+        },
+        "echo": {
+          "win": 48.7,
+          "pick": 4.2,
+          "ban": 1.2
+        },
+        "emre": {
+          "win": 48,
+          "pick": 12.1,
+          "ban": 0.9
+        },
+        "freja": {
+          "win": 48.2,
+          "pick": 4.2,
+          "ban": 1.1
+        },
+        "genji": {
+          "win": 51.9,
+          "pick": 8.5,
+          "ban": 3.8
+        },
+        "hanzo": {
+          "win": 48.8,
+          "pick": 5.3,
+          "ban": 0.3
+        },
+        "hazard": {
+          "win": 51.6,
+          "pick": 3.9,
+          "ban": 1.9
+        },
+        "illari": {
+          "win": 50.3,
+          "pick": 8.4,
+          "ban": 0.9
+        },
+        "jetpack-cat": {
+          "win": 47.6,
+          "pick": 3,
+          "ban": 38.5
+        },
+        "junker-queen": {
+          "win": 48.7,
+          "pick": 2,
+          "ban": 0.2
+        },
+        "junkrat": {
+          "win": 48.4,
+          "pick": 8.3,
+          "ban": 1
+        },
+        "juno": {
+          "win": 48.8,
+          "pick": 15,
+          "ban": 0.3
+        },
+        "kiriko": {
+          "win": 50.2,
+          "pick": 55.2,
+          "ban": 1.3
+        },
+        "lifeweaver": {
+          "win": 48.2,
+          "pick": 6,
+          "ban": 0.5
+        },
+        "lucio": {
+          "win": 47.3,
+          "pick": 6.8,
+          "ban": 0.3
+        },
+        "mauga": {
+          "win": 48.4,
+          "pick": 10,
+          "ban": 14.1
+        },
+        "mei": {
+          "win": 51.5,
+          "pick": 6.2,
+          "ban": 0.9
+        },
+        "mercy": {
+          "win": 45.1,
+          "pick": 9.3,
+          "ban": 0.8
+        },
+        "mizuki": {
+          "win": 51.7,
+          "pick": 12.5,
+          "ban": 1.5
+        },
+        "moira": {
+          "win": 49.2,
+          "pick": 22.8,
+          "ban": 3.1
+        },
+        "orisa": {
+          "win": 46.2,
+          "pick": 14.8,
+          "ban": 6.3
+        },
+        "pharah": {
+          "win": 51.9,
+          "pick": 5.5,
+          "ban": 40.1
+        },
+        "ramattra": {
+          "win": 50.3,
+          "pick": 9.5,
+          "ban": 4
+        },
+        "reaper": {
+          "win": 53.5,
+          "pick": 15.1,
+          "ban": 5.9
+        },
+        "reinhardt": {
+          "win": 50.6,
+          "pick": 8.1,
+          "ban": 1.7
+        },
+        "roadhog": {
+          "win": 44,
+          "pick": 4.9,
+          "ban": 2.4
+        },
+        "sierra": {
+          "win": 51.2,
+          "pick": 26.6,
+          "ban": 21.7
+        },
+        "sigma": {
+          "win": 53.2,
+          "pick": 14.6,
+          "ban": 5.7
+        },
+        "sojourn": {
+          "win": 43.4,
+          "pick": 12.7,
+          "ban": 0.3
+        },
+        "soldier-76": {
+          "win": 48.1,
+          "pick": 18.4,
+          "ban": 0.3
+        },
+        "sombra": {
+          "win": 49,
+          "pick": 2.4,
+          "ban": 64.5
+        },
+        "symmetra": {
+          "win": 54.5,
+          "pick": 3.4,
+          "ban": 3.3
+        },
+        "torbjorn": {
+          "win": 51.2,
+          "pick": 4.5,
+          "ban": 0.3
+        },
+        "tracer": {
+          "win": 49.9,
+          "pick": 5.4,
+          "ban": 13.4
+        },
+        "vendetta": {
+          "win": 48.6,
+          "pick": 2.5,
+          "ban": 4.4
+        },
+        "venture": {
+          "win": 52.9,
+          "pick": 2.6,
+          "ban": 0.4
+        },
+        "widowmaker": {
+          "win": 47.3,
+          "pick": 3.6,
+          "ban": 1.7
+        },
+        "winston": {
+          "win": 51.4,
+          "pick": 6.4,
+          "ban": 7.5
+        },
+        "wrecking-ball": {
+          "win": 49.5,
+          "pick": 2.2,
+          "ban": 8.8
+        },
+        "wuyang": {
+          "win": 51.9,
+          "pick": 13,
+          "ban": 0.4
+        },
+        "zarya": {
+          "win": 51.1,
+          "pick": 5.1,
+          "ban": 43.1
+        },
+        "zenyatta": {
+          "win": 53.2,
+          "pick": 12.1,
+          "ban": 1
+        }
+      }
+    },
+    {
+      "filters": {
+        "input": "PC",
+        "map": "all-maps",
+        "region": "Asia",
+        "role": "All",
+        "rq": "1",
+        "tier": "Silver"
+      },
+      "url": "https://overwatch.blizzard.com/ja-jp/rates/?input=PC&map=all-maps&region=Asia&role=All&rq=1&tier=Silver",
+      "heroCount": 51,
+      "heroes": {
+        "ana": {
+          "win": 49.4,
+          "pick": 38.7,
+          "ban": 10.7
+        },
+        "anran": {
+          "win": 52.3,
+          "pick": 11.5,
+          "ban": 13
+        },
+        "ashe": {
+          "win": 49.9,
+          "pick": 8.1,
+          "ban": 0.3
+        },
+        "baptiste": {
+          "win": 45.8,
+          "pick": 5.7,
+          "ban": 0.1
+        },
+        "bastion": {
+          "win": 47.3,
+          "pick": 10.4,
+          "ban": 1.7
+        },
+        "brigitte": {
+          "win": 49.2,
+          "pick": 3.3,
+          "ban": 0.2
+        },
+        "cassidy": {
+          "win": 47.7,
+          "pick": 19.1,
+          "ban": 1.5
+        },
+        "domina": {
+          "win": 51.6,
+          "pick": 5.2,
+          "ban": 6.6
+        },
+        "doomfist": {
+          "win": 53,
+          "pick": 4.5,
+          "ban": 46.7
+        },
+        "dva": {
+          "win": 47.7,
+          "pick": 7.5,
+          "ban": 11
+        },
+        "echo": {
+          "win": 49.3,
+          "pick": 3.9,
+          "ban": 1
+        },
+        "emre": {
+          "win": 48.1,
+          "pick": 11.5,
+          "ban": 1.2
+        },
+        "freja": {
+          "win": 47.9,
+          "pick": 4.4,
+          "ban": 2.1
+        },
+        "genji": {
+          "win": 52.3,
+          "pick": 11.4,
+          "ban": 3.1
+        },
+        "hanzo": {
+          "win": 48.9,
+          "pick": 5.9,
+          "ban": 0.3
+        },
+        "hazard": {
+          "win": 52.6,
+          "pick": 4.5,
+          "ban": 2.7
+        },
+        "illari": {
+          "win": 50.3,
+          "pick": 8.1,
+          "ban": 1.3
+        },
+        "jetpack-cat": {
+          "win": 46.9,
+          "pick": 3,
+          "ban": 29.6
+        },
+        "junker-queen": {
+          "win": 49.2,
+          "pick": 2.3,
+          "ban": 0.2
+        },
+        "junkrat": {
+          "win": 48,
+          "pick": 6.8,
+          "ban": 0.6
+        },
+        "juno": {
+          "win": 49.2,
+          "pick": 9.8,
+          "ban": 0.2
+        },
+        "kiriko": {
+          "win": 50.1,
+          "pick": 54.7,
+          "ban": 1.7
+        },
+        "lifeweaver": {
+          "win": 48.4,
+          "pick": 6.9,
+          "ban": 0.6
+        },
+        "lucio": {
+          "win": 47.3,
+          "pick": 6.1,
+          "ban": 0.3
+        },
+        "mauga": {
+          "win": 48.1,
+          "pick": 10,
+          "ban": 16.6
+        },
+        "mei": {
+          "win": 50.4,
+          "pick": 6.9,
+          "ban": 0.9
+        },
+        "mercy": {
+          "win": 46.2,
+          "pick": 8.3,
+          "ban": 0.9
+        },
+        "mizuki": {
+          "win": 51,
+          "pick": 10.7,
+          "ban": 3
+        },
+        "moira": {
+          "win": 47.9,
+          "pick": 19.6,
+          "ban": 2.5
+        },
+        "orisa": {
+          "win": 46.7,
+          "pick": 13.9,
+          "ban": 7
+        },
+        "pharah": {
+          "win": 52.4,
+          "pick": 5.3,
+          "ban": 34.2
+        },
+        "ramattra": {
+          "win": 49,
+          "pick": 7.6,
+          "ban": 3
+        },
+        "reaper": {
+          "win": 52.8,
+          "pick": 17.1,
+          "ban": 5.5
+        },
+        "reinhardt": {
+          "win": 50.1,
+          "pick": 8,
+          "ban": 1.1
+        },
+        "roadhog": {
+          "win": 44.1,
+          "pick": 5.9,
+          "ban": 2.7
+        },
+        "sierra": {
+          "win": 51.1,
+          "pick": 22.3,
+          "ban": 22.8
+        },
+        "sigma": {
+          "win": 53,
+          "pick": 13.5,
+          "ban": 5.5
+        },
+        "sojourn": {
+          "win": 43.9,
+          "pick": 11,
+          "ban": 0.4
+        },
+        "soldier-76": {
+          "win": 47.7,
+          "pick": 18.1,
+          "ban": 0.3
+        },
+        "sombra": {
+          "win": 49.4,
+          "pick": 2.6,
+          "ban": 62
+        },
+        "symmetra": {
+          "win": 53.9,
+          "pick": 3.5,
+          "ban": 5.2
+        },
+        "torbjorn": {
+          "win": 50.3,
+          "pick": 3.9,
+          "ban": 0.4
+        },
+        "tracer": {
+          "win": 49.6,
+          "pick": 6.8,
+          "ban": 9.8
+        },
+        "vendetta": {
+          "win": 48.3,
+          "pick": 2.5,
+          "ban": 4.6
+        },
+        "venture": {
+          "win": 52.2,
+          "pick": 2.8,
+          "ban": 0.6
+        },
+        "widowmaker": {
+          "win": 49.2,
+          "pick": 3.6,
+          "ban": 1.5
+        },
+        "winston": {
+          "win": 50.8,
+          "pick": 7.8,
+          "ban": 6.6
+        },
+        "wrecking-ball": {
+          "win": 49.4,
+          "pick": 2.4,
+          "ban": 8.3
+        },
+        "wuyang": {
+          "win": 52.6,
+          "pick": 11.6,
+          "ban": 0.5
+        },
+        "zarya": {
+          "win": 50.4,
+          "pick": 6.9,
+          "ban": 43.5
+        },
+        "zenyatta": {
+          "win": 53.2,
+          "pick": 13.1,
+          "ban": 1.3
+        }
+      }
+    },
+    {
+      "filters": {
+        "input": "PC",
+        "map": "all-maps",
+        "region": "Asia",
+        "role": "All",
+        "rq": "1",
+        "tier": "Gold"
+      },
+      "url": "https://overwatch.blizzard.com/ja-jp/rates/?input=PC&map=all-maps&region=Asia&role=All&rq=1&tier=Gold",
+      "heroCount": 51,
+      "heroes": {
+        "ana": {
+          "win": 50,
+          "pick": 48.9,
+          "ban": 11.6
+        },
+        "anran": {
+          "win": 52,
+          "pick": 10.6,
+          "ban": 13
+        },
+        "ashe": {
+          "win": 50.3,
+          "pick": 9,
+          "ban": 0.4
+        },
+        "baptiste": {
+          "win": 46,
+          "pick": 6,
+          "ban": 0.1
+        },
+        "bastion": {
+          "win": 47.5,
+          "pick": 7.9,
+          "ban": 1.8
+        },
+        "brigitte": {
+          "win": 48.9,
+          "pick": 3.8,
+          "ban": 0.2
+        },
+        "cassidy": {
+          "win": 47.2,
+          "pick": 24.2,
+          "ban": 2.4
+        },
+        "domina": {
+          "win": 52,
+          "pick": 4.3,
+          "ban": 5.1
+        },
+        "doomfist": {
+          "win": 52.8,
+          "pick": 6,
+          "ban": 46.2
+        },
+        "dva": {
+          "win": 48.5,
+          "pick": 7.1,
+          "ban": 17.3
+        },
+        "echo": {
+          "win": 50.1,
+          "pick": 4.3,
+          "ban": 0.8
+        },
+        "emre": {
+          "win": 48.4,
+          "pick": 11.4,
+          "ban": 1.5
+        },
+        "freja": {
+          "win": 47.8,
+          "pick": 4.8,
+          "ban": 4.7
+        },
+        "genji": {
+          "win": 52.4,
+          "pick": 14.3,
+          "ban": 1.9
+        },
+        "hanzo": {
+          "win": 48.9,
+          "pick": 6.5,
+          "ban": 0.4
+        },
+        "hazard": {
+          "win": 53.1,
+          "pick": 5.3,
+          "ban": 3.4
+        },
+        "illari": {
+          "win": 50.6,
+          "pick": 7.8,
+          "ban": 2.1
+        },
+        "jetpack-cat": {
+          "win": 46.2,
+          "pick": 3.1,
+          "ban": 26.6
+        },
+        "junker-queen": {
+          "win": 49.2,
+          "pick": 2.6,
+          "ban": 0.2
+        },
+        "junkrat": {
+          "win": 48.5,
+          "pick": 5.1,
+          "ban": 0.4
+        },
+        "juno": {
+          "win": 49.2,
+          "pick": 6.7,
+          "ban": 0.1
+        },
+        "kiriko": {
+          "win": 49.6,
+          "pick": 54.2,
+          "ban": 2.4
+        },
+        "lifeweaver": {
+          "win": 48.1,
+          "pick": 7.2,
+          "ban": 0.6
+        },
+        "lucio": {
+          "win": 47.1,
+          "pick": 4.6,
+          "ban": 0.2
+        },
+        "mauga": {
+          "win": 47.8,
+          "pick": 9.6,
+          "ban": 19.8
+        },
+        "mei": {
+          "win": 49.5,
+          "pick": 6.9,
+          "ban": 1
+        },
+        "mercy": {
+          "win": 47.8,
+          "pick": 7.2,
+          "ban": 1.1
+        },
+        "mizuki": {
+          "win": 50,
+          "pick": 9.3,
+          "ban": 5.3
+        },
+        "moira": {
+          "win": 47.3,
+          "pick": 14.9,
+          "ban": 1.9
+        },
+        "orisa": {
+          "win": 47.1,
+          "pick": 12.3,
+          "ban": 8.6
+        },
+        "pharah": {
+          "win": 52.8,
+          "pick": 5.3,
+          "ban": 31.6
+        },
+        "ramattra": {
+          "win": 47.8,
+          "pick": 6,
+          "ban": 2.1
+        },
+        "reaper": {
+          "win": 52.3,
+          "pick": 16.5,
+          "ban": 5.1
+        },
+        "reinhardt": {
+          "win": 49.4,
+          "pick": 7.8,
+          "ban": 0.9
+        },
+        "roadhog": {
+          "win": 43.9,
+          "pick": 6.5,
+          "ban": 3.5
+        },
+        "sierra": {
+          "win": 50.7,
+          "pick": 18.3,
+          "ban": 21.7
+        },
+        "sigma": {
+          "win": 53.2,
+          "pick": 12.7,
+          "ban": 5.5
+        },
+        "sojourn": {
+          "win": 44.7,
+          "pick": 10.6,
+          "ban": 0.4
+        },
+        "soldier-76": {
+          "win": 48,
+          "pick": 15.5,
+          "ban": 0.2
+        },
+        "sombra": {
+          "win": 48.8,
+          "pick": 3,
+          "ban": 56.4
+        },
+        "symmetra": {
+          "win": 53.4,
+          "pick": 3.9,
+          "ban": 5.7
+        },
+        "torbjorn": {
+          "win": 49.3,
+          "pick": 3.5,
+          "ban": 0.4
+        },
+        "tracer": {
+          "win": 50.1,
+          "pick": 9.1,
+          "ban": 7.5
+        },
+        "vendetta": {
+          "win": 47.7,
+          "pick": 2.1,
+          "ban": 4
+        },
+        "venture": {
+          "win": 51.8,
+          "pick": 3.1,
+          "ban": 0.8
+        },
+        "widowmaker": {
+          "win": 49.7,
+          "pick": 4,
+          "ban": 1.5
+        },
+        "winston": {
+          "win": 51.2,
+          "pick": 9.1,
+          "ban": 5.5
+        },
+        "wrecking-ball": {
+          "win": 48.7,
+          "pick": 3,
+          "ban": 8.9
+        },
+        "wuyang": {
+          "win": 52.7,
+          "pick": 11.9,
+          "ban": 0.6
+        },
+        "zarya": {
+          "win": 49.4,
+          "pick": 7.7,
+          "ban": 37.2
+        },
+        "zenyatta": {
+          "win": 53.1,
+          "pick": 14.3,
+          "ban": 1.5
+        }
+      }
+    },
+    {
+      "filters": {
+        "input": "PC",
+        "map": "all-maps",
+        "region": "Asia",
+        "role": "All",
+        "rq": "1",
+        "tier": "Platinum"
+      },
+      "url": "https://overwatch.blizzard.com/ja-jp/rates/?input=PC&map=all-maps&region=Asia&role=All&rq=1&tier=Platinum",
+      "heroCount": 51,
+      "heroes": {
+        "ana": {
+          "win": 50.5,
+          "pick": 55.5,
+          "ban": 12.4
+        },
+        "anran": {
+          "win": 51.6,
+          "pick": 9.2,
+          "ban": 9.8
+        },
+        "ashe": {
+          "win": 50.6,
+          "pick": 9.1,
+          "ban": 0.3
+        },
+        "baptiste": {
+          "win": 46.2,
+          "pick": 6.3,
+          "ban": 0.1
+        },
+        "bastion": {
+          "win": 47.6,
+          "pick": 6.2,
+          "ban": 2
+        },
+        "brigitte": {
+          "win": 48.7,
+          "pick": 4.7,
+          "ban": 0.2
+        },
+        "cassidy": {
+          "win": 46.7,
+          "pick": 29,
+          "ban": 3.7
+        },
+        "domina": {
+          "win": 52.8,
+          "pick": 3.7,
+          "ban": 3.4
+        },
+        "doomfist": {
+          "win": 52.1,
+          "pick": 8,
+          "ban": 37.9
+        },
+        "dva": {
+          "win": 49.1,
+          "pick": 6.5,
+          "ban": 29.5
+        },
+        "echo": {
+          "win": 50.9,
+          "pick": 5,
+          "ban": 0.9
+        },
+        "emre": {
+          "win": 49.1,
+          "pick": 11.4,
+          "ban": 2
+        },
+        "freja": {
+          "win": 47.9,
+          "pick": 5.1,
+          "ban": 9.6
+        },
+        "genji": {
+          "win": 52,
+          "pick": 15.8,
+          "ban": 1.1
+        },
+        "hanzo": {
+          "win": 49,
+          "pick": 6.9,
+          "ban": 0.6
+        },
+        "hazard": {
+          "win": 53.4,
+          "pick": 6.4,
+          "ban": 4.7
+        },
+        "illari": {
+          "win": 50.4,
+          "pick": 7.9,
+          "ban": 4
+        },
+        "jetpack-cat": {
+          "win": 46.3,
+          "pick": 3,
+          "ban": 28.5
+        },
+        "junker-queen": {
+          "win": 49.1,
+          "pick": 2.7,
+          "ban": 0.2
+        },
+        "junkrat": {
+          "win": 48.8,
+          "pick": 4,
+          "ban": 0.4
+        },
+        "juno": {
+          "win": 49.5,
+          "pick": 5.2,
+          "ban": 0.1
+        },
+        "kiriko": {
+          "win": 49.4,
+          "pick": 53.1,
+          "ban": 3.3
+        },
+        "lifeweaver": {
+          "win": 47,
+          "pick": 6.8,
+          "ban": 0.6
+        },
+        "lucio": {
+          "win": 47.2,
+          "pick": 3.9,
+          "ban": 0.2
+        },
+        "mauga": {
+          "win": 47,
+          "pick": 9.1,
+          "ban": 22.6
+        },
+        "mei": {
+          "win": 49.1,
+          "pick": 6.4,
+          "ban": 1.2
+        },
+        "mercy": {
+          "win": 48.1,
+          "pick": 6,
+          "ban": 1.1
+        },
+        "mizuki": {
+          "win": 49.5,
+          "pick": 8.8,
+          "ban": 8.7
+        },
+        "moira": {
+          "win": 46.7,
+          "pick": 10,
+          "ban": 1.2
+        },
+        "orisa": {
+          "win": 47.7,
+          "pick": 10.9,
+          "ban": 10.8
+        },
+        "pharah": {
+          "win": 54,
+          "pick": 5.4,
+          "ban": 33.2
+        },
+        "ramattra": {
+          "win": 47.4,
+          "pick": 4.8,
+          "ban": 1.6
+        },
+        "reaper": {
+          "win": 52.8,
+          "pick": 15.2,
+          "ban": 6.4
+        },
+        "reinhardt": {
+          "win": 48.1,
+          "pick": 7.2,
+          "ban": 0.9
+        },
+        "roadhog": {
+          "win": 42.9,
+          "pick": 6.5,
+          "ban": 3.9
+        },
+        "sierra": {
+          "win": 50.2,
+          "pick": 14,
+          "ban": 16.8
+        },
+        "sigma": {
+          "win": 54,
+          "pick": 12.2,
+          "ban": 6.2
+        },
+        "sojourn": {
+          "win": 45.6,
+          "pick": 11.4,
+          "ban": 0.5
+        },
+        "soldier-76": {
+          "win": 48.8,
+          "pick": 12.6,
+          "ban": 0.3
+        },
+        "sombra": {
+          "win": 47.1,
+          "pick": 3.6,
+          "ban": 42.5
+        },
+        "symmetra": {
+          "win": 53,
+          "pick": 4,
+          "ban": 5.3
+        },
+        "torbjorn": {
+          "win": 47.8,
+          "pick": 3.2,
+          "ban": 0.4
+        },
+        "tracer": {
+          "win": 50.5,
+          "pick": 12.9,
+          "ban": 7
+        },
+        "vendetta": {
+          "win": 47.3,
+          "pick": 1.7,
+          "ban": 2.8
+        },
+        "venture": {
+          "win": 51.8,
+          "pick": 3.1,
+          "ban": 0.6
+        },
+        "widowmaker": {
+          "win": 49.7,
+          "pick": 4.6,
+          "ban": 1.9
+        },
+        "winston": {
+          "win": 51.4,
+          "pick": 10.2,
+          "ban": 4.5
+        },
+        "wrecking-ball": {
+          "win": 47.8,
+          "pick": 3.8,
+          "ban": 7.5
+        },
+        "wuyang": {
+          "win": 52.6,
+          "pick": 13,
+          "ban": 0.6
+        },
+        "zarya": {
+          "win": 49.2,
+          "pick": 7.8,
+          "ban": 30.7
+        },
+        "zenyatta": {
+          "win": 53,
+          "pick": 15.7,
+          "ban": 1.8
+        }
+      }
+    },
+    {
+      "filters": {
+        "input": "PC",
+        "map": "all-maps",
+        "region": "Asia",
+        "role": "All",
+        "rq": "1",
+        "tier": "Diamond"
+      },
+      "url": "https://overwatch.blizzard.com/ja-jp/rates/?input=PC&map=all-maps&region=Asia&role=All&rq=1&tier=Diamond",
+      "heroCount": 51,
+      "heroes": {
+        "ana": {
+          "win": 50.8,
+          "pick": 57.3,
+          "ban": 13.2
+        },
+        "anran": {
+          "win": 50.6,
+          "pick": 6.6,
+          "ban": 5
+        },
+        "ashe": {
+          "win": 51.1,
+          "pick": 7.7,
+          "ban": 0.2
+        },
+        "baptiste": {
+          "win": 46.3,
+          "pick": 6.4,
+          "ban": 0.1
+        },
+        "bastion": {
+          "win": 48.4,
+          "pick": 4.9,
+          "ban": 1.8
+        },
+        "brigitte": {
+          "win": 48.9,
+          "pick": 6,
+          "ban": 0.3
+        },
+        "cassidy": {
+          "win": 47,
+          "pick": 33.2,
+          "ban": 5.5
+        },
+        "domina": {
+          "win": 52.8,
+          "pick": 3.1,
+          "ban": 2
+        },
+        "doomfist": {
+          "win": 51,
+          "pick": 10.7,
+          "ban": 25
+        },
+        "dva": {
+          "win": 49,
+          "pick": 5.7,
+          "ban": 43.6
+        },
+        "echo": {
+          "win": 51.6,
+          "pick": 6.1,
+          "ban": 1.3
+        },
+        "emre": {
+          "win": 49.9,
+          "pick": 11.9,
+          "ban": 2.7
+        },
+        "freja": {
+          "win": 47.6,
+          "pick": 5.3,
+          "ban": 15.3
+        },
+        "genji": {
+          "win": 51.1,
+          "pick": 16.2,
+          "ban": 0.5
+        },
+        "hanzo": {
+          "win": 49.6,
+          "pick": 6.8,
+          "ban": 0.6
+        },
+        "hazard": {
+          "win": 53.9,
+          "pick": 8,
+          "ban": 7.1
+        },
+        "illari": {
+          "win": 51,
+          "pick": 8.8,
+          "ban": 9.1
+        },
+        "jetpack-cat": {
+          "win": 45.6,
+          "pick": 3,
+          "ban": 31.9
+        },
+        "junker-queen": {
+          "win": 49.5,
+          "pick": 2.7,
+          "ban": 0.1
+        },
+        "junkrat": {
+          "win": 47.5,
+          "pick": 3.2,
+          "ban": 0.3
+        },
+        "juno": {
+          "win": 49.4,
+          "pick": 4.2,
+          "ban": 0.1
+        },
+        "kiriko": {
+          "win": 49.6,
+          "pick": 52.7,
+          "ban": 4.5
+        },
+        "lifeweaver": {
+          "win": 45.7,
+          "pick": 5.7,
+          "ban": 0.6
+        },
+        "lucio": {
+          "win": 46.9,
+          "pick": 3.9,
+          "ban": 0.2
+        },
+        "mauga": {
+          "win": 45.7,
+          "pick": 8.4,
+          "ban": 24.4
+        },
+        "mei": {
+          "win": 49,
+          "pick": 5.7,
+          "ban": 1
+        },
+        "mercy": {
+          "win": 47.7,
+          "pick": 4.9,
+          "ban": 0.9
+        },
+        "mizuki": {
+          "win": 49.4,
+          "pick": 8.8,
+          "ban": 12.4
+        },
+        "moira": {
+          "win": 45.8,
+          "pick": 6.6,
+          "ban": 0.5
+        },
+        "orisa": {
+          "win": 48.4,
+          "pick": 9.6,
+          "ban": 12.5
+        },
+        "pharah": {
+          "win": 54.6,
+          "pick": 5.5,
+          "ban": 38.2
+        },
+        "ramattra": {
+          "win": 47.6,
+          "pick": 3.9,
+          "ban": 1.2
+        },
+        "reaper": {
+          "win": 53.5,
+          "pick": 14.9,
+          "ban": 9.8
+        },
+        "reinhardt": {
+          "win": 45.5,
+          "pick": 6,
+          "ban": 0.9
+        },
+        "roadhog": {
+          "win": 42.2,
+          "pick": 5.9,
+          "ban": 3.6
+        },
+        "sierra": {
+          "win": 48.6,
+          "pick": 9.1,
+          "ban": 8.9
+        },
+        "sigma": {
+          "win": 54.7,
+          "pick": 12,
+          "ban": 7.3
+        },
+        "sojourn": {
+          "win": 46.7,
+          "pick": 13.2,
+          "ban": 0.6
+        },
+        "soldier-76": {
+          "win": 49.3,
+          "pick": 9.8,
+          "ban": 0.3
+        },
+        "sombra": {
+          "win": 46.1,
+          "pick": 3.9,
+          "ban": 22.3
+        },
+        "symmetra": {
+          "win": 53.1,
+          "pick": 3.8,
+          "ban": 3.7
+        },
+        "torbjorn": {
+          "win": 46.7,
+          "pick": 3,
+          "ban": 0.3
+        },
+        "tracer": {
+          "win": 51.1,
+          "pick": 19.6,
+          "ban": 7.5
+        },
+        "vendetta": {
+          "win": 47.1,
+          "pick": 1.3,
+          "ban": 1.5
+        },
+        "venture": {
+          "win": 52,
+          "pick": 3.1,
+          "ban": 0.6
+        },
+        "widowmaker": {
+          "win": 48.7,
+          "pick": 5,
+          "ban": 2.4
+        },
+        "winston": {
+          "win": 51.6,
+          "pick": 11.8,
+          "ban": 3.7
+        },
+        "wrecking-ball": {
+          "win": 47.1,
+          "pick": 4.3,
+          "ban": 5.2
+        },
+        "wuyang": {
+          "win": 52.6,
+          "pick": 15.5,
+          "ban": 0.8
+        },
+        "zarya": {
+          "win": 50.2,
+          "pick": 7.9,
+          "ban": 27.5
+        },
+        "zenyatta": {
+          "win": 52.6,
+          "pick": 16.2,
+          "ban": 2
+        }
+      }
+    },
+    {
+      "filters": {
+        "input": "PC",
+        "map": "all-maps",
+        "region": "Asia",
+        "role": "All",
+        "rq": "1",
+        "tier": "Master"
+      },
+      "url": "https://overwatch.blizzard.com/ja-jp/rates/?input=PC&map=all-maps&region=Asia&role=All&rq=1&tier=Master",
+      "heroCount": 51,
+      "heroes": {
+        "ana": {
+          "win": 50.5,
+          "pick": 55.3,
+          "ban": 12.4
+        },
+        "anran": {
+          "win": 48.7,
+          "pick": 4,
+          "ban": 1.3
+        },
+        "ashe": {
+          "win": 51.9,
+          "pick": 6.3,
+          "ban": 0.1
+        },
+        "baptiste": {
+          "win": 46.3,
+          "pick": 6.3,
+          "ban": 0.1
+        },
+        "bastion": {
+          "win": 49.2,
+          "pick": 4,
+          "ban": 1.3
+        },
+        "brigitte": {
+          "win": 49.5,
+          "pick": 7.3,
+          "ban": 0.3
+        },
+        "cassidy": {
+          "win": 48,
+          "pick": 36.1,
+          "ban": 7.7
+        },
+        "domina": {
+          "win": 52.6,
+          "pick": 2.6,
+          "ban": 1
+        },
+        "doomfist": {
+          "win": 49.7,
+          "pick": 12,
+          "ban": 14.7
+        },
+        "dva": {
+          "win": 49.2,
+          "pick": 4.9,
+          "ban": 54.6
+        },
+        "echo": {
+          "win": 51.9,
+          "pick": 7.2,
+          "ban": 1.5
+        },
+        "emre": {
+          "win": 50.3,
+          "pick": 12.5,
+          "ban": 2.7
+        },
+        "freja": {
+          "win": 46.9,
+          "pick": 5.2,
+          "ban": 15.2
+        },
+        "genji": {
+          "win": 49.9,
+          "pick": 14.7,
+          "ban": 0.3
+        },
+        "hanzo": {
+          "win": 48.9,
+          "pick": 6.4,
+          "ban": 0.5
+        },
+        "hazard": {
+          "win": 54,
+          "pick": 10,
+          "ban": 11.1
+        },
+        "illari": {
+          "win": 51.9,
+          "pick": 10.6,
+          "ban": 19.2
+        },
+        "jetpack-cat": {
+          "win": 46,
+          "pick": 2.8,
+          "ban": 37.5
+        },
+        "junker-queen": {
+          "win": 49.2,
+          "pick": 2.2,
+          "ban": 0.1
+        },
+        "junkrat": {
+          "win": 47.6,
+          "pick": 2.7,
+          "ban": 0.3
+        },
+        "juno": {
+          "win": 49.4,
+          "pick": 3.3,
+          "ban": 0
+        },
+        "kiriko": {
+          "win": 50,
+          "pick": 54.4,
+          "ban": 5.1
+        },
+        "lifeweaver": {
+          "win": 43.2,
+          "pick": 4.6,
+          "ban": 0.4
+        },
+        "lucio": {
+          "win": 46.6,
+          "pick": 4.6,
+          "ban": 0.4
+        },
+        "mauga": {
+          "win": 44.6,
+          "pick": 7.4,
+          "ban": 20.3
+        },
+        "mei": {
+          "win": 48.6,
+          "pick": 4.8,
+          "ban": 0.6
+        },
+        "mercy": {
+          "win": 48.1,
+          "pick": 4.6,
+          "ban": 0.6
+        },
+        "mizuki": {
+          "win": 49.4,
+          "pick": 9,
+          "ban": 13.9
+        },
+        "moira": {
+          "win": 45,
+          "pick": 4.3,
+          "ban": 0.2
+        },
+        "orisa": {
+          "win": 49.4,
+          "pick": 9.4,
+          "ban": 14.7
+        },
+        "pharah": {
+          "win": 54.2,
+          "pick": 5.7,
+          "ban": 44.7
+        },
+        "ramattra": {
+          "win": 46.7,
+          "pick": 3.2,
+          "ban": 1
+        },
+        "reaper": {
+          "win": 53.4,
+          "pick": 15.3,
+          "ban": 15.6
+        },
+        "reinhardt": {
+          "win": 43.6,
+          "pick": 4.6,
+          "ban": 0.8
+        },
+        "roadhog": {
+          "win": 41.8,
+          "pick": 4.8,
+          "ban": 2.5
+        },
+        "sierra": {
+          "win": 46.9,
+          "pick": 4.7,
+          "ban": 2.6
+        },
+        "sigma": {
+          "win": 54.2,
+          "pick": 12.5,
+          "ban": 7.4
+        },
+        "sojourn": {
+          "win": 47.8,
+          "pick": 15.4,
+          "ban": 0.5
+        },
+        "soldier-76": {
+          "win": 49.3,
+          "pick": 7.9,
+          "ban": 0.3
+        },
+        "sombra": {
+          "win": 45.8,
+          "pick": 3.5,
+          "ban": 6.5
+        },
+        "symmetra": {
+          "win": 52.2,
+          "pick": 3.5,
+          "ban": 2
+        },
+        "torbjorn": {
+          "win": 45.3,
+          "pick": 2.7,
+          "ban": 0.2
+        },
+        "tracer": {
+          "win": 51.6,
+          "pick": 28.3,
+          "ban": 8.6
+        },
+        "vendetta": {
+          "win": 46.3,
+          "pick": 1.1,
+          "ban": 0.5
+        },
+        "venture": {
+          "win": 51.5,
+          "pick": 3,
+          "ban": 0.4
+        },
+        "widowmaker": {
+          "win": 47.2,
+          "pick": 5,
+          "ban": 2.7
+        },
+        "winston": {
+          "win": 51.2,
+          "pick": 13.5,
+          "ban": 3.1
+        },
+        "wrecking-ball": {
+          "win": 47.2,
+          "pick": 4.7,
+          "ban": 3
+        },
+        "wuyang": {
+          "win": 52.3,
+          "pick": 18,
+          "ban": 1
+        },
+        "zarya": {
+          "win": 51.8,
+          "pick": 8.1,
+          "ban": 27.6
+        },
+        "zenyatta": {
+          "win": 52.1,
+          "pick": 14.8,
+          "ban": 1.9
+        }
+      }
+    },
+    {
+      "filters": {
+        "input": "PC",
+        "map": "all-maps",
+        "region": "Asia",
+        "role": "All",
+        "rq": "1",
+        "tier": "Grandmaster"
+      },
+      "url": "https://overwatch.blizzard.com/ja-jp/rates/?input=PC&map=all-maps&region=Asia&role=All&rq=1&tier=Grandmaster",
+      "heroCount": 51,
+      "heroes": {
+        "ana": {
+          "win": 50.3,
+          "pick": 50.4,
+          "ban": 10.5
+        },
+        "anran": {
+          "win": 47.3,
+          "pick": 1.9,
+          "ban": 0.2
+        },
+        "ashe": {
+          "win": 52.9,
+          "pick": 5,
+          "ban": 0.1
+        },
+        "baptiste": {
+          "win": 47,
+          "pick": 6.3,
+          "ban": 0.1
+        },
+        "bastion": {
+          "win": 48.4,
+          "pick": 3.7,
+          "ban": 1.1
+        },
+        "brigitte": {
+          "win": 49.4,
+          "pick": 7.5,
+          "ban": 0.4
+        },
+        "cassidy": {
+          "win": 49.1,
+          "pick": 38,
+          "ban": 9.6
+        },
+        "domina": {
+          "win": 52.5,
+          "pick": 2.6,
+          "ban": 0.6
+        },
+        "doomfist": {
+          "win": 48.8,
+          "pick": 10.3,
+          "ban": 11.1
+        },
+        "dva": {
+          "win": 51.1,
+          "pick": 6.2,
+          "ban": 56.3
+        },
+        "echo": {
+          "win": 50.8,
+          "pick": 7.6,
+          "ban": 1.5
+        },
+        "emre": {
+          "win": 50.6,
+          "pick": 12.8,
+          "ban": 2.2
+        },
+        "freja": {
+          "win": 46.7,
+          "pick": 4.6,
+          "ban": 7.9
+        },
+        "genji": {
+          "win": 48.5,
+          "pick": 11,
+          "ban": 0.3
+        },
+        "hanzo": {
+          "win": 48.6,
+          "pick": 5.5,
+          "ban": 0.4
+        },
+        "hazard": {
+          "win": 52.6,
+          "pick": 10.9,
+          "ban": 11.6
+        },
+        "illari": {
+          "win": 52.6,
+          "pick": 13,
+          "ban": 29.1
+        },
+        "jetpack-cat": {
+          "win": 47,
+          "pick": 2.8,
+          "ban": 53.4
+        },
+        "junker-queen": {
+          "win": 48.8,
+          "pick": 1.5,
+          "ban": 0.1
+        },
+        "junkrat": {
+          "win": 49.1,
+          "pick": 2.8,
+          "ban": 0.6
+        },
+        "juno": {
+          "win": 48.5,
+          "pick": 2.8,
+          "ban": 0
+        },
+        "kiriko": {
+          "win": 51.1,
+          "pick": 58.8,
+          "ban": 4.4
+        },
+        "lifeweaver": {
+          "win": 41.9,
+          "pick": 3.7,
+          "ban": 0.3
+        },
+        "lucio": {
+          "win": 47.3,
+          "pick": 6.9,
+          "ban": 1.9
+        },
+        "mauga": {
+          "win": 44.2,
+          "pick": 6.3,
+          "ban": 12.9
+        },
+        "mei": {
+          "win": 48.3,
+          "pick": 4.5,
+          "ban": 0.5
+        },
+        "mercy": {
+          "win": 45,
+          "pick": 3.5,
+          "ban": 0.3
+        },
+        "mizuki": {
+          "win": 50.1,
+          "pick": 11,
+          "ban": 12.7
+        },
+        "moira": {
+          "win": 43.2,
+          "pick": 3.1,
+          "ban": 0.2
+        },
+        "orisa": {
+          "win": 49.3,
+          "pick": 8.7,
+          "ban": 13.8
+        },
+        "pharah": {
+          "win": 53.9,
+          "pick": 6.6,
+          "ban": 44.2
+        },
+        "ramattra": {
+          "win": 46.2,
+          "pick": 3.3,
+          "ban": 0.6
+        },
+        "reaper": {
+          "win": 52,
+          "pick": 13.9,
+          "ban": 15.4
+        },
+        "reinhardt": {
+          "win": 41.5,
+          "pick": 3.2,
+          "ban": 0.9
+        },
+        "roadhog": {
+          "win": 41.9,
+          "pick": 3.7,
+          "ban": 1.3
+        },
+        "sierra": {
+          "win": 43.2,
+          "pick": 1.6,
+          "ban": 0.5
+        },
+        "sigma": {
+          "win": 54,
+          "pick": 15.9,
+          "ban": 8
+        },
+        "sojourn": {
+          "win": 47.6,
+          "pick": 18.7,
+          "ban": 0.5
+        },
+        "soldier-76": {
+          "win": 48.5,
+          "pick": 5.2,
+          "ban": 0.2
+        },
+        "sombra": {
+          "win": 46.2,
+          "pick": 2.3,
+          "ban": 0.9
+        },
+        "symmetra": {
+          "win": 53.4,
+          "pick": 4.8,
+          "ban": 2.7
+        },
+        "torbjorn": {
+          "win": 43.7,
+          "pick": 2.4,
+          "ban": 0.1
+        },
+        "tracer": {
+          "win": 52.6,
+          "pick": 37.7,
+          "ban": 10.3
+        },
+        "vendetta": {
+          "win": 46.2,
+          "pick": 0.6,
+          "ban": 0.1
+        },
+        "venture": {
+          "win": 50.8,
+          "pick": 2.8,
+          "ban": 0.3
+        },
+        "widowmaker": {
+          "win": 44.2,
+          "pick": 5.5,
+          "ban": 3.6
+        },
+        "winston": {
+          "win": 49.4,
+          "pick": 13.2,
+          "ban": 3
+        },
+        "wrecking-ball": {
+          "win": 48.8,
+          "pick": 5.4,
+          "ban": 3.2
+        },
+        "wuyang": {
+          "win": 52.1,
+          "pick": 18.2,
+          "ban": 1.2
+        },
+        "zarya": {
+          "win": 53.5,
+          "pick": 9,
+          "ban": 28.9
+        },
+        "zenyatta": {
+          "win": 49.7,
+          "pick": 11.6,
+          "ban": 1.3
+        }
+      }
+    },
+    {
+      "filters": {
+        "input": "PC",
+        "map": "all-maps",
+        "region": "Europe",
+        "role": "All",
+        "rq": "0",
+        "tier": "All"
+      },
+      "url": "https://overwatch.blizzard.com/ja-jp/rates/?input=PC&map=all-maps&region=Europe&role=All&rq=0&tier=All",
+      "heroCount": 51,
+      "heroes": {
+        "ana": {
+          "win": 46.7,
+          "pick": 26.2,
+          "ban": 0
+        },
+        "anran": {
+          "win": 52.4,
+          "pick": 10.7,
+          "ban": 0
+        },
+        "ashe": {
+          "win": 49.9,
+          "pick": 12.6,
+          "ban": 0
+        },
+        "baptiste": {
+          "win": 47.7,
+          "pick": 5.5,
+          "ban": 0
+        },
+        "bastion": {
+          "win": 49,
+          "pick": 10.9,
+          "ban": 0
+        },
+        "brigitte": {
+          "win": 54.4,
+          "pick": 5.9,
+          "ban": 0
+        },
+        "cassidy": {
+          "win": 48,
+          "pick": 15.9,
+          "ban": 0
+        },
+        "domina": {
+          "win": 51.1,
+          "pick": 8.1,
+          "ban": 0
+        },
+        "doomfist": {
+          "win": 50.6,
+          "pick": 9,
+          "ban": 0
+        },
+        "dva": {
+          "win": 45.7,
+          "pick": 8.9,
+          "ban": 0
+        },
+        "echo": {
+          "win": 49.3,
+          "pick": 5.5,
+          "ban": 0
+        },
+        "emre": {
+          "win": 47.8,
+          "pick": 9.1,
+          "ban": 0
+        },
+        "freja": {
+          "win": 45.7,
+          "pick": 5.2,
+          "ban": 0
+        },
+        "genji": {
+          "win": 51,
+          "pick": 12.6,
+          "ban": 0
+        },
+        "hanzo": {
+          "win": 48.9,
+          "pick": 10,
+          "ban": 0
+        },
+        "hazard": {
+          "win": 51.3,
+          "pick": 4,
+          "ban": 0
+        },
+        "illari": {
+          "win": 50.9,
+          "pick": 6.9,
+          "ban": 0
+        },
+        "jetpack-cat": {
+          "win": 48.6,
+          "pick": 9.3,
+          "ban": 0
+        },
+        "junker-queen": {
+          "win": 52.9,
+          "pick": 4.5,
+          "ban": 0
+        },
+        "junkrat": {
+          "win": 51.6,
+          "pick": 11.1,
+          "ban": 0
+        },
+        "juno": {
+          "win": 51,
+          "pick": 17.5,
+          "ban": 0
+        },
+        "kiriko": {
+          "win": 48.1,
+          "pick": 24.3,
+          "ban": 0
+        },
+        "lifeweaver": {
+          "win": 50.3,
+          "pick": 16.5,
+          "ban": 0
+        },
+        "lucio": {
+          "win": 51.8,
+          "pick": 7.4,
+          "ban": 0
+        },
+        "mauga": {
+          "win": 51.3,
+          "pick": 6.9,
+          "ban": 0
+        },
+        "mei": {
+          "win": 53.5,
+          "pick": 5.4,
+          "ban": 0
+        },
+        "mercy": {
+          "win": 48.9,
+          "pick": 27.8,
+          "ban": 0
+        },
+        "mizuki": {
+          "win": 52.1,
+          "pick": 12.9,
+          "ban": 0
+        },
+        "moira": {
+          "win": 50.2,
+          "pick": 19.3,
+          "ban": 0
+        },
+        "orisa": {
+          "win": 46.7,
+          "pick": 9.8,
+          "ban": 0
+        },
+        "pharah": {
+          "win": 52.7,
+          "pick": 4.9,
+          "ban": 0
+        },
+        "ramattra": {
+          "win": 50.3,
+          "pick": 8.4,
+          "ban": 0
+        },
+        "reaper": {
+          "win": 54.1,
+          "pick": 8.8,
+          "ban": 0
+        },
+        "reinhardt": {
+          "win": 53.9,
+          "pick": 11.8,
+          "ban": 0
+        },
+        "roadhog": {
+          "win": 46.6,
+          "pick": 9.2,
+          "ban": 0
+        },
+        "sierra": {
+          "win": 51.9,
+          "pick": 22,
+          "ban": 0
+        },
+        "sigma": {
+          "win": 51.4,
+          "pick": 7.7,
+          "ban": 0
+        },
+        "sojourn": {
+          "win": 44.6,
+          "pick": 6.7,
+          "ban": 0
+        },
+        "soldier-76": {
+          "win": 49.1,
+          "pick": 13.1,
+          "ban": 0
+        },
+        "sombra": {
+          "win": 47.4,
+          "pick": 5.5,
+          "ban": 0
+        },
+        "symmetra": {
+          "win": 55.3,
+          "pick": 2.7,
+          "ban": 0
+        },
+        "torbjorn": {
+          "win": 56.6,
+          "pick": 4,
+          "ban": 0
+        },
+        "tracer": {
+          "win": 49.5,
+          "pick": 6.4,
+          "ban": 0
+        },
+        "vendetta": {
+          "win": 49.6,
+          "pick": 4.2,
+          "ban": 0
+        },
+        "venture": {
+          "win": 53,
+          "pick": 2.7,
+          "ban": 0
+        },
+        "widowmaker": {
+          "win": 45,
+          "pick": 9.6,
+          "ban": 0
+        },
+        "winston": {
+          "win": 52.3,
+          "pick": 3.8,
+          "ban": 0
+        },
+        "wrecking-ball": {
+          "win": 50.2,
+          "pick": 3.6,
+          "ban": 0
+        },
+        "wuyang": {
+          "win": 50.8,
+          "pick": 8.5,
+          "ban": 0
+        },
+        "zarya": {
+          "win": 47.8,
+          "pick": 4.2,
+          "ban": 0
+        },
+        "zenyatta": {
+          "win": 54.5,
+          "pick": 11.8,
+          "ban": 0
+        }
+      }
+    },
+    {
+      "filters": {
+        "input": "PC",
+        "map": "all-maps",
+        "region": "Europe",
+        "role": "All",
+        "rq": "1",
+        "tier": "All"
+      },
+      "url": "https://overwatch.blizzard.com/ja-jp/rates/?input=PC&map=all-maps&region=Europe&role=All&rq=1&tier=All",
+      "heroCount": 51,
+      "heroes": {
+        "ana": {
+          "win": 47.8,
+          "pick": 27.3,
+          "ban": 10.7
+        },
+        "anran": {
+          "win": 51.4,
+          "pick": 8.3,
+          "ban": 15.4
+        },
+        "ashe": {
+          "win": 50.5,
+          "pick": 12.1,
+          "ban": 1.3
+        },
+        "baptiste": {
+          "win": 47.6,
+          "pick": 7.6,
+          "ban": 0.2
+        },
+        "bastion": {
+          "win": 47.3,
+          "pick": 14,
+          "ban": 6.4
+        },
+        "brigitte": {
+          "win": 52.1,
+          "pick": 4.7,
+          "ban": 0.3
+        },
+        "cassidy": {
+          "win": 47.9,
+          "pick": 18.7,
+          "ban": 5.7
+        },
+        "domina": {
+          "win": 51.1,
+          "pick": 5.5,
+          "ban": 13.6
+        },
+        "doomfist": {
+          "win": 51.9,
+          "pick": 6.8,
+          "ban": 19.8
+        },
+        "dva": {
+          "win": 46.5,
+          "pick": 6.6,
+          "ban": 17.9
+        },
+        "echo": {
+          "win": 49.8,
+          "pick": 5.1,
+          "ban": 0.8
+        },
+        "emre": {
+          "win": 48.1,
+          "pick": 11,
+          "ban": 1.7
+        },
+        "freja": {
+          "win": 46.9,
+          "pick": 3.7,
+          "ban": 1
+        },
+        "genji": {
+          "win": 52.4,
+          "pick": 11.9,
+          "ban": 6.8
+        },
+        "hanzo": {
+          "win": 49.8,
+          "pick": 8.9,
+          "ban": 2
+        },
+        "hazard": {
+          "win": 53.2,
+          "pick": 4.6,
+          "ban": 10.7
+        },
+        "illari": {
+          "win": 50.3,
+          "pick": 7.2,
+          "ban": 0.5
+        },
+        "jetpack-cat": {
+          "win": 49.9,
+          "pick": 4.2,
+          "ban": 24.7
+        },
+        "junker-queen": {
+          "win": 51.2,
+          "pick": 3.7,
+          "ban": 0.3
+        },
+        "junkrat": {
+          "win": 49.6,
+          "pick": 10,
+          "ban": 2.7
+        },
+        "juno": {
+          "win": 50.6,
+          "pick": 15.3,
+          "ban": 0.2
+        },
+        "kiriko": {
+          "win": 47.9,
+          "pick": 35.8,
+          "ban": 4.3
+        },
+        "lifeweaver": {
+          "win": 49.9,
+          "pick": 15.6,
+          "ban": 0.8
+        },
+        "lucio": {
+          "win": 50.2,
+          "pick": 6,
+          "ban": 0.9
+        },
+        "mauga": {
+          "win": 50.7,
+          "pick": 7.3,
+          "ban": 16.1
+        },
+        "mei": {
+          "win": 49.4,
+          "pick": 7,
+          "ban": 2.1
+        },
+        "mercy": {
+          "win": 50.6,
+          "pick": 22.5,
+          "ban": 12.6
+        },
+        "mizuki": {
+          "win": 50.8,
+          "pick": 12,
+          "ban": 1.7
+        },
+        "moira": {
+          "win": 47.5,
+          "pick": 24.2,
+          "ban": 4.4
+        },
+        "orisa": {
+          "win": 45.2,
+          "pick": 11.5,
+          "ban": 10
+        },
+        "pharah": {
+          "win": 52.6,
+          "pick": 5.3,
+          "ban": 13.5
+        },
+        "ramattra": {
+          "win": 48,
+          "pick": 8.1,
+          "ban": 6
+        },
+        "reaper": {
+          "win": 52.1,
+          "pick": 11.8,
+          "ban": 3.7
+        },
+        "reinhardt": {
+          "win": 52.2,
+          "pick": 11.5,
+          "ban": 2.1
+        },
+        "roadhog": {
+          "win": 47.5,
+          "pick": 8.5,
+          "ban": 11.5
+        },
+        "sierra": {
+          "win": 51.2,
+          "pick": 15.5,
+          "ban": 39.6
+        },
+        "sigma": {
+          "win": 51.1,
+          "pick": 11.5,
+          "ban": 5.1
+        },
+        "sojourn": {
+          "win": 45.1,
+          "pick": 11.1,
+          "ban": 1.2
+        },
+        "soldier-76": {
+          "win": 48.6,
+          "pick": 17.8,
+          "ban": 0.6
+        },
+        "sombra": {
+          "win": 46.9,
+          "pick": 3.6,
+          "ban": 27.5
+        },
+        "symmetra": {
+          "win": 50.6,
+          "pick": 3,
+          "ban": 1.9
+        },
+        "torbjorn": {
+          "win": 51.1,
+          "pick": 4.4,
+          "ban": 0.5
+        },
+        "tracer": {
+          "win": 50.7,
+          "pick": 7,
+          "ban": 6.9
+        },
+        "vendetta": {
+          "win": 48.9,
+          "pick": 2.3,
+          "ban": 7.7
+        },
+        "venture": {
+          "win": 51.5,
+          "pick": 2.4,
+          "ban": 0.6
+        },
+        "widowmaker": {
+          "win": 50.2,
+          "pick": 5,
+          "ban": 8.6
+        },
+        "winston": {
+          "win": 50,
+          "pick": 5.5,
+          "ban": 5.5
+        },
+        "wrecking-ball": {
+          "win": 51.1,
+          "pick": 3.5,
+          "ban": 10.3
+        },
+        "wuyang": {
+          "win": 51.2,
+          "pick": 6.1,
+          "ban": 0.2
+        },
+        "zarya": {
+          "win": 47,
+          "pick": 5.2,
+          "ban": 42.1
+        },
+        "zenyatta": {
+          "win": 53.2,
+          "pick": 11.5,
+          "ban": 2.7
+        }
+      }
+    },
+    {
+      "filters": {
+        "input": "PC",
+        "map": "all-maps",
+        "region": "Europe",
+        "role": "All",
+        "rq": "1",
+        "tier": "Bronze"
+      },
+      "url": "https://overwatch.blizzard.com/ja-jp/rates/?input=PC&map=all-maps&region=Europe&role=All&rq=1&tier=Bronze",
+      "heroCount": 51,
+      "heroes": {
+        "ana": {
+          "win": 47.9,
+          "pick": 13.2,
+          "ban": 3.8
+        },
+        "anran": {
+          "win": 52,
+          "pick": 10.8,
+          "ban": 15.1
+        },
+        "ashe": {
+          "win": 49.7,
+          "pick": 10.8,
+          "ban": 0.6
+        },
+        "baptiste": {
+          "win": 47.2,
+          "pick": 5.4,
+          "ban": 0.2
+        },
+        "bastion": {
+          "win": 48.1,
+          "pick": 18.4,
+          "ban": 4
+        },
+        "brigitte": {
+          "win": 53.1,
+          "pick": 3.5,
+          "ban": 0.2
+        },
+        "cassidy": {
+          "win": 50.1,
+          "pick": 11,
+          "ban": 0.8
+        },
+        "domina": {
+          "win": 51.1,
+          "pick": 6.6,
+          "ban": 14.5
+        },
+        "doomfist": {
+          "win": 53.2,
+          "pick": 4.5,
+          "ban": 15.9
+        },
+        "dva": {
+          "win": 45,
+          "pick": 10.8,
+          "ban": 6.7
+        },
+        "echo": {
+          "win": 47.8,
+          "pick": 5.5,
+          "ban": 1.1
+        },
+        "emre": {
+          "win": 48,
+          "pick": 9.8,
+          "ban": 0.6
+        },
+        "freja": {
+          "win": 46.1,
+          "pick": 4.4,
+          "ban": 0.3
+        },
+        "genji": {
+          "win": 52.7,
+          "pick": 8.1,
+          "ban": 5.3
+        },
+        "hanzo": {
+          "win": 49.6,
+          "pick": 9.2,
+          "ban": 0.9
+        },
+        "hazard": {
+          "win": 52.5,
+          "pick": 2.7,
+          "ban": 1.7
+        },
+        "illari": {
+          "win": 49.5,
+          "pick": 7.2,
+          "ban": 0.2
+        },
+        "jetpack-cat": {
+          "win": 48.6,
+          "pick": 4.3,
+          "ban": 31.5
+        },
+        "junker-queen": {
+          "win": 50.5,
+          "pick": 3,
+          "ban": 0.4
+        },
+        "junkrat": {
+          "win": 49.8,
+          "pick": 15.8,
+          "ban": 4.8
+        },
+        "juno": {
+          "win": 50.4,
+          "pick": 20,
+          "ban": 0.6
+        },
+        "kiriko": {
+          "win": 49.1,
+          "pick": 31.1,
+          "ban": 1.1
+        },
+        "lifeweaver": {
+          "win": 49.2,
+          "pick": 14.1,
+          "ban": 0.3
+        },
+        "lucio": {
+          "win": 49,
+          "pick": 7.5,
+          "ban": 0.9
+        },
+        "mauga": {
+          "win": 49.3,
+          "pick": 7.3,
+          "ban": 17.7
+        },
+        "mei": {
+          "win": 52.1,
+          "pick": 6.7,
+          "ban": 2.1
+        },
+        "mercy": {
+          "win": 47.9,
+          "pick": 29.3,
+          "ban": 8.1
+        },
+        "mizuki": {
+          "win": 52.2,
+          "pick": 13.9,
+          "ban": 0.6
+        },
+        "moira": {
+          "win": 50,
+          "pick": 32.7,
+          "ban": 12.3
+        },
+        "orisa": {
+          "win": 45.8,
+          "pick": 15.2,
+          "ban": 12.9
+        },
+        "pharah": {
+          "win": 50.2,
+          "pick": 6.3,
+          "ban": 15.4
+        },
+        "ramattra": {
+          "win": 50.5,
+          "pick": 11,
+          "ban": 9.2
+        },
+        "reaper": {
+          "win": 53.4,
+          "pick": 10,
+          "ban": 4.2
+        },
+        "reinhardt": {
+          "win": 53.6,
+          "pick": 11.9,
+          "ban": 5.7
+        },
+        "roadhog": {
+          "win": 47,
+          "pick": 6.4,
+          "ban": 7.8
+        },
+        "sierra": {
+          "win": 51.9,
+          "pick": 18.5,
+          "ban": 46.5
+        },
+        "sigma": {
+          "win": 51.3,
+          "pick": 11.8,
+          "ban": 5.7
+        },
+        "sojourn": {
+          "win": 43.9,
+          "pick": 11,
+          "ban": 0.4
+        },
+        "soldier-76": {
+          "win": 48.4,
+          "pick": 17.4,
+          "ban": 0.9
+        },
+        "sombra": {
+          "win": 47.8,
+          "pick": 3.3,
+          "ban": 51.8
+        },
+        "symmetra": {
+          "win": 51.5,
+          "pick": 2.8,
+          "ban": 1.5
+        },
+        "torbjorn": {
+          "win": 51.6,
+          "pick": 5.2,
+          "ban": 0.4
+        },
+        "tracer": {
+          "win": 50.1,
+          "pick": 4.4,
+          "ban": 6.3
+        },
+        "vendetta": {
+          "win": 49.2,
+          "pick": 3,
+          "ban": 8.3
+        },
+        "venture": {
+          "win": 52.8,
+          "pick": 2.4,
+          "ban": 0.3
+        },
+        "widowmaker": {
+          "win": 47.3,
+          "pick": 5.4,
+          "ban": 9.2
+        },
+        "winston": {
+          "win": 51.1,
+          "pick": 3.6,
+          "ban": 6
+        },
+        "wrecking-ball": {
+          "win": 51,
+          "pick": 2.2,
+          "ban": 6.2
+        },
+        "wuyang": {
+          "win": 49.8,
+          "pick": 7,
+          "ban": 0.2
+        },
+        "zarya": {
+          "win": 50.5,
+          "pick": 3.1,
+          "ban": 45.1
+        },
+        "zenyatta": {
+          "win": 52.9,
+          "pick": 10.9,
+          "ban": 1
+        }
+      }
+    },
+    {
+      "filters": {
+        "input": "PC",
+        "map": "all-maps",
+        "region": "Europe",
+        "role": "All",
+        "rq": "1",
+        "tier": "Silver"
+      },
+      "url": "https://overwatch.blizzard.com/ja-jp/rates/?input=PC&map=all-maps&region=Europe&role=All&rq=1&tier=Silver",
+      "heroCount": 51,
+      "heroes": {
+        "ana": {
+          "win": 47.5,
+          "pick": 19.3,
+          "ban": 7.5
+        },
+        "anran": {
+          "win": 51.4,
+          "pick": 9.8,
+          "ban": 18
+        },
+        "ashe": {
+          "win": 50.2,
+          "pick": 11.5,
+          "ban": 1
+        },
+        "baptiste": {
+          "win": 47.4,
+          "pick": 6.5,
+          "ban": 0.2
+        },
+        "bastion": {
+          "win": 47.5,
+          "pick": 17.2,
+          "ban": 5.7
+        },
+        "brigitte": {
+          "win": 52.2,
+          "pick": 4,
+          "ban": 0.1
+        },
+        "cassidy": {
+          "win": 48.9,
+          "pick": 14.1,
+          "ban": 1.3
+        },
+        "domina": {
+          "win": 50.6,
+          "pick": 6.2,
+          "ban": 16.8
+        },
+        "doomfist": {
+          "win": 53.2,
+          "pick": 5.2,
+          "ban": 18.1
+        },
+        "dva": {
+          "win": 45.2,
+          "pick": 7.3,
+          "ban": 6.5
+        },
+        "echo": {
+          "win": 48.4,
+          "pick": 4.8,
+          "ban": 0.9
+        },
+        "emre": {
+          "win": 48,
+          "pick": 10,
+          "ban": 0.9
+        },
+        "freja": {
+          "win": 46.6,
+          "pick": 3.8,
+          "ban": 0.4
+        },
+        "genji": {
+          "win": 52.9,
+          "pick": 9.1,
+          "ban": 6.5
+        },
+        "hanzo": {
+          "win": 50,
+          "pick": 9,
+          "ban": 1.2
+        },
+        "hazard": {
+          "win": 52.8,
+          "pick": 3.2,
+          "ban": 2.8
+        },
+        "illari": {
+          "win": 50,
+          "pick": 7.3,
+          "ban": 0.3
+        },
+        "jetpack-cat": {
+          "win": 49.4,
+          "pick": 4,
+          "ban": 26.5
+        },
+        "junker-queen": {
+          "win": 51.5,
+          "pick": 3.4,
+          "ban": 0.3
+        },
+        "junkrat": {
+          "win": 49,
+          "pick": 13.6,
+          "ban": 3.9
+        },
+        "juno": {
+          "win": 50.5,
+          "pick": 16.2,
+          "ban": 0.3
+        },
+        "kiriko": {
+          "win": 48.3,
+          "pick": 33.1,
+          "ban": 2
+        },
+        "lifeweaver": {
+          "win": 49.8,
+          "pick": 15.6,
+          "ban": 0.5
+        },
+        "lucio": {
+          "win": 49.8,
+          "pick": 6.7,
+          "ban": 0.9
+        },
+        "mauga": {
+          "win": 50.8,
+          "pick": 7.6,
+          "ban": 17.6
+        },
+        "mei": {
+          "win": 50.1,
+          "pick": 7.7,
+          "ban": 2.5
+        },
+        "mercy": {
+          "win": 49,
+          "pick": 25,
+          "ban": 8.4
+        },
+        "mizuki": {
+          "win": 51.7,
+          "pick": 13.8,
+          "ban": 0.9
+        },
+        "moira": {
+          "win": 48.3,
+          "pick": 31.2,
+          "ban": 7.4
+        },
+        "orisa": {
+          "win": 45.2,
+          "pick": 13.6,
+          "ban": 12.1
+        },
+        "pharah": {
+          "win": 51.6,
+          "pick": 5.5,
+          "ban": 15.6
+        },
+        "ramattra": {
+          "win": 49,
+          "pick": 10.3,
+          "ban": 8.9
+        },
+        "reaper": {
+          "win": 52.5,
+          "pick": 12.4,
+          "ban": 3.8
+        },
+        "reinhardt": {
+          "win": 52.7,
+          "pick": 12.9,
+          "ban": 2.8
+        },
+        "roadhog": {
+          "win": 47,
+          "pick": 7.6,
+          "ban": 8.1
+        },
+        "sierra": {
+          "win": 51.9,
+          "pick": 17.3,
+          "ban": 47.7
+        },
+        "sigma": {
+          "win": 50.7,
+          "pick": 11.9,
+          "ban": 4.9
+        },
+        "sojourn": {
+          "win": 44.2,
+          "pick": 9.6,
+          "ban": 0.6
+        },
+        "soldier-76": {
+          "win": 48.4,
+          "pick": 18.8,
+          "ban": 0.9
+        },
+        "sombra": {
+          "win": 48.4,
+          "pick": 3.4,
+          "ban": 42
+        },
+        "symmetra": {
+          "win": 50,
+          "pick": 3.1,
+          "ban": 2
+        },
+        "torbjorn": {
+          "win": 51.2,
+          "pick": 5.1,
+          "ban": 0.5
+        },
+        "tracer": {
+          "win": 49.9,
+          "pick": 4.4,
+          "ban": 4
+        },
+        "vendetta": {
+          "win": 48.6,
+          "pick": 2.7,
+          "ban": 8.8
+        },
+        "venture": {
+          "win": 51.1,
+          "pick": 2.4,
+          "ban": 0.5
+        },
+        "widowmaker": {
+          "win": 48.7,
+          "pick": 4.6,
+          "ban": 6.3
+        },
+        "winston": {
+          "win": 50.4,
+          "pick": 4.3,
+          "ban": 5.7
+        },
+        "wrecking-ball": {
+          "win": 52.2,
+          "pick": 2.3,
+          "ban": 6.5
+        },
+        "wuyang": {
+          "win": 50.9,
+          "pick": 5.9,
+          "ban": 0.2
+        },
+        "zarya": {
+          "win": 48.4,
+          "pick": 4,
+          "ban": 54.1
+        },
+        "zenyatta": {
+          "win": 53.5,
+          "pick": 11.1,
+          "ban": 1.3
+        }
+      }
+    },
+    {
+      "filters": {
+        "input": "PC",
+        "map": "all-maps",
+        "region": "Europe",
+        "role": "All",
+        "rq": "1",
+        "tier": "Gold"
+      },
+      "url": "https://overwatch.blizzard.com/ja-jp/rates/?input=PC&map=all-maps&region=Europe&role=All&rq=1&tier=Gold",
+      "heroCount": 51,
+      "heroes": {
+        "ana": {
+          "win": 47.7,
+          "pick": 25.8,
+          "ban": 11.5
+        },
+        "anran": {
+          "win": 51.3,
+          "pick": 8.7,
+          "ban": 18.8
+        },
+        "ashe": {
+          "win": 50.3,
+          "pick": 12.7,
+          "ban": 1.6
+        },
+        "baptiste": {
+          "win": 47.6,
+          "pick": 7.5,
+          "ban": 0.2
+        },
+        "bastion": {
+          "win": 46.9,
+          "pick": 14.8,
+          "ban": 6.4
+        },
+        "brigitte": {
+          "win": 52.1,
+          "pick": 4.2,
+          "ban": 0.1
+        },
+        "cassidy": {
+          "win": 48,
+          "pick": 17.7,
+          "ban": 3.2
+        },
+        "domina": {
+          "win": 50.9,
+          "pick": 5.7,
+          "ban": 17
+        },
+        "doomfist": {
+          "win": 52.8,
+          "pick": 6.3,
+          "ban": 22.2
+        },
+        "dva": {
+          "win": 46.2,
+          "pick": 6.1,
+          "ban": 9.6
+        },
+        "echo": {
+          "win": 49.6,
+          "pick": 4.5,
+          "ban": 0.6
+        },
+        "emre": {
+          "win": 47.8,
+          "pick": 10.6,
+          "ban": 1.2
+        },
+        "freja": {
+          "win": 46.7,
+          "pick": 3.5,
+          "ban": 0.6
+        },
+        "genji": {
+          "win": 52.7,
+          "pick": 11,
+          "ban": 7.8
+        },
+        "hanzo": {
+          "win": 50,
+          "pick": 9.2,
+          "ban": 1.8
+        },
+        "hazard": {
+          "win": 53.4,
+          "pick": 4,
+          "ban": 5.7
+        },
+        "illari": {
+          "win": 50.1,
+          "pick": 7,
+          "ban": 0.3
+        },
+        "jetpack-cat": {
+          "win": 50,
+          "pick": 4,
+          "ban": 23.3
+        },
+        "junker-queen": {
+          "win": 51.2,
+          "pick": 3.7,
+          "ban": 0.3
+        },
+        "junkrat": {
+          "win": 49.4,
+          "pick": 10.8,
+          "ban": 2.7
+        },
+        "juno": {
+          "win": 50.5,
+          "pick": 14.6,
+          "ban": 0.2
+        },
+        "kiriko": {
+          "win": 47.7,
+          "pick": 35.3,
+          "ban": 3.3
+        },
+        "lifeweaver": {
+          "win": 49.9,
+          "pick": 16.8,
+          "ban": 0.6
+        },
+        "lucio": {
+          "win": 50.6,
+          "pick": 5.5,
+          "ban": 0.8
+        },
+        "mauga": {
+          "win": 50.6,
+          "pick": 7.2,
+          "ban": 15.7
+        },
+        "mei": {
+          "win": 48.9,
+          "pick": 7.8,
+          "ban": 2.5
+        },
+        "mercy": {
+          "win": 50.7,
+          "pick": 22.8,
+          "ban": 10.7
+        },
+        "mizuki": {
+          "win": 50.9,
+          "pick": 12.3,
+          "ban": 1.3
+        },
+        "moira": {
+          "win": 47.3,
+          "pick": 27.1,
+          "ban": 3.9
+        },
+        "orisa": {
+          "win": 45.2,
+          "pick": 12.5,
+          "ban": 11
+        },
+        "pharah": {
+          "win": 52.8,
+          "pick": 5,
+          "ban": 13.6
+        },
+        "ramattra": {
+          "win": 47.8,
+          "pick": 8.9,
+          "ban": 6.9
+        },
+        "reaper": {
+          "win": 51.8,
+          "pick": 12.4,
+          "ban": 3.6
+        },
+        "reinhardt": {
+          "win": 52.2,
+          "pick": 12.3,
+          "ban": 1.8
+        },
+        "roadhog": {
+          "win": 47.5,
+          "pick": 8.6,
+          "ban": 11
+        },
+        "sierra": {
+          "win": 51.8,
+          "pick": 16.5,
+          "ban": 45.5
+        },
+        "sigma": {
+          "win": 51,
+          "pick": 12,
+          "ban": 4.9
+        },
+        "sojourn": {
+          "win": 44.6,
+          "pick": 9.8,
+          "ban": 0.9
+        },
+        "soldier-76": {
+          "win": 48.4,
+          "pick": 18.7,
+          "ban": 0.6
+        },
+        "sombra": {
+          "win": 47.2,
+          "pick": 3.7,
+          "ban": 30.7
+        },
+        "symmetra": {
+          "win": 49.8,
+          "pick": 3.2,
+          "ban": 2.2
+        },
+        "torbjorn": {
+          "win": 51.3,
+          "pick": 4.6,
+          "ban": 0.5
+        },
+        "tracer": {
+          "win": 50.7,
+          "pick": 5.2,
+          "ban": 3.8
+        },
+        "vendetta": {
+          "win": 49.1,
+          "pick": 2.4,
+          "ban": 9.3
+        },
+        "venture": {
+          "win": 51.3,
+          "pick": 2.4,
+          "ban": 0.6
+        },
+        "widowmaker": {
+          "win": 50.5,
+          "pick": 4.8,
+          "ban": 6.9
+        },
+        "winston": {
+          "win": 50.1,
+          "pick": 5,
+          "ban": 5.9
+        },
+        "wrecking-ball": {
+          "win": 51.8,
+          "pick": 2.7,
+          "ban": 9
+        },
+        "wuyang": {
+          "win": 51.3,
+          "pick": 5.7,
+          "ban": 0.2
+        },
+        "zarya": {
+          "win": 46.7,
+          "pick": 5,
+          "ban": 49.9
+        },
+        "zenyatta": {
+          "win": 53.4,
+          "pick": 11.3,
+          "ban": 1.9
+        }
+      }
+    },
+    {
+      "filters": {
+        "input": "PC",
+        "map": "all-maps",
+        "region": "Europe",
+        "role": "All",
+        "rq": "1",
+        "tier": "Platinum"
+      },
+      "url": "https://overwatch.blizzard.com/ja-jp/rates/?input=PC&map=all-maps&region=Europe&role=All&rq=1&tier=Platinum",
+      "heroCount": 51,
+      "heroes": {
+        "ana": {
+          "win": 48,
+          "pick": 32.5,
+          "ban": 13.3
+        },
+        "anran": {
+          "win": 51.6,
+          "pick": 7.7,
+          "ban": 15.6
+        },
+        "ashe": {
+          "win": 50.8,
+          "pick": 13,
+          "ban": 1.9
+        },
+        "baptiste": {
+          "win": 47.6,
+          "pick": 8.4,
+          "ban": 0.2
+        },
+        "bastion": {
+          "win": 46.7,
+          "pick": 12.2,
+          "ban": 6.9
+        },
+        "brigitte": {
+          "win": 52,
+          "pick": 4.6,
+          "ban": 0.2
+        },
+        "cassidy": {
+          "win": 47.3,
+          "pick": 21.7,
+          "ban": 7.3
+        },
+        "domina": {
+          "win": 51.4,
+          "pick": 5.3,
+          "ban": 13
+        },
+        "doomfist": {
+          "win": 51.8,
+          "pick": 7.7,
+          "ban": 23.8
+        },
+        "dva": {
+          "win": 47.7,
+          "pick": 5.9,
+          "ban": 19.6
+        },
+        "echo": {
+          "win": 50.8,
+          "pick": 4.9,
+          "ban": 0.6
+        },
+        "emre": {
+          "win": 48.4,
+          "pick": 11.4,
+          "ban": 1.8
+        },
+        "freja": {
+          "win": 47.2,
+          "pick": 3.5,
+          "ban": 1.3
+        },
+        "genji": {
+          "win": 52.6,
+          "pick": 13.6,
+          "ban": 8
+        },
+        "hanzo": {
+          "win": 49.8,
+          "pick": 9.2,
+          "ban": 2.8
+        },
+        "hazard": {
+          "win": 53.6,
+          "pick": 5.2,
+          "ban": 12.5
+        },
+        "illari": {
+          "win": 50.2,
+          "pick": 6.8,
+          "ban": 0.3
+        },
+        "jetpack-cat": {
+          "win": 50.2,
+          "pick": 4.4,
+          "ban": 22.3
+        },
+        "junker-queen": {
+          "win": 51.2,
+          "pick": 4,
+          "ban": 0.3
+        },
+        "junkrat": {
+          "win": 49.9,
+          "pick": 8,
+          "ban": 2.1
+        },
+        "juno": {
+          "win": 50.8,
+          "pick": 14.4,
+          "ban": 0.2
+        },
+        "kiriko": {
+          "win": 47.5,
+          "pick": 37,
+          "ban": 5.2
+        },
+        "lifeweaver": {
+          "win": 49.9,
+          "pick": 16.6,
+          "ban": 1.1
+        },
+        "lucio": {
+          "win": 50.4,
+          "pick": 5,
+          "ban": 0.6
+        },
+        "mauga": {
+          "win": 50.8,
+          "pick": 6.9,
+          "ban": 14.7
+        },
+        "mei": {
+          "win": 48.8,
+          "pick": 6.9,
+          "ban": 2
+        },
+        "mercy": {
+          "win": 52.1,
+          "pick": 20.8,
+          "ban": 16.1
+        },
+        "mizuki": {
+          "win": 50.1,
+          "pick": 10.8,
+          "ban": 2.1
+        },
+        "moira": {
+          "win": 46.6,
+          "pick": 20.9,
+          "ban": 2.3
+        },
+        "orisa": {
+          "win": 44.6,
+          "pick": 10.2,
+          "ban": 9.2
+        },
+        "pharah": {
+          "win": 53.6,
+          "pick": 4.8,
+          "ban": 11.8
+        },
+        "ramattra": {
+          "win": 46.7,
+          "pick": 6.9,
+          "ban": 4.5
+        },
+        "reaper": {
+          "win": 51.6,
+          "pick": 11.5,
+          "ban": 3.3
+        },
+        "reinhardt": {
+          "win": 52,
+          "pick": 11.1,
+          "ban": 1.3
+        },
+        "roadhog": {
+          "win": 47.9,
+          "pick": 9.4,
+          "ban": 15.1
+        },
+        "sierra": {
+          "win": 51,
+          "pick": 15.2,
+          "ban": 38.6
+        },
+        "sigma": {
+          "win": 51.1,
+          "pick": 11.4,
+          "ban": 5.4
+        },
+        "sojourn": {
+          "win": 45.2,
+          "pick": 11.3,
+          "ban": 1.6
+        },
+        "soldier-76": {
+          "win": 48.5,
+          "pick": 17.6,
+          "ban": 0.5
+        },
+        "sombra": {
+          "win": 46.1,
+          "pick": 3.9,
+          "ban": 18.2
+        },
+        "symmetra": {
+          "win": 50.5,
+          "pick": 2.8,
+          "ban": 2
+        },
+        "torbjorn": {
+          "win": 50.9,
+          "pick": 4,
+          "ban": 0.5
+        },
+        "tracer": {
+          "win": 50.4,
+          "pick": 7.3,
+          "ban": 5.5
+        },
+        "vendetta": {
+          "win": 49,
+          "pick": 2,
+          "ban": 7.7
+        },
+        "venture": {
+          "win": 51.4,
+          "pick": 2.3,
+          "ban": 0.6
+        },
+        "widowmaker": {
+          "win": 51.5,
+          "pick": 5.1,
+          "ban": 9.4
+        },
+        "winston": {
+          "win": 50.1,
+          "pick": 6.1,
+          "ban": 5.9
+        },
+        "wrecking-ball": {
+          "win": 51.2,
+          "pick": 3.9,
+          "ban": 13.4
+        },
+        "wuyang": {
+          "win": 51.8,
+          "pick": 6.1,
+          "ban": 0.2
+        },
+        "zarya": {
+          "win": 46,
+          "pick": 6,
+          "ban": 36.8
+        },
+        "zenyatta": {
+          "win": 53.2,
+          "pick": 11.6,
+          "ban": 3.4
+        }
+      }
+    },
+    {
+      "filters": {
+        "input": "PC",
+        "map": "all-maps",
+        "region": "Europe",
+        "role": "All",
+        "rq": "1",
+        "tier": "Diamond"
+      },
+      "url": "https://overwatch.blizzard.com/ja-jp/rates/?input=PC&map=all-maps&region=Europe&role=All&rq=1&tier=Diamond",
+      "heroCount": 51,
+      "heroes": {
+        "ana": {
+          "win": 47.9,
+          "pick": 38.4,
+          "ban": 13.2
+        },
+        "anran": {
+          "win": 51,
+          "pick": 6.4,
+          "ban": 9.4
+        },
+        "ashe": {
+          "win": 50.8,
+          "pick": 12,
+          "ban": 1.3
+        },
+        "baptiste": {
+          "win": 48,
+          "pick": 8.8,
+          "ban": 0.1
+        },
+        "bastion": {
+          "win": 47.6,
+          "pick": 9.8,
+          "ban": 7.4
+        },
+        "brigitte": {
+          "win": 52,
+          "pick": 5.7,
+          "ban": 0.4
+        },
+        "cassidy": {
+          "win": 47,
+          "pick": 25,
+          "ban": 13.3
+        },
+        "domina": {
+          "win": 52,
+          "pick": 4.6,
+          "ban": 7.2
+        },
+        "doomfist": {
+          "win": 50.3,
+          "pick": 9.4,
+          "ban": 18.6
+        },
+        "dva": {
+          "win": 48.2,
+          "pick": 5.7,
+          "ban": 39.6
+        },
+        "echo": {
+          "win": 51.2,
+          "pick": 5.7,
+          "ban": 0.8
+        },
+        "emre": {
+          "win": 48.2,
+          "pick": 12.3,
+          "ban": 3
+        },
+        "freja": {
+          "win": 47.5,
+          "pick": 3.8,
+          "ban": 1.9
+        },
+        "genji": {
+          "win": 51.9,
+          "pick": 16,
+          "ban": 6.1
+        },
+        "hanzo": {
+          "win": 49.4,
+          "pick": 8.4,
+          "ban": 3
+        },
+        "hazard": {
+          "win": 53.7,
+          "pick": 6.8,
+          "ban": 25.6
+        },
+        "illari": {
+          "win": 51,
+          "pick": 7.3,
+          "ban": 0.5
+        },
+        "jetpack-cat": {
+          "win": 50.2,
+          "pick": 4.4,
+          "ban": 23.3
+        },
+        "junker-queen": {
+          "win": 51.4,
+          "pick": 4,
+          "ban": 0.2
+        },
+        "junkrat": {
+          "win": 51.6,
+          "pick": 5.7,
+          "ban": 1.5
+        },
+        "juno": {
+          "win": 50.7,
+          "pick": 14.4,
+          "ban": 0.2
+        },
+        "kiriko": {
+          "win": 47.6,
+          "pick": 38.7,
+          "ban": 7.4
+        },
+        "lifeweaver": {
+          "win": 50,
+          "pick": 14.2,
+          "ban": 1.3
+        },
+        "lucio": {
+          "win": 50.6,
+          "pick": 5.5,
+          "ban": 0.6
+        },
+        "mauga": {
+          "win": 51.3,
+          "pick": 7.2,
+          "ban": 14.3
+        },
+        "mei": {
+          "win": 48.7,
+          "pick": 5.4,
+          "ban": 1.1
+        },
+        "mercy": {
+          "win": 52.6,
+          "pick": 19.2,
+          "ban": 20
+        },
+        "mizuki": {
+          "win": 49.3,
+          "pick": 10,
+          "ban": 2.7
+        },
+        "moira": {
+          "win": 46.5,
+          "pick": 14.3,
+          "ban": 1.2
+        },
+        "orisa": {
+          "win": 45.1,
+          "pick": 8.1,
+          "ban": 6.5
+        },
+        "pharah": {
+          "win": 53.7,
+          "pick": 5.1,
+          "ban": 11
+        },
+        "ramattra": {
+          "win": 46,
+          "pick": 4.7,
+          "ban": 2.4
+        },
+        "reaper": {
+          "win": 52.1,
+          "pick": 10.8,
+          "ban": 3.2
+        },
+        "reinhardt": {
+          "win": 51,
+          "pick": 9.4,
+          "ban": 1
+        },
+        "roadhog": {
+          "win": 47.8,
+          "pick": 9.5,
+          "ban": 15.7
+        },
+        "sierra": {
+          "win": 49.6,
+          "pick": 12.7,
+          "ban": 25.3
+        },
+        "sigma": {
+          "win": 51.5,
+          "pick": 10.5,
+          "ban": 5.5
+        },
+        "sojourn": {
+          "win": 46.2,
+          "pick": 13.9,
+          "ban": 2.6
+        },
+        "soldier-76": {
+          "win": 49.3,
+          "pick": 16.3,
+          "ban": 0.4
+        },
+        "sombra": {
+          "win": 45.3,
+          "pick": 3.8,
+          "ban": 8.4
+        },
+        "symmetra": {
+          "win": 52.5,
+          "pick": 2.5,
+          "ban": 1.5
+        },
+        "torbjorn": {
+          "win": 51,
+          "pick": 3.5,
+          "ban": 0.4
+        },
+        "tracer": {
+          "win": 51.4,
+          "pick": 11.4,
+          "ban": 12
+        },
+        "vendetta": {
+          "win": 49,
+          "pick": 1.7,
+          "ban": 4.9
+        },
+        "venture": {
+          "win": 51.7,
+          "pick": 2.2,
+          "ban": 0.8
+        },
+        "widowmaker": {
+          "win": 51.6,
+          "pick": 5.4,
+          "ban": 13.1
+        },
+        "winston": {
+          "win": 49.9,
+          "pick": 7.7,
+          "ban": 4.9
+        },
+        "wrecking-ball": {
+          "win": 50.7,
+          "pick": 5.5,
+          "ban": 15
+        },
+        "wuyang": {
+          "win": 51.8,
+          "pick": 6.6,
+          "ban": 0.2
+        },
+        "zarya": {
+          "win": 46.1,
+          "pick": 6.6,
+          "ban": 23.8
+        },
+        "zenyatta": {
+          "win": 52.7,
+          "pick": 12.4,
+          "ban": 5.3
+        }
+      }
+    },
+    {
+      "filters": {
+        "input": "PC",
+        "map": "all-maps",
+        "region": "Europe",
+        "role": "All",
+        "rq": "1",
+        "tier": "Master"
+      },
+      "url": "https://overwatch.blizzard.com/ja-jp/rates/?input=PC&map=all-maps&region=Europe&role=All&rq=1&tier=Master",
+      "heroCount": 51,
+      "heroes": {
+        "ana": {
+          "win": 47.9,
+          "pick": 39.7,
+          "ban": 13.5
+        },
+        "anran": {
+          "win": 50.6,
+          "pick": 4.5,
+          "ban": 3.3
+        },
+        "ashe": {
+          "win": 51,
+          "pick": 10.4,
+          "ban": 0.8
+        },
+        "baptiste": {
+          "win": 48.4,
+          "pick": 9,
+          "ban": 0.1
+        },
+        "bastion": {
+          "win": 48.9,
+          "pick": 8.5,
+          "ban": 7.9
+        },
+        "brigitte": {
+          "win": 51.9,
+          "pick": 8.3,
+          "ban": 1
+        },
+        "cassidy": {
+          "win": 46.7,
+          "pick": 26.5,
+          "ban": 18.8
+        },
+        "domina": {
+          "win": 52.1,
+          "pick": 3.7,
+          "ban": 2.7
+        },
+        "doomfist": {
+          "win": 48.9,
+          "pick": 9.9,
+          "ban": 10
+        },
+        "dva": {
+          "win": 49.7,
+          "pick": 5.2,
+          "ban": 59.5
+        },
+        "echo": {
+          "win": 51.6,
+          "pick": 6.9,
+          "ban": 1.2
+        },
+        "emre": {
+          "win": 49,
+          "pick": 13.8,
+          "ban": 4.9
+        },
+        "freja": {
+          "win": 47.4,
+          "pick": 4,
+          "ban": 2
+        },
+        "genji": {
+          "win": 50.2,
+          "pick": 16.1,
+          "ban": 3.1
+        },
+        "hanzo": {
+          "win": 48.9,
+          "pick": 6.9,
+          "ban": 1.6
+        },
+        "hazard": {
+          "win": 52.5,
+          "pick": 8.4,
+          "ban": 37.1
+        },
+        "illari": {
+          "win": 51.3,
+          "pick": 8.7,
+          "ban": 1.5
+        },
+        "jetpack-cat": {
+          "win": 50.5,
+          "pick": 4.4,
+          "ban": 26.4
+        },
+        "junker-queen": {
+          "win": 51.1,
+          "pick": 4,
+          "ban": 0.2
+        },
+        "junkrat": {
+          "win": 52.1,
+          "pick": 4.5,
+          "ban": 0.9
+        },
+        "juno": {
+          "win": 50.4,
+          "pick": 14.9,
+          "ban": 0.2
+        },
+        "kiriko": {
+          "win": 47.8,
+          "pick": 41.9,
+          "ban": 10.3
+        },
+        "lifeweaver": {
+          "win": 50.2,
+          "pick": 10.4,
+          "ban": 1.3
+        },
+        "lucio": {
+          "win": 50.5,
+          "pick": 7.1,
+          "ban": 1.1
+        },
+        "mauga": {
+          "win": 51.2,
+          "pick": 8.1,
+          "ban": 17.5
+        },
+        "mei": {
+          "win": 49.2,
+          "pick": 4,
+          "ban": 0.4
+        },
+        "mercy": {
+          "win": 52,
+          "pick": 18.3,
+          "ban": 17.4
+        },
+        "mizuki": {
+          "win": 48.8,
+          "pick": 9.4,
+          "ban": 3.3
+        },
+        "moira": {
+          "win": 46.2,
+          "pick": 8.5,
+          "ban": 0.4
+        },
+        "orisa": {
+          "win": 47.3,
+          "pick": 7.1,
+          "ban": 4.4
+        },
+        "pharah": {
+          "win": 53.9,
+          "pick": 6.4,
+          "ban": 13.1
+        },
+        "ramattra": {
+          "win": 46.7,
+          "pick": 3.7,
+          "ban": 1
+        },
+        "reaper": {
+          "win": 53.2,
+          "pick": 11.4,
+          "ban": 4.2
+        },
+        "reinhardt": {
+          "win": 50.4,
+          "pick": 7.2,
+          "ban": 0.8
+        },
+        "roadhog": {
+          "win": 48,
+          "pick": 8.8,
+          "ban": 12.3
+        },
+        "sierra": {
+          "win": 47.9,
+          "pick": 8.5,
+          "ban": 9.4
+        },
+        "sigma": {
+          "win": 52.2,
+          "pick": 10.2,
+          "ban": 4.8
+        },
+        "sojourn": {
+          "win": 46.7,
+          "pick": 17.6,
+          "ban": 2.8
+        },
+        "soldier-76": {
+          "win": 50.2,
+          "pick": 15.1,
+          "ban": 0.4
+        },
+        "sombra": {
+          "win": 45.6,
+          "pick": 3.4,
+          "ban": 2.7
+        },
+        "symmetra": {
+          "win": 53,
+          "pick": 2.1,
+          "ban": 1
+        },
+        "torbjorn": {
+          "win": 50.3,
+          "pick": 3.2,
+          "ban": 0.3
+        },
+        "tracer": {
+          "win": 51.4,
+          "pick": 16.3,
+          "ban": 24
+        },
+        "vendetta": {
+          "win": 48.7,
+          "pick": 1.3,
+          "ban": 2.3
+        },
+        "venture": {
+          "win": 52.6,
+          "pick": 2.4,
+          "ban": 0.8
+        },
+        "widowmaker": {
+          "win": 50.5,
+          "pick": 5.9,
+          "ban": 13.8
+        },
+        "winston": {
+          "win": 49,
+          "pick": 9.3,
+          "ban": 2.7
+        },
+        "wrecking-ball": {
+          "win": 49.3,
+          "pick": 7.4,
+          "ban": 12.8
+        },
+        "wuyang": {
+          "win": 51.1,
+          "pick": 7.4,
+          "ban": 0.2
+        },
+        "zarya": {
+          "win": 47.3,
+          "pick": 6.8,
+          "ban": 16.1
+        },
+        "zenyatta": {
+          "win": 52.8,
+          "pick": 12,
+          "ban": 7.1
+        }
+      }
+    },
+    {
+      "filters": {
+        "input": "PC",
+        "map": "all-maps",
+        "region": "Europe",
+        "role": "All",
+        "rq": "1",
+        "tier": "Grandmaster"
+      },
+      "url": "https://overwatch.blizzard.com/ja-jp/rates/?input=PC&map=all-maps&region=Europe&role=All&rq=1&tier=Grandmaster",
+      "heroCount": 51,
+      "heroes": {
+        "ana": {
+          "win": 47.4,
+          "pick": 35.4,
+          "ban": 13.5
+        },
+        "anran": {
+          "win": 48.9,
+          "pick": 2.4,
+          "ban": 0.5
+        },
+        "ashe": {
+          "win": 52.5,
+          "pick": 7.8,
+          "ban": 0.2
+        },
+        "baptiste": {
+          "win": 49.1,
+          "pick": 8,
+          "ban": 0.1
+        },
+        "bastion": {
+          "win": 48.5,
+          "pick": 7.7,
+          "ban": 9.9
+        },
+        "brigitte": {
+          "win": 51.6,
+          "pick": 11.4,
+          "ban": 2
+        },
+        "cassidy": {
+          "win": 47.7,
+          "pick": 25.4,
+          "ban": 21.7
+        },
+        "domina": {
+          "win": 51.6,
+          "pick": 2.6,
+          "ban": 0.8
+        },
+        "doomfist": {
+          "win": 47.2,
+          "pick": 7.4,
+          "ban": 3.7
+        },
+        "dva": {
+          "win": 50.5,
+          "pick": 6.3,
+          "ban": 66
+        },
+        "echo": {
+          "win": 50.3,
+          "pick": 8.8,
+          "ban": 1.3
+        },
+        "emre": {
+          "win": 48.1,
+          "pick": 13.8,
+          "ban": 4.9
+        },
+        "freja": {
+          "win": 46.1,
+          "pick": 4.3,
+          "ban": 1.1
+        },
+        "genji": {
+          "win": 48.8,
+          "pick": 12.6,
+          "ban": 1
+        },
+        "hanzo": {
+          "win": 48,
+          "pick": 5.2,
+          "ban": 0.5
+        },
+        "hazard": {
+          "win": 53,
+          "pick": 10.6,
+          "ban": 35.2
+        },
+        "illari": {
+          "win": 51,
+          "pick": 12.1,
+          "ban": 5.4
+        },
+        "jetpack-cat": {
+          "win": 49.5,
+          "pick": 4.4,
+          "ban": 31.1
+        },
+        "junker-queen": {
+          "win": 50,
+          "pick": 2.8,
+          "ban": 0.2
+        },
+        "junkrat": {
+          "win": 52.4,
+          "pick": 4.3,
+          "ban": 1.1
+        },
+        "juno": {
+          "win": 50.1,
+          "pick": 13.9,
+          "ban": 0.1
+        },
+        "kiriko": {
+          "win": 49.6,
+          "pick": 49.8,
+          "ban": 12.7
+        },
+        "lifeweaver": {
+          "win": 49.8,
+          "pick": 8.5,
+          "ban": 1.3
+        },
+        "lucio": {
+          "win": 50.2,
+          "pick": 10.5,
+          "ban": 6.6
+        },
+        "mauga": {
+          "win": 50.5,
+          "pick": 9.6,
+          "ban": 22.3
+        },
+        "mei": {
+          "win": 49.2,
+          "pick": 3.3,
+          "ban": 0.2
+        },
+        "mercy": {
+          "win": 50.2,
+          "pick": 13.3,
+          "ban": 6.1
+        },
+        "mizuki": {
+          "win": 50.8,
+          "pick": 9.6,
+          "ban": 3.6
+        },
+        "moira": {
+          "win": 47,
+          "pick": 4.5,
+          "ban": 0.1
+        },
+        "orisa": {
+          "win": 47.8,
+          "pick": 7.1,
+          "ban": 2.7
+        },
+        "pharah": {
+          "win": 52.6,
+          "pick": 7.6,
+          "ban": 16.6
+        },
+        "ramattra": {
+          "win": 48,
+          "pick": 4,
+          "ban": 0.8
+        },
+        "reaper": {
+          "win": 53.7,
+          "pick": 13.8,
+          "ban": 8.1
+        },
+        "reinhardt": {
+          "win": 49.4,
+          "pick": 5.9,
+          "ban": 0.6
+        },
+        "roadhog": {
+          "win": 48.1,
+          "pick": 7.9,
+          "ban": 7.4
+        },
+        "sierra": {
+          "win": 45.2,
+          "pick": 3.8,
+          "ban": 1.6
+        },
+        "sigma": {
+          "win": 52.5,
+          "pick": 10.8,
+          "ban": 4
+        },
+        "sojourn": {
+          "win": 47.3,
+          "pick": 22.2,
+          "ban": 2.2
+        },
+        "soldier-76": {
+          "win": 51,
+          "pick": 12.2,
+          "ban": 0.5
+        },
+        "sombra": {
+          "win": 45.6,
+          "pick": 2.6,
+          "ban": 0.6
+        },
+        "symmetra": {
+          "win": 56.5,
+          "pick": 3.8,
+          "ban": 1.2
+        },
+        "torbjorn": {
+          "win": 47.4,
+          "pick": 2.7,
+          "ban": 0.2
+        },
+        "tracer": {
+          "win": 52.2,
+          "pick": 24.4,
+          "ban": 32.1
+        },
+        "vendetta": {
+          "win": 47.1,
+          "pick": 0.8,
+          "ban": 0.6
+        },
+        "venture": {
+          "win": 51.3,
+          "pick": 3.1,
+          "ban": 1
+        },
+        "widowmaker": {
+          "win": 49,
+          "pick": 7.1,
+          "ban": 10.3
+        },
+        "winston": {
+          "win": 48.9,
+          "pick": 9.6,
+          "ban": 1.7
+        },
+        "wrecking-ball": {
+          "win": 48.7,
+          "pick": 7.8,
+          "ban": 17.4
+        },
+        "wuyang": {
+          "win": 49.7,
+          "pick": 8,
+          "ban": 0.2
+        },
+        "zarya": {
+          "win": 49.7,
+          "pick": 7.1,
+          "ban": 14.3
+        },
+        "zenyatta": {
+          "win": 51.3,
+          "pick": 10.7,
+          "ban": 6
+        }
+      }
+    }
+  ]
+}

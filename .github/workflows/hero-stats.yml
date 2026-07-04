@@ -1,0 +1,44 @@
+name: Fetch hero stats (daily)
+
+on:
+  schedule:
+    - cron: "0 3 * * *"   # 毎日 03:00 UTC (= 12:00 JST)
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: hero-stats
+  cancel-in-progress: false
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    env:
+      STATS_FETCH_DELAY_MS: "1000"   # 公式サイトへの礼儀: 1req/秒
+      STATS_OUT_DIR: "hero-stats"    # このリポジトリでは hero-stats/ に出力
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: "22"
+      - name: Fetch hero stats
+        run: npm run stats:fetch
+      - name: Commit snapshot if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add hero-stats/
+          if git diff --staged --quiet; then
+            echo "差分なし — コミットをスキップ"
+          else
+            git commit -m "chore(stats): hero stats snapshot $(date -u +%Y-%m-%d)"
+            # B3対策: 収集中に他pushがあってもrebaseして最大3回リトライ
+            for i in 1 2 3; do
+              git pull --rebase origin main && git push && break
+              echo "push 競合。rebase 後リトライ ($i/3)"
+              sleep 5
+            done
+          fi
