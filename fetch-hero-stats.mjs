@@ -190,6 +190,15 @@ async function main() {
   const date = capturedAt.slice(0, 10); // YYYY-MM-DD
   const activeFilters = FILTERS.slice(0, limit);
 
+  // 失敗許容: 一部フィルタが失敗しても、割合が閾値以内なら「除外して保存」する。
+  // (1,674件のライブ取得では単発の通信/パース差が起きやすく、1件でも中断だと丸ごと1日分を失うため。)
+  // 閾値超は systemic 障害(ページ構造変化/ブロック)の疑いとして中断。既定5% / STATS_MAX_FAILURE_RATE で調整可。
+  const maxFailureRate = (() => {
+    const v = Number.parseFloat(process.env.STATS_MAX_FAILURE_RATE ?? "0.05");
+    return Number.isFinite(v) && v >= 0 && v <= 1 ? v : 0.05;
+  })();
+  const maxFailures = Math.floor(activeFilters.length * maxFailureRate);
+
   const snapshots = [];
   const failures = [];
   console.log(`取得予定: ${activeFilters.length}/${FILTERS.length} スナップショット (delay ${delayMs}ms)`);
@@ -202,7 +211,7 @@ async function main() {
       const html = await fetchHtml(url);
       const { heroes, slugCount, nameCount } = parseRates(html);
       // 部分欠損を保存しない: 0件(parse失敗の疑い)・行単位の取りこぼし(slug≠行数)は
-      // failure 扱いにして、フィルタ取得失敗と同じく後段でラン全体を中断する。
+      // failure 扱いにして、フィルタ取得失敗と同じく後段で「保存から除外」する(失敗が閾値超なら中断)。
       // 欠けたヒーローを後の時系列分析で「実在の変動」と誤認するのを防ぐ (レビュー B1)。
       if (slugCount === 0) {
         console.error(`  ✗ ${label}: 0件 (ページ構造が変わった可能性。class/id 形式を要確認)`);
@@ -227,8 +236,18 @@ async function main() {
   }
 
   if (failures.length > 0) {
-    console.error(`\n${failures.length} フィルタの取得または検証に失敗しました。部分データ保存を避けるため中断します。`);
-    process.exit(1);
+    const lbl = (f) => `${f.input}/${f.map}/${f.rq === "1" ? "競技" : "QP"}/${f.region}/${f.tier}`;
+    console.warn(`\n⚠ ${failures.length}/${activeFilters.length} フィルタが失敗 (保存から除外):`);
+    for (const f of failures.slice(0, 20)) console.warn(`  - ${lbl(f.filter)}: ${f.message}`);
+    if (failures.length > 20) console.warn(`  ... 他 ${failures.length - 20} 件`);
+    if (failures.length > maxFailures) {
+      console.error(
+        `\n失敗が閾値 ${maxFailures} 件 (${Math.round(maxFailureRate * 100)}%) を超えました。` +
+          ` systemic 障害の疑いがあるため中断します (保存しません)。`
+      );
+      process.exit(1);
+    }
+    console.warn(`\n閾値内 (<= ${maxFailures} 件) のため、失敗分を除いた ${snapshots.length} 件を保存します。`);
   }
 
   const payload = {
@@ -243,7 +262,8 @@ async function main() {
       role: ROLE,
       modeTiers: MODE_TIERS,
       totalFilterCount: FILTERS.length,
-      capturedFilterCount: snapshots.length
+      capturedFilterCount: snapshots.length,
+      failedFilterCount: failures.length
     },
     snapshots,
   };
