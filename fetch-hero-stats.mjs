@@ -1,17 +1,15 @@
-// scripts/fetch-hero-stats.mjs
-// Blizzard 公式 rates ページ (overwatch.blizzard.com/ja-jp/rates/) から
+// fetch-hero-stats.mjs
+// Blizzard 公式 rates ページの JSON データ (overwatch.blizzard.com/ja-jp/rates/data/) から
 // 入力方法・マップ・地域・モード・ティア別に、ヒーロー別の 勝率 / ピック率 / BAN率 を取得し、
 // 日付付きスナップショットとして
 //   src/data/hero-stats/YYYY-MM-DD.json
 // に保存する。公式は「現在のパッチの数値」しか出さないため、これを定期的に貯めることで
 // 公式にも無い「時系列 (シーズン推移・パッチ前後比較)」という独自資産を育てる。
 //
-// 仕組み: rates ページは SSR で、数値が HTML に直接埋め込まれている
-//   <span class="percent-value" id="dva-winrate-value">46.5%</span>
-// → 裏の JSON API は無く、ページ URL 自体が実質エンドポイント。
-//   クエリ (input/map/region/role/rq/tier) を変えればフィルタ別 HTML が返る。
-//   認証不要。正規表現1本で全件パースできる (ライブラリ不要)。
-//   調査記録: memory project_stats_analytics.md「★裏エンドポイント調査の結果」。
+// 仕組み: rates ページ本体は表示更新時に /rates/data/ の JSON エンドポイントを叩く。
+//   同じクエリ (input/map/region/role/rq/tier) を渡すと、フィルタ済みの rates.rates が返る。
+//   認証不要。ネイティブ fetch で JSON を読み、row.id と cells の数値をそのまま使う。
+//   HTML SSR は tier/map/rq が既定ビューに縮退する時期があるため、収集には使わない。
 //
 // 出典明記の義務: このデータを公開表示する際は必ず
 //   「Blizzard 公式データ (overwatch.blizzard.com/rates) をもとに作成」と明記すること。
@@ -43,6 +41,7 @@ const OUT_DIR = process.env.STATS_OUT_DIR
   : resolve(ROOT, "src/data/hero-stats");
 
 const BASE = "https://overwatch.blizzard.com/ja-jp/rates/";
+const DATA_ENDPOINT = "https://overwatch.blizzard.com/ja-jp/rates/data/";
 const UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Safari/537.36";
 
 // ---------- 収集するフィルタの組み合わせ ----------
@@ -128,16 +127,22 @@ function readNonNegativeIntOption(name, fallback) {
 
 function buildUrl(filter) {
   const qs = new URLSearchParams(filter).toString();
-  return `${BASE}?${qs}`;
+  return `${DATA_ENDPOINT}?${qs}`;
 }
 
-async function fetchHtml(url) {
+async function fetchJson(url) {
   let lastError;
   for (let attempt = 1; attempt <= 3; attempt++) {
     try {
-      const res = await fetch(url, { headers: { "User-Agent": UA, "Accept-Language": "ja,en" } });
+      const res = await fetch(url, {
+        headers: {
+          "User-Agent": UA,
+          "Accept-Language": "ja,en",
+          "X-Requested-With": "XMLHttpRequest",
+        },
+      });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      return res.text();
+      return await res.json();
     } catch (error) {
       lastError = error;
       if (attempt < 3) await sleep(1000 * attempt);
@@ -146,39 +151,71 @@ async function fetchHtml(url) {
   throw lastError;
 }
 
-function parsePercent(value) {
-  const text = value.trim();
-  if (text === "--") return null;
-  const normalized = text.endsWith("%") ? text.slice(0, -1) : text;
-  const parsed = Number.parseFloat(normalized);
+function normNum(value) {
+  if (value == null) return null;
+  if (typeof value === "number") return Number.isFinite(value) ? value : null;
+  const text = String(value).trim().replace(/%$/, "");
+  if (text === "" || text === "--") return null;
+  const parsed = Number.parseFloat(text);
   return Number.isFinite(parsed) ? parsed : null;
 }
 
-// HTML から { slug: {win, pick, ban} } を抽出。実証済みの正規表現。
-function parseRates(html) {
-  const grab = (kind) => {
-    // slug はハイフンを含む (soldier-76 / junker-queen / wrecking-ball / jetpack-cat)。
-    const re = new RegExp(`id="([a-z0-9-]+)-${kind}-value">\\s*([^<]+)`, "g");
-    const out = {};
-    for (const m of html.matchAll(re)) out[m[1]] = parsePercent(m[2]);
-    return out;
-  };
-  const win = grab("winrate");
-  const pick = grab("pickrate");
-  const ban = grab("banrate");
-
-  const slugs = [...new Set([...Object.keys(win), ...Object.keys(pick), ...Object.keys(ban)])].sort();
+// JSON から { slug: {win, pick, ban} } を抽出。出力 shape は既存データと同じ。
+function parseRates(json) {
+  const rows = json?.rates?.rates;
+  if (!Array.isArray(rows)) return { heroes: {}, slugCount: 0, rowCount: 0 };
   const heroes = {};
-  for (const s of slugs) {
-    heroes[s] = {
-      win: win[s] ?? null,
-      pick: pick[s] ?? null,
-      ban: ban[s] ?? null,
+  for (const row of rows) {
+    const slug = row?.id;
+    if (!slug) continue;
+    const cells = row.cells ?? {};
+    heroes[slug] = {
+      win: normNum(cells.winrate),
+      pick: normNum(cells.pickrate),
+      ban: normNum(cells.banrate),
     };
   }
-  // 取りこぼし検出用: 行 (hero-name) の総数。slug 抽出数と差があれば警告する。
-  const nameCount = [...html.matchAll(/class="hero-name"[^>]*>([^<]+)</g)].length;
-  return { heroes, slugCount: slugs.length, nameCount };
+  return { heroes, slugCount: Object.keys(heroes).length, rowCount: rows.length };
+}
+
+function heroesSignature(heroes) {
+  return Object.keys(heroes)
+    .sort()
+    .map((slug) => {
+      const v = heroes[slug];
+      return `${slug}:${v.win},${v.pick},${v.ban}`;
+    })
+    .join("|");
+}
+
+function assertTierAxisNotCollapsed(snapshots) {
+  const byGroup = new Map();
+  for (const snapshot of snapshots) {
+    const f = snapshot.filters;
+    const key = `${f.input}|${f.map}|${f.region}|${f.rq}`;
+    if (!byGroup.has(key)) byGroup.set(key, new Map());
+    byGroup.get(key).set(f.tier, heroesSignature(snapshot.heroes));
+  }
+
+  let tierGroups = 0;
+  const collapsedExamples = [];
+  for (const [key, tiers] of byGroup) {
+    if (tiers.size < 2 || !tiers.has("All")) continue;
+    tierGroups++;
+    const allSignature = tiers.get("All");
+    const everyTierEqualsAll = [...tiers.values()].every((signature) => signature === allSignature);
+    if (everyTierEqualsAll) collapsedExamples.push(key);
+  }
+
+  if (collapsedExamples.length > 0) {
+    console.error(
+      `\n縮退検知: ${collapsedExamples.length}/${tierGroups} グループでティア変種が All と完全同値。` +
+        " tier軸が反映されていない可能性があるため、保存を中断します。"
+    );
+    for (const key of collapsedExamples.slice(0, 10)) console.error(`  - ${key}`);
+    if (collapsedExamples.length > 10) console.error(`  ... 他 ${collapsedExamples.length - 10} 件`);
+    process.exit(1);
+  }
 }
 
 async function main() {
@@ -208,17 +245,17 @@ async function main() {
     const mode = filter.rq === "1" ? "競技" : "QP";
     const label = `${filter.input}/${filter.map}/${mode}/${filter.region}/${filter.tier}`;
     try {
-      const html = await fetchHtml(url);
-      const { heroes, slugCount, nameCount } = parseRates(html);
+      const json = await fetchJson(url);
+      const { heroes, slugCount, rowCount } = parseRates(json);
       // 部分欠損を保存しない: 0件(parse失敗の疑い)・行単位の取りこぼし(slug≠行数)は
       // failure 扱いにして、フィルタ取得失敗と同じく後段で「保存から除外」する(失敗が閾値超なら中断)。
       // 欠けたヒーローを後の時系列分析で「実在の変動」と誤認するのを防ぐ (レビュー B1)。
       if (slugCount === 0) {
-        console.error(`  ✗ ${label}: 0件 (ページ構造が変わった可能性。class/id 形式を要確認)`);
+        console.error(`  ✗ ${label}: 0件 (レスポンス構造が変わった可能性。rates.rates を要確認)`);
         failures.push({ filter, url, message: "0件 (parse失敗の疑い)" });
-      } else if (slugCount !== nameCount) {
-        console.error(`  ✗ ${label}: slug抽出 ${slugCount} 件 / 行数 ${nameCount} 件 (差分=一部取りこぼし)`);
-        failures.push({ filter, url, message: `一部取りこぼし (slug ${slugCount} / 行 ${nameCount})` });
+      } else if (slugCount !== rowCount) {
+        console.error(`  ✗ ${label}: slug ${slugCount} 件 / 行 ${rowCount} 件 (差分=id欠落の取りこぼし)`);
+        failures.push({ filter, url, message: `一部取りこぼし (slug ${slugCount} / 行 ${rowCount})` });
       } else {
         console.log(`  ✓ ${label}: ${slugCount} 件`);
         snapshots.push({ filters: filter, url, heroCount: slugCount, heroes });
@@ -234,6 +271,8 @@ async function main() {
     console.error("\n全フィルタの取得に失敗しました。中断します。");
     process.exit(1);
   }
+
+  assertTierAxisNotCollapsed(snapshots);
 
   if (failures.length > 0) {
     const lbl = (f) => `${f.input}/${f.map}/${f.rq === "1" ? "競技" : "QP"}/${f.region}/${f.tier}`;
