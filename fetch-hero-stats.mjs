@@ -47,9 +47,10 @@ const UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML,
 // ---------- 収集するフィルタの組み合わせ ----------
 // 公式フィルタの確定値 (rates ページの <option> より):
 //   region : Americas / Asia / Europe
-//   rq     : 0 = クイック・プレイ(ロールキュー) / 1 = ライバル・プレイ(競技・ロールキュー)
+//   rq     : 0 = クイック・プレイ(ロールキュー) / 2 = ライバル・プレイ(ランク・ロールキュー)
+//            ※rq=1 はドロップダウンに存在しない値。誤用すると ban/per-map が縮退する (rq=2が正)。
 //   tier   : All / Bronze / Silver / Gold / Platinum / Diamond / Master / Grandmaster
-//            (Grandmaster は「グランドマスター&チャンピオン」統合。★BAN率は競技 rq=1 でのみ出る)
+//            (Grandmaster は「グランドマスター&チャンピオン」統合。★BAN率・per-mapはランク rq=2 で出る)
 //   input  : PC / Console     role : All ほかサブロール多数     map : all-maps ほか個別マップ多数
 // role は公式FAQ上「表示内容の絞り込み」で、再計算フィルタではないため All だけを取る。
 // 下記の軸を直積して FILTERS を生成。軸を足し引きすれば収集範囲を調整できる。
@@ -93,7 +94,7 @@ const COMP_TIERS = ["All", "Bronze", "Silver", "Gold", "Platinum", "Diamond", "M
 // モードごとに取得するティア: QPは全体のみ / 競技はティア別に展開
 const MODE_TIERS = [
   { rq: "0", tiers: ["All"] },     // クイック・プレイ: 全体傾向の参考に1本
-  { rq: "1", tiers: COMP_TIERS },  // ライバル・プレイ: 競技ティア別 (主目的・BAN率も取れる)
+  { rq: "2", tiers: COMP_TIERS },  // ライバル・プレイ(ランク): ティア別 + BAN率 + per-map が取れる (rq=2が正・rq=1は縮退)
 ];
 
 // 2入力 × 31マップ × 3地域 × (QP全体1 + 競技8ティア) = 1674 スナップショット
@@ -242,7 +243,7 @@ async function main() {
   for (let i = 0; i < activeFilters.length; i++) {
     const filter = activeFilters[i];
     const url = buildUrl(filter);
-    const mode = filter.rq === "1" ? "競技" : "QP";
+    const mode = filter.rq === "0" ? "QP" : "ランク";
     const label = `${filter.input}/${filter.map}/${mode}/${filter.region}/${filter.tier}`;
     try {
       const json = await fetchJson(url);
@@ -275,7 +276,7 @@ async function main() {
   assertTierAxisNotCollapsed(snapshots);
 
   if (failures.length > 0) {
-    const lbl = (f) => `${f.input}/${f.map}/${f.rq === "1" ? "競技" : "QP"}/${f.region}/${f.tier}`;
+    const lbl = (f) => `${f.input}/${f.map}/${f.rq === "0" ? "QP" : "ランク"}/${f.region}/${f.tier}`;
     console.warn(`\n⚠ ${failures.length}/${activeFilters.length} フィルタが失敗 (保存から除外):`);
     for (const f of failures.slice(0, 20)) console.warn(`  - ${lbl(f.filter)}: ${f.message}`);
     if (failures.length > 20) console.warn(`  ... 他 ${failures.length - 20} 件`);
