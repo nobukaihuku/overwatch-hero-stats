@@ -22,13 +22,18 @@
 //   実行すると、その gitignore 済みディレクトリに書き出す(手動確認・アドホック取得用)。
 //   同日再実行は上書き (冪等)。
 //
+// 重複排除(2026-07-12): Blizzard の rates は毎日は更新されないため、直近の既存スナップショット
+//   とデータが完全一致する日 (capturedAt のみ差分) は保存しない(同一データ約4MB/日の肥大化防止)。
+//   ワークフロー側は「差分なし」となりコミットもスキップされる。
+//   したがって日付の欠落は「収集失敗」だけでなく「データ未変化」も意味する(Actions ログで区別)。
+//
 // 実行: npm run stats:fetch        (取得して保存)
 //       npm run stats:fetch -- --dry  (取得して内容を表示するだけ・保存しない)
 //       npm run stats:fetch -- --dry --limit=5 --delay-ms=0  (短い検証用)
 //       npm run stats:fetch -- --pretty  (読みやすい整形JSONで保存)
 
-import { writeFileSync, mkdirSync } from "node:fs";
-import { resolve, dirname } from "node:path";
+import { writeFileSync, mkdirSync, readFileSync, readdirSync } from "node:fs";
+import { resolve, dirname, basename } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -219,13 +224,43 @@ function assertTierAxisNotCollapsed(snapshots) {
   }
 }
 
+// ---------- 重複排除 ----------
+// OUT_DIR にある「保存予定日以外で最新」のスナップショットのパスを返す (無ければ null)。
+function findLatestSnapshotPath(outDir, excludeDate) {
+  let files;
+  try {
+    files = readdirSync(outDir);
+  } catch {
+    return null; // 初回実行などディレクトリ不在は「比較対象なし」扱い
+  }
+  const dates = files
+    .map((name) => /^(\d{4}-\d{2}-\d{2})\.json$/.exec(name)?.[1])
+    .filter((d) => d && d !== excludeDate)
+    .sort();
+  return dates.length > 0 ? resolve(outDir, `${dates[dates.length - 1]}.json`) : null;
+}
+
+// capturedAt を除いて完全一致か。前ファイルが読めない/壊れている場合は false (=通常どおり保存)。
+function isSameExceptCapturedAt(payload, previousPath) {
+  try {
+    const previous = JSON.parse(readFileSync(previousPath, "utf8"));
+    return (
+      JSON.stringify({ ...payload, capturedAt: null }) ===
+      JSON.stringify({ ...previous, capturedAt: null })
+    );
+  } catch {
+    return false;
+  }
+}
+
 async function main() {
   const dry = process.argv.includes("--dry");
   const pretty = process.argv.includes("--pretty");
   const limit = readNonNegativeIntOption("limit", FILTERS.length);
   const delayMs = readNonNegativeIntOption("delay-ms", DEFAULT_DELAY_MS);
   const capturedAt = new Date().toISOString();
-  const date = capturedAt.slice(0, 10); // YYYY-MM-DD
+  // STATS_DATE_OVERRIDE は重複排除の動作検証用 (通常運用では使わない)
+  const date = process.env.STATS_DATE_OVERRIDE || capturedAt.slice(0, 10); // YYYY-MM-DD
   const activeFilters = FILTERS.slice(0, limit);
 
   // 失敗許容: 一部フィルタが失敗しても、割合が閾値以内なら「除外して保存」する。
@@ -315,6 +350,17 @@ async function main() {
     for (const [slug, v] of Object.entries(first.heroes).slice(0, 5)) {
       console.log(`    ${slug.padEnd(14)} win ${v.win}%  pick ${v.pick}%  ban ${v.ban}%`);
     }
+    return;
+  }
+
+  // 重複排除: 直近スナップショットと capturedAt 以外が同一なら保存しない。
+  // --limit の部分取得は snapshots 件数や filterPlan.capturedFilterCount が変わるため、
+  // フル取得の前日分と誤って同一視されることはない。
+  const previousPath = findLatestSnapshotPath(OUT_DIR, date);
+  if (previousPath && isSameExceptCapturedAt(payload, previousPath)) {
+    console.log(
+      `\n重複排除: ${basename(previousPath)} とデータ同一 (capturedAt のみ差分) のため保存をスキップします。`
+    );
     return;
   }
 
