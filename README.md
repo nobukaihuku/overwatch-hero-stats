@@ -7,4 +7,5 @@ Overwatch 公式 rates の勝率/ピック率/BAN率スナップショットを�
 - 収集: `.github/workflows/hero-stats.yml`(日次 03:00 UTC)。手動は Actions の Run workflow、またはローカルで `STATS_OUT_DIR=hero-stats npm run stats:fetch`。
 - 出力: `hero-stats/YYYY-MM-DD.json`。
 - 重複排除(2026-07-12): 直近スナップショットとデータ同一の日 (capturedAt のみ差分) は保存・コミットされない。日付の欠落は「データ未変化」または「収集失敗」(Actions ログで区別)。
+- 縮退検知(2026-07-19): 公式が rq/map フィルタを無視してクイック・プレイの既定ビューを返す日は保存されない(`assertRankedAxisNotCollapsed`)。したがって日付の欠落は「データ未変化」「収集失敗」に加えて「縮退日」も意味する(Actions ログで区別)。詳細は `hero-stats-collector-fix-2026-07-19.md`。
 - private リポジトリ。サイト側のビルド時取得には読み取りトークン(Contents:Read)を使う。

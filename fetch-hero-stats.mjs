@@ -27,6 +27,10 @@
 //   ワークフロー側は「差分なし」となりコミットもスキップされる。
 //   したがって日付の欠落は「収集失敗」だけでなく「データ未変化」も意味する(Actions ログで区別)。
 //
+// 縮退検知(2026-07-19): 公式が rq/map フィルタを無視してクイック・プレイの既定ビューを返す日が
+//   あり(実測で約4割)、そのまま保存すると時系列 delta が壊れる。assertRankedAxisNotCollapsed で
+//   検知して中断するため、日付の欠落は「縮退日」も意味するようになった。
+//
 // 実行: npm run stats:fetch        (取得して保存)
 //       npm run stats:fetch -- --dry  (取得して内容を表示するだけ・保存しない)
 //       npm run stats:fetch -- --dry --limit=5 --delay-ms=0  (短い検証用)
@@ -224,6 +228,53 @@ function assertTierAxisNotCollapsed(snapshots) {
   }
 }
 
+// rq/map 軸の縮退検知 (2026-07-19)
+// 公式APIは日によって rq/map フィルタを適用せず、クイック・プレイの既定ビューを返すことがある。
+// 実測 (2026-07-05〜18) では 11 日中 5 日がこの状態で、rq=2 を要求しても
+//   - BAN率が全フィルタで消える (BANはランクでのみ発生する)
+//   - per-map が全マップ all-maps と同一になる
+//   - rq=2 の中身が rq=0 と完全に一致する
+// という3点が同時に起きる。返る値自体はロール別合計 100/200/200 が成立する整合したQPデータのため、
+// 保存してしまうと後段では異常と分からず、時系列 delta が「実際には動いていないヒーローの
+// 大きな変動」として現れる (/stats/ の急上昇・急降下が誤表示になる)。
+//
+// assertTierAxisNotCollapsed はティア軸しか見ておらず、縮退時もティア軸は生きているため素通りする。
+// ここで BAN率の欠落と rq 軸の一致を検査し、縮退日は保存せず中断する。
+function assertRankedAxisNotCollapsed(snapshots) {
+  const ranked = snapshots.filter((s) => s.filters.rq === "2");
+  if (ranked.length === 0) return; // ランクを収集していない構成なら検査対象外
+  // (1) BAN率の欠落。単発の取得失敗による部分欠損と区別するため、半数割れのみ縮退とみなす。
+  const withBan = ranked.filter((s) => Object.values(s.heroes).some((h) => (h.ban ?? 0) > 0));
+  if (withBan.length < ranked.length / 2) {
+    console.error(
+      `\n縮退検知: rq=2 の ${ranked.length - withBan.length}/${ranked.length} フィルタで BAN率が空。` +
+        " ランクを要求したのにクイック・プレイの既定ビューが返っている疑いがあるため、保存を中断します。"
+    );
+    process.exit(1);
+  }
+  // (2) rq 軸そのものの一致。同じ input/map/region/tier で rq=2 と rq=0 が同値なら rq が効いていない。
+  const byKey = new Map();
+  for (const s of snapshots) {
+    const f = s.filters;
+    byKey.set(`${f.input}|${f.map}|${f.region}|${f.tier}|${f.rq}`, heroesSignature(s.heroes));
+  }
+  const collapsed = [];
+  for (const [key, signature] of byKey) {
+    if (!key.endsWith("|2")) continue;
+    const qpKey = key.replace(/\|2$/, "|0");
+    if (byKey.has(qpKey) && byKey.get(qpKey) === signature) collapsed.push(key.slice(0, -2));
+  }
+  if (collapsed.length > 0) {
+    console.error(
+      `\n縮退検知: ${collapsed.length} グループで rq=2 (ランク) と rq=0 (QP) が完全同値。` +
+        " rq軸が反映されていないため、保存を中断します。"
+    );
+    for (const key of collapsed.slice(0, 10)) console.error(`  - ${key}`);
+    if (collapsed.length > 10) console.error(`  ... 他 ${collapsed.length - 10} 件`);
+    process.exit(1);
+  }
+}
+
 // ---------- 重複排除 ----------
 // OUT_DIR にある「保存予定日以外で最新」のスナップショットのパスを返す (無ければ null)。
 function findLatestSnapshotPath(outDir, excludeDate) {
@@ -309,6 +360,7 @@ async function main() {
   }
 
   assertTierAxisNotCollapsed(snapshots);
+  assertRankedAxisNotCollapsed(snapshots);
 
   if (failures.length > 0) {
     const lbl = (f) => `${f.input}/${f.map}/${f.rq === "0" ? "QP" : "ランク"}/${f.region}/${f.tier}`;
