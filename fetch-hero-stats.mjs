@@ -139,6 +139,37 @@ function readNonNegativeIntOption(name, fallback) {
   return parsed;
 }
 
+const FILTER_AXES = ["input", "map", "region", "role", "rq", "tier"];
+
+class OfficialFilterSelectionError extends Error {
+  constructor(message) {
+    super(message);
+    this.name = "OfficialFilterSelectionError";
+  }
+}
+
+function assertOfficialSelection(json, expectedFilter) {
+  const selected = json?.rates?.selected;
+  if (!selected || typeof selected !== "object") {
+    throw new OfficialFilterSelectionError("公式応答に rates.selected がありません。保存を中断します。");
+  }
+
+  const mismatches = FILTER_AXES.filter(
+    (axis) => String(selected[axis]) !== String(expectedFilter[axis])
+  );
+  if (mismatches.length === 0) return;
+
+  const details = mismatches
+    .map(
+      (axis) =>
+        `${axis}: requested=${JSON.stringify(expectedFilter[axis])}, selected=${JSON.stringify(selected[axis])}`
+    )
+    .join("; ");
+  throw new OfficialFilterSelectionError(
+    `公式応答の選択値が要求と不一致です (${details})。保存を中断します。`
+  );
+}
+
 function toOfficialFilter(filter) {
   return {
     ...filter,
@@ -340,11 +371,12 @@ async function main() {
   console.log(`取得予定: ${activeFilters.length}/${FILTERS.length} スナップショット (delay ${delayMs}ms)`);
   for (let i = 0; i < activeFilters.length; i++) {
     const filter = activeFilters[i];
-    const { url } = buildRequest(filter);
+    const { officialFilter, url } = buildRequest(filter);
     const mode = filter.rq === "0" ? "QP" : "ランク";
     const label = `${filter.input}/${filter.map}/${mode}/${filter.region}/${filter.tier}`;
     try {
       const json = await fetchJson(url);
+      assertOfficialSelection(json, officialFilter);
       const { heroes, slugCount, rowCount } = parseRates(json);
       // 部分欠損を保存しない: 0件(parse失敗の疑い)・行単位の取りこぼし(slug≠行数)は
       // failure 扱いにして、フィルタ取得失敗と同じく後段で「保存から除外」する(失敗が閾値超なら中断)。
@@ -360,6 +392,7 @@ async function main() {
         snapshots.push({ filters: filter, url, heroCount: slugCount, heroes });
       }
     } catch (err) {
+      if (err instanceof OfficialFilterSelectionError) throw err;
       console.error(`  ✗ ${label}: 取得失敗 — ${err.message}`);
       failures.push({ filter, url, message: err.message });
     }

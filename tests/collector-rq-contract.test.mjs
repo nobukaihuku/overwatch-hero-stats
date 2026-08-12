@@ -90,4 +90,16 @@ if (MOCK_MODE) {
       await rm(outDir, { recursive: true, force: true });
     }
   });
+
+  test("aborts immediately when official selected filters differ from the request", async () => {
+    const outDir = await mkdtemp(join(tmpdir(), "overwatch-stats-rq-fallback-"));
+    try {
+      const result = runCollector("fallback", outDir);
+      assert.equal(result.status, 1, `${result.stdout}\n${result.stderr}`);
+      assert.match(result.stderr, /公式応答の選択値が要求と不一致/);
+      assert.equal((result.stdout.match(/\[mock-fetch\]/g) ?? []).length, 2);
+    } finally {
+      await rm(outDir, { recursive: true, force: true });
+    }
+  });
 }
