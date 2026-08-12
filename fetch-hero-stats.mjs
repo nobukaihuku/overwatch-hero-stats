@@ -57,7 +57,7 @@ const UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML,
 // 公式フィルタの確定値 (rates ページの <option> より):
 //   region : Americas / Asia / Europe
 //   tier   : All / Bronze / Silver / Gold / Platinum / Diamond / Master / Grandmaster
-//            (Grandmaster は「グランドマスター&チャンピオン」統合。★BAN率・per-mapはランク rq=2 で出る)
+//            (Grandmaster は「グランドマスター&チャンピオン」統合。保存時の正規値は rq=2 だが、公式リクエストは rq=1)
 //   input  : PC / Console     role : All ほかサブロール多数     map : all-maps ほか個別マップ多数
 // role は公式FAQ上「表示内容の絞り込み」で、再計算フィルタではないため All だけを取る。
 // 下記の軸を直積して FILTERS を生成。軸を足し引きすれば収集範囲を調整できる。
