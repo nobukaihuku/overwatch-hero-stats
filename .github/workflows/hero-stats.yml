@@ -34,11 +34,28 @@ jobs:
           if git diff --staged --quiet; then
             echo "差分なし — コミットをスキップ"
           else
+            if [ "${GITHUB_REF_TYPE:-}" != "branch" ]; then
+              echo "::error::スナップショットの保存先はbranch refのみ対応しています。"
+              exit 1
+            fi
             git commit -m "chore(stats): hero stats snapshot $(date -u +%Y-%m-%d)"
-            # B3対策: 収集中に他pushがあってもrebaseして最大3回リトライ
+            # schedule は main、workflow_dispatch は選択された ref へ戻す。
+            # 収集中の同一ブランチへのpush競合は、rebaseを中断・復旧して最大3回リトライする。
+            branch="${GITHUB_REF_NAME:?GITHUB_REF_NAME is required}"
+            pushed=false
             for i in 1 2 3; do
-              git pull --rebase origin main && git push && break
+              if git pull --rebase origin "$branch" && git push origin "HEAD:$branch"; then
+                pushed=true
+                break
+              fi
+              git rebase --abort || true
               echo "push 競合。rebase 後リトライ ($i/3)"
-              sleep 5
+              if [ "$i" -lt 3 ]; then
+                sleep 5
+              fi
             done
+            if [ "$pushed" != true ]; then
+              echo "::error::スナップショットを ${branch} にpushできませんでした。"
+              exit 1
+            fi
           fi
