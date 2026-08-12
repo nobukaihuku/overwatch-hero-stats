@@ -56,10 +56,8 @@ const UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML,
 // ---------- 収集するフィルタの組み合わせ ----------
 // 公式フィルタの確定値 (rates ページの <option> より):
 //   region : Americas / Asia / Europe
-//   rq     : 0 = クイック・プレイ(ロールキュー) / 2 = ライバル・プレイ(ランク・ロールキュー)
-//            ※rq=1 はドロップダウンに存在しない値。誤用すると ban/per-map が縮退する (rq=2が正)。
 //   tier   : All / Bronze / Silver / Gold / Platinum / Diamond / Master / Grandmaster
-//            (Grandmaster は「グランドマスター&チャンピオン」統合。★BAN率・per-mapはランク rq=2 で出る)
+//            (Grandmaster は「グランドマスター&チャンピオン」統合。保存時の正規値は rq=2 だが、公式リクエストは rq=1)
 //   input  : PC / Console     role : All ほかサブロール多数     map : all-maps ほか個別マップ多数
 // role は公式FAQ上「表示内容の絞り込み」で、再計算フィルタではないため All だけを取る。
 // 下記の軸を直積して FILTERS を生成。軸を足し引きすれば収集範囲を調整できる。
@@ -100,10 +98,16 @@ const MAPS = [
 const ROLE = "All";
 const REGIONS = ["Americas", "Asia", "Europe"];
 const COMP_TIERS = ["All", "Bronze", "Silver", "Gold", "Platinum", "Diamond", "Master", "Grandmaster"];
+// Blizzard は 2026-08-07 以前に、公式APIの競技リクエスト値を 1 に変更した。
+// 保存済み payload との互換性を保つため、canonical の競技値 2 は維持する。
+const CANONICAL_QUICK_PLAY_RQ = "0";
+const CANONICAL_COMPETITIVE_RQ = "2";
+const OFFICIAL_COMPETITIVE_RQ = "1";
+
 // モードごとに取得するティア: QPは全体のみ / 競技はティア別に展開
 const MODE_TIERS = [
-  { rq: "0", tiers: ["All"] },     // クイック・プレイ: 全体傾向の参考に1本
-  { rq: "2", tiers: COMP_TIERS },  // ライバル・プレイ(ランク): ティア別 + BAN率 + per-map が取れる (rq=2が正・rq=1は縮退)
+  { rq: CANONICAL_QUICK_PLAY_RQ, tiers: ["All"] },
+  { rq: CANONICAL_COMPETITIVE_RQ, tiers: COMP_TIERS },
 ];
 
 // 2入力 × 31マップ × 3地域 × (QP全体1 + 競技8ティア) = 1674 スナップショット
@@ -135,9 +139,48 @@ function readNonNegativeIntOption(name, fallback) {
   return parsed;
 }
 
-function buildUrl(filter) {
-  const qs = new URLSearchParams(filter).toString();
-  return `${DATA_ENDPOINT}?${qs}`;
+const FILTER_AXES = ["input", "map", "region", "role", "rq", "tier"];
+
+class OfficialFilterSelectionError extends Error {
+  constructor(message) {
+    super(message);
+    this.name = "OfficialFilterSelectionError";
+  }
+}
+
+function assertOfficialSelection(json, expectedFilter) {
+  const selected = json?.rates?.selected;
+  if (!selected || typeof selected !== "object") {
+    throw new OfficialFilterSelectionError("公式応答に rates.selected がありません。保存を中断します。");
+  }
+
+  const mismatches = FILTER_AXES.filter(
+    (axis) => String(selected[axis]) !== String(expectedFilter[axis])
+  );
+  if (mismatches.length === 0) return;
+
+  const details = mismatches
+    .map(
+      (axis) =>
+        `${axis}: requested=${JSON.stringify(expectedFilter[axis])}, selected=${JSON.stringify(selected[axis])}`
+    )
+    .join("; ");
+  throw new OfficialFilterSelectionError(
+    `公式応答の選択値が要求と不一致です (${details})。保存を中断します。`
+  );
+}
+
+function toOfficialFilter(filter) {
+  return {
+    ...filter,
+    rq: filter.rq === CANONICAL_COMPETITIVE_RQ ? OFFICIAL_COMPETITIVE_RQ : filter.rq,
+  };
+}
+
+function buildRequest(filter) {
+  const officialFilter = toOfficialFilter(filter);
+  const qs = new URLSearchParams(officialFilter).toString();
+  return { officialFilter, url: `${DATA_ENDPOINT}?${qs}` };
 }
 
 async function fetchJson(url) {
@@ -328,11 +371,12 @@ async function main() {
   console.log(`取得予定: ${activeFilters.length}/${FILTERS.length} スナップショット (delay ${delayMs}ms)`);
   for (let i = 0; i < activeFilters.length; i++) {
     const filter = activeFilters[i];
-    const url = buildUrl(filter);
+    const { officialFilter, url } = buildRequest(filter);
     const mode = filter.rq === "0" ? "QP" : "ランク";
     const label = `${filter.input}/${filter.map}/${mode}/${filter.region}/${filter.tier}`;
     try {
       const json = await fetchJson(url);
+      assertOfficialSelection(json, officialFilter);
       const { heroes, slugCount, rowCount } = parseRates(json);
       // 部分欠損を保存しない: 0件(parse失敗の疑い)・行単位の取りこぼし(slug≠行数)は
       // failure 扱いにして、フィルタ取得失敗と同じく後段で「保存から除外」する(失敗が閾値超なら中断)。
@@ -348,6 +392,7 @@ async function main() {
         snapshots.push({ filters: filter, url, heroCount: slugCount, heroes });
       }
     } catch (err) {
+      if (err instanceof OfficialFilterSelectionError) throw err;
       console.error(`  ✗ ${label}: 取得失敗 — ${err.message}`);
       failures.push({ filter, url, message: err.message });
     }
