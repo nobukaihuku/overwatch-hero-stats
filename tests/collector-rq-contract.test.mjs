@@ -16,18 +16,28 @@ const TIERS = ["All", "Bronze", "Silver", "Gold", "Platinum", "Diamond", "Master
 
 if (MOCK_MODE) {
   let requestCount = 0;
-  globalThis.fetch = async (input) => {
+  globalThis.fetch = async (input, init = {}) => {
     const url = new URL(String(input));
     const officialRq = url.searchParams.get("rq");
+    requestCount += 1;
+    console.log(`[mock-fetch] ${requestCount} rq=${officialRq}`);
+
+    if (MOCK_MODE === "timeout") {
+      return await new Promise((_, reject) => {
+        const signal = init.signal;
+        if (!signal) return;
+        const abort = () => reject(signal.reason ?? new DOMException("aborted", "AbortError"));
+        if (signal.aborted) abort();
+        else signal.addEventListener("abort", abort, { once: true });
+      });
+    }
+
     const supportedRankedRq = MOCK_MODE === "valid-rq1" ? "1" : MOCK_MODE === "valid-rq2" ? "2" : null;
     const isRanked = officialRq === supportedRankedRq;
     const tierIndex = Math.max(0, TIERS.indexOf(url.searchParams.get("tier")));
     const selected = Object.fromEntries(AXES.map((axis) => [axis, url.searchParams.get(axis)]));
 
     if (officialRq !== "0" && !isRanked) selected.rq = "0";
-
-    requestCount += 1;
-    console.log(`[mock-fetch] ${requestCount} rq=${officialRq}`);
 
     const body = {
       rates: {
@@ -54,10 +64,10 @@ if (MOCK_MODE) {
     });
   };
 } else {
-  function runCollector(mode, outDir) {
+  function runCollector(mode, outDir, { limit = 18, fetchTimeoutMs } = {}) {
     return spawnSync(
       process.execPath,
-      ["--import", pathToFileURL(THIS_FILE).href, COLLECTOR, "--limit=18", "--delay-ms=0"],
+      ["--import", pathToFileURL(THIS_FILE).href, COLLECTOR, `--limit=${limit}`, "--delay-ms=0"],
       {
         cwd: REPO_ROOT,
         encoding: "utf8",
@@ -66,7 +76,9 @@ if (MOCK_MODE) {
           COLLECTOR_RQ_MOCK_MODE: mode,
           STATS_DATE_OVERRIDE: TEST_DATE,
           STATS_OUT_DIR: outDir,
+          ...(fetchTimeoutMs ? { STATS_FETCH_TIMEOUT_MS: String(fetchTimeoutMs) } : {}),
         },
+        timeout: 6000,
       }
     );
   }
@@ -109,6 +121,19 @@ if (MOCK_MODE) {
       assert.equal(result.status, 1, `${result.stdout}\n${result.stderr}`);
       assert.match(result.stderr, /公式競技モードを確定できません/);
       assert.equal((result.stdout.match(/\[mock-fetch\]/g) ?? []).length, 3);
+      await assert.rejects(readFile(join(outDir, `${TEST_DATE}.json`), "utf8"), { code: "ENOENT" });
+    } finally {
+      await rm(outDir, { recursive: true, force: true });
+    }
+  });
+
+  test("times out a stalled official request after three attempts without saving", async () => {
+    const outDir = await mkdtemp(join(tmpdir(), "overwatch-stats-timeout-"));
+    try {
+      const result = runCollector("timeout", outDir, { limit: 1, fetchTimeoutMs: 10 });
+      assert.equal(result.status, 1, `${result.stdout}\n${result.stderr}\n${result.error ?? ""}`);
+      assert.equal((result.stdout.match(/\[mock-fetch\]/g) ?? []).length, 3);
+      assert.match(result.stderr, /公式API応答待ちが 10ms を超えました/);
       await assert.rejects(readFile(join(outDir, `${TEST_DATE}.json`), "utf8"), { code: "ENOENT" });
     } finally {
       await rm(outDir, { recursive: true, force: true });
