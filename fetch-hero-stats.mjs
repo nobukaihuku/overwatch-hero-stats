@@ -57,7 +57,7 @@ const UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML,
 // 公式フィルタの確定値 (rates ページの <option> より):
 //   region : Americas / Asia / Europe
 //   tier   : All / Bronze / Silver / Gold / Platinum / Diamond / Master / Grandmaster
-//            (Grandmaster は「グランドマスター&チャンピオン」統合。保存時の正規値は rq=2 だが、公式リクエストは rq=1)
+//            (Grandmaster は「グランドマスター&チャンピオン」統合)
 //   input  : PC / Console     role : All ほかサブロール多数     map : all-maps ほか個別マップ多数
 // role は公式FAQ上「表示内容の絞り込み」で、再計算フィルタではないため All だけを取る。
 // 下記の軸を直積して FILTERS を生成。軸を足し引きすれば収集範囲を調整できる。
@@ -98,11 +98,11 @@ const MAPS = [
 const ROLE = "All";
 const REGIONS = ["Americas", "Asia", "Europe"];
 const COMP_TIERS = ["All", "Bronze", "Silver", "Gold", "Platinum", "Diamond", "Master", "Grandmaster"];
-// Blizzard は 2026-08-07 以前に、公式APIの競技リクエスト値を 1 に変更した。
-// 保存済み payload との互換性を保つため、canonical の競技値 2 は維持する。
+// 公式APIの競技値は 2026-08-12〜13 に 1 と 2 の間で切り替わったため、run開始時に候補を検証する。
+// 保存済み payload との互換性を保つため、canonical の競技値は常に 2 を維持する。
 const CANONICAL_QUICK_PLAY_RQ = "0";
 const CANONICAL_COMPETITIVE_RQ = "2";
-const OFFICIAL_COMPETITIVE_RQ = "1";
+const OFFICIAL_COMPETITIVE_RQ_CANDIDATES = ["2", "1"];
 
 // モードごとに取得するティア: QPは全体のみ / 競技はティア別に展開
 const MODE_TIERS = [
@@ -170,17 +170,46 @@ function assertOfficialSelection(json, expectedFilter) {
   );
 }
 
-function toOfficialFilter(filter) {
+function toOfficialFilter(filter, officialCompetitiveRq) {
   return {
     ...filter,
-    rq: filter.rq === CANONICAL_COMPETITIVE_RQ ? OFFICIAL_COMPETITIVE_RQ : filter.rq,
+    rq: filter.rq === CANONICAL_COMPETITIVE_RQ ? officialCompetitiveRq : filter.rq,
   };
 }
 
-function buildRequest(filter) {
-  const officialFilter = toOfficialFilter(filter);
+function buildRequest(filter, officialCompetitiveRq) {
+  const officialFilter = toOfficialFilter(filter, officialCompetitiveRq);
   const qs = new URLSearchParams(officialFilter).toString();
   return { officialFilter, url: `${DATA_ENDPOINT}?${qs}` };
+}
+
+async function fetchOfficialResponse(filter, officialCompetitiveRq) {
+  const { officialFilter, url } = buildRequest(filter, officialCompetitiveRq);
+  const json = await fetchJson(url);
+  assertOfficialSelection(json, officialFilter);
+  return { json, url };
+}
+
+async function resolveOfficialCompetitiveResponse(filter, delayMs) {
+  const rejected = [];
+  for (let i = 0; i < OFFICIAL_COMPETITIVE_RQ_CANDIDATES.length; i++) {
+    const candidate = OFFICIAL_COMPETITIVE_RQ_CANDIDATES[i];
+    try {
+      const response = await fetchOfficialResponse(filter, candidate);
+      console.log(`公式競技モードを rq=${candidate} で確定`);
+      return { ...response, officialCompetitiveRq: candidate };
+    } catch (err) {
+      if (!(err instanceof OfficialFilterSelectionError)) throw err;
+      rejected.push(`rq=${candidate}: ${err.message}`);
+      if (i < OFFICIAL_COMPETITIVE_RQ_CANDIDATES.length - 1) {
+        console.warn(`公式競技 rq=${candidate} は選択不一致。次候補を確認します。`);
+        if (delayMs > 0) await sleep(delayMs);
+      }
+    }
+  }
+  throw new OfficialFilterSelectionError(
+    `公式競技モードを確定できません (${rejected.join(" / ")})。保存を中断します。`
+  );
 }
 
 async function fetchJson(url) {
@@ -368,15 +397,23 @@ async function main() {
 
   const snapshots = [];
   const failures = [];
+  let officialCompetitiveRq = null;
   console.log(`取得予定: ${activeFilters.length}/${FILTERS.length} スナップショット (delay ${delayMs}ms)`);
   for (let i = 0; i < activeFilters.length; i++) {
     const filter = activeFilters[i];
-    const { officialFilter, url } = buildRequest(filter);
     const mode = filter.rq === "0" ? "QP" : "ランク";
     const label = `${filter.input}/${filter.map}/${mode}/${filter.region}/${filter.tier}`;
+    let url;
     try {
-      const json = await fetchJson(url);
-      assertOfficialSelection(json, officialFilter);
+      let response;
+      if (filter.rq === CANONICAL_COMPETITIVE_RQ && officialCompetitiveRq === null) {
+        response = await resolveOfficialCompetitiveResponse(filter, delayMs);
+        officialCompetitiveRq = response.officialCompetitiveRq;
+      } else {
+        response = await fetchOfficialResponse(filter, officialCompetitiveRq);
+      }
+      url = response.url;
+      const json = response.json;
       const { heroes, slugCount, rowCount } = parseRates(json);
       // 部分欠損を保存しない: 0件(parse失敗の疑い)・行単位の取りこぼし(slug≠行数)は
       // failure 扱いにして、フィルタ取得失敗と同じく後段で「保存から除外」する(失敗が閾値超なら中断)。

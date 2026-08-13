@@ -19,11 +19,12 @@ if (MOCK_MODE) {
   globalThis.fetch = async (input) => {
     const url = new URL(String(input));
     const officialRq = url.searchParams.get("rq");
-    const isRanked = officialRq === "1";
+    const supportedRankedRq = MOCK_MODE === "valid-rq1" ? "1" : MOCK_MODE === "valid-rq2" ? "2" : null;
+    const isRanked = officialRq === supportedRankedRq;
     const tierIndex = Math.max(0, TIERS.indexOf(url.searchParams.get("tier")));
     const selected = Object.fromEntries(AXES.map((axis) => [axis, url.searchParams.get(axis)]));
 
-    if (MOCK_MODE === "fallback" && isRanked) selected.rq = "0";
+    if (officialRq !== "0" && !isRanked) selected.rq = "0";
 
     requestCount += 1;
     console.log(`[mock-fetch] ${requestCount} rq=${officialRq}`);
@@ -70,11 +71,13 @@ if (MOCK_MODE) {
     );
   }
 
-  test("requests official rq=1 while preserving canonical rq=2 in saved snapshots", async () => {
+  async function assertSelectedRankedRq(mode, expectedRq, expectedRequestCount) {
     const outDir = await mkdtemp(join(tmpdir(), "overwatch-stats-rq-"));
     try {
-      const result = runCollector("valid", outDir);
+      const result = runCollector(mode, outDir);
       assert.equal(result.status, 0, `${result.stdout}\n${result.stderr}`);
+      assert.match(result.stdout, new RegExp(`公式競技モードを rq=${expectedRq} で確定`));
+      assert.equal((result.stdout.match(/\[mock-fetch\]/g) ?? []).length, expectedRequestCount);
 
       const payload = JSON.parse(await readFile(join(outDir, `${TEST_DATE}.json`), "utf8"));
       assert.equal(payload.filterPlan.capturedFilterCount, 18);
@@ -85,19 +88,28 @@ if (MOCK_MODE) {
       assert.equal(quickPlay.length, 2);
       assert.equal(ranked.length, 16);
       assert.ok(quickPlay.every((snapshot) => new URL(snapshot.url).searchParams.get("rq") === "0"));
-      assert.ok(ranked.every((snapshot) => new URL(snapshot.url).searchParams.get("rq") === "1"));
+      assert.ok(ranked.every((snapshot) => new URL(snapshot.url).searchParams.get("rq") === expectedRq));
     } finally {
       await rm(outDir, { recursive: true, force: true });
     }
+  }
+
+  test("uses official rq=2 when the API accepts it while preserving canonical rq=2", async () => {
+    await assertSelectedRankedRq("valid-rq2", "2", 18);
   });
 
-  test("aborts immediately when official selected filters differ from the request", async () => {
+  test("falls back to official rq=1 when rq=2 is rejected while preserving canonical rq=2", async () => {
+    await assertSelectedRankedRq("valid-rq1", "1", 19);
+  });
+
+  test("aborts when every official competitive rq candidate is rejected", async () => {
     const outDir = await mkdtemp(join(tmpdir(), "overwatch-stats-rq-fallback-"));
     try {
       const result = runCollector("fallback", outDir);
       assert.equal(result.status, 1, `${result.stdout}\n${result.stderr}`);
-      assert.match(result.stderr, /公式応答の選択値が要求と不一致/);
-      assert.equal((result.stdout.match(/\[mock-fetch\]/g) ?? []).length, 2);
+      assert.match(result.stderr, /公式競技モードを確定できません/);
+      assert.equal((result.stdout.match(/\[mock-fetch\]/g) ?? []).length, 3);
+      await assert.rejects(readFile(join(outDir, `${TEST_DATE}.json`), "utf8"), { code: "ENOENT" });
     } finally {
       await rm(outDir, { recursive: true, force: true });
     }
