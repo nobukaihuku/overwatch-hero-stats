@@ -120,6 +120,13 @@ for (const input of INPUTS)
           FILTERS.push({ input, map, region, role: ROLE, rq, tier });
 
 const DEFAULT_DELAY_MS = Number.parseInt(process.env.STATS_FETCH_DELAY_MS ?? "1000", 10);
+const FETCH_TIMEOUT_MS = (() => {
+  const value = Number.parseInt(process.env.STATS_FETCH_TIMEOUT_MS ?? "15000", 10);
+  if (!Number.isFinite(value) || value <= 0) {
+    throw new Error("STATS_FETCH_TIMEOUT_MS must be a positive integer.");
+  }
+  return value;
+})();
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
@@ -215,8 +222,11 @@ async function resolveOfficialCompetitiveResponse(filter, delayMs) {
 async function fetchJson(url) {
   let lastError;
   for (let attempt = 1; attempt <= 3; attempt++) {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
     try {
       const res = await fetch(url, {
+        signal: controller.signal,
         headers: {
           "User-Agent": UA,
           "Accept-Language": "ja,en",
@@ -226,9 +236,13 @@ async function fetchJson(url) {
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       return await res.json();
     } catch (error) {
-      lastError = error;
-      if (attempt < 3) await sleep(1000 * attempt);
+      lastError = controller.signal.aborted
+        ? new Error(`公式API応答待ちが ${FETCH_TIMEOUT_MS}ms を超えました。`)
+        : error;
+    } finally {
+      clearTimeout(timeoutId);
     }
+    if (attempt < 3) await sleep(1000 * attempt);
   }
   throw lastError;
 }
