@@ -30,6 +30,9 @@
 // 縮退検知(2026-07-19): 公式が rq/map フィルタを無視してクイック・プレイの既定ビューを返す日が
 //   あり(実測で約4割)、そのまま保存すると時系列 delta が壊れる。assertRankedAxisNotCollapsed で
 //   検知して中断するため、日付の欠落は「縮退日」も意味するようになった。
+// 部分欠損(2026-08-18): 一時的なHTTP/JSON/選択情報欠損は第2パスで再試行し、回復しない
+//   フィルタだけを除外して保存できる。ヒーローの未提供セルは0に補完せずnullのまま保持し、
+//   collectionQuality に欠損とcoverageを記録する。選択値の不一致と軸の偏った欠損は保存しない。
 //
 // 実行: npm run stats:fetch        (取得して保存)
 //       npm run stats:fetch -- --dry  (取得して内容を表示するだけ・保存しない)
@@ -147,6 +150,9 @@ function readNonNegativeIntOption(name, fallback) {
 }
 
 const FILTER_AXES = ["input", "map", "region", "role", "rq", "tier"];
+const QUALITY_METRICS = ["win", "pick", "ban"];
+const MIN_COVERAGE_RATE = 2 / 3;
+const MIN_HERO_COVERAGE_RATE = 2 / 3;
 
 class OfficialFilterSelectionError extends Error {
   constructor(message) {
@@ -155,10 +161,35 @@ class OfficialFilterSelectionError extends Error {
   }
 }
 
+class OfficialFilterSelectionMissingError extends OfficialFilterSelectionError {
+  constructor(message) {
+    super(message);
+    this.name = "OfficialFilterSelectionMissingError";
+    this.code = "missing-selected";
+  }
+}
+
+class OfficialFilterSelectionMismatchError extends OfficialFilterSelectionError {
+  constructor(message) {
+    super(message);
+    this.name = "OfficialFilterSelectionMismatchError";
+    this.code = "selection-mismatch";
+  }
+}
+
+class FilterCollectionError extends Error {
+  constructor(code, message, { url = null } = {}) {
+    super(message);
+    this.name = "FilterCollectionError";
+    this.code = code;
+    this.url = url;
+  }
+}
+
 function assertOfficialSelection(json, expectedFilter) {
   const selected = json?.rates?.selected;
   if (!selected || typeof selected !== "object") {
-    throw new OfficialFilterSelectionError("公式応答に rates.selected がありません。保存を中断します。");
+    throw new OfficialFilterSelectionMissingError("公式応答に rates.selected がありません。");
   }
 
   const mismatches = FILTER_AXES.filter(
@@ -172,7 +203,7 @@ function assertOfficialSelection(json, expectedFilter) {
         `${axis}: requested=${JSON.stringify(expectedFilter[axis])}, selected=${JSON.stringify(selected[axis])}`
     )
     .join("; ");
-  throw new OfficialFilterSelectionError(
+  throw new OfficialFilterSelectionMismatchError(
     `公式応答の選択値が要求と不一致です (${details})。保存を中断します。`
   );
 }
@@ -190,11 +221,27 @@ function buildRequest(filter, officialCompetitiveRq) {
   return { officialFilter, url: `${DATA_ENDPOINT}?${qs}` };
 }
 
-async function fetchOfficialResponse(filter, officialCompetitiveRq) {
+async function fetchOfficialResponse(
+  filter,
+  officialCompetitiveRq,
+  { attempts = 1, retryMissingSelection = true, delayMs = 0 } = {}
+) {
   const { officialFilter, url } = buildRequest(filter, officialCompetitiveRq);
-  const json = await fetchJson(url);
-  assertOfficialSelection(json, officialFilter);
-  return { json, url };
+  let lastError;
+  for (let attempt = 1; attempt <= attempts; attempt++) {
+    try {
+      const json = await fetchJsonOnce(url);
+      assertOfficialSelection(json, officialFilter);
+      return { json, url };
+    } catch (err) {
+      lastError = err;
+      const retryableSelection = err instanceof OfficialFilterSelectionMissingError && retryMissingSelection;
+      const retryableTransport = !(err instanceof OfficialFilterSelectionError);
+      if (attempt >= attempts || (!retryableSelection && !retryableTransport)) throw err;
+      if (delayMs > 0) await sleep(Math.min(delayMs, 1000 * attempt));
+    }
+  }
+  throw lastError;
 }
 
 async function resolveOfficialCompetitiveResponse(filter, delayMs) {
@@ -202,10 +249,15 @@ async function resolveOfficialCompetitiveResponse(filter, delayMs) {
   for (let i = 0; i < OFFICIAL_COMPETITIVE_RQ_CANDIDATES.length; i++) {
     const candidate = OFFICIAL_COMPETITIVE_RQ_CANDIDATES[i];
     try {
-      const response = await fetchOfficialResponse(filter, candidate);
+      const response = await fetchOfficialResponse(filter, candidate, {
+        attempts: 3,
+        retryMissingSelection: true,
+        delayMs,
+      });
       console.log(`公式競技モードを rq=${candidate} で確定`);
       return { ...response, officialCompetitiveRq: candidate };
     } catch (err) {
+      if (err instanceof OfficialFilterSelectionMissingError) throw err;
       if (!(err instanceof OfficialFilterSelectionError)) throw err;
       rejected.push(`rq=${candidate}: ${err.message}`);
       if (i < OFFICIAL_COMPETITIVE_RQ_CANDIDATES.length - 1) {
@@ -219,32 +271,27 @@ async function resolveOfficialCompetitiveResponse(filter, delayMs) {
   );
 }
 
-async function fetchJson(url) {
-  let lastError;
-  for (let attempt = 1; attempt <= 3; attempt++) {
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
-    try {
-      const res = await fetch(url, {
-        signal: controller.signal,
-        headers: {
-          "User-Agent": UA,
-          "Accept-Language": "ja,en",
-          "X-Requested-With": "XMLHttpRequest",
-        },
-      });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      return await res.json();
-    } catch (error) {
-      lastError = controller.signal.aborted
-        ? new Error(`公式API応答待ちが ${FETCH_TIMEOUT_MS}ms を超えました。`)
-        : error;
-    } finally {
-      clearTimeout(timeoutId);
-    }
-    if (attempt < 3) await sleep(1000 * attempt);
+async function fetchJsonOnce(url) {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
+  try {
+    const res = await fetch(url, {
+      signal: controller.signal,
+      headers: {
+        "User-Agent": UA,
+        "Accept-Language": "ja,en",
+        "X-Requested-With": "XMLHttpRequest",
+      },
+    });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    return await res.json();
+  } catch (error) {
+    throw controller.signal.aborted
+      ? new Error(`公式API応答待ちが ${FETCH_TIMEOUT_MS}ms を超えました。`)
+      : error;
+  } finally {
+    clearTimeout(timeoutId);
   }
-  throw lastError;
 }
 
 function normNum(value) {
@@ -272,6 +319,199 @@ function parseRates(json) {
     };
   }
   return { heroes, slugCount: Object.keys(heroes).length, rowCount: rows.length };
+}
+
+function filterLabel(filter) {
+  return `${filter.input}/${filter.map}/${filter.rq === "0" ? "QP" : "ランク"}/${filter.region}/${filter.tier}`;
+}
+
+function filterFailure(code, message, filter, url = null, attempts = 1) {
+  return { filter, url, code, message, attempts };
+}
+
+async function fetchFilterSnapshot(filter, officialCompetitiveRq, { attempts, delayMs, resolveCompetitive = false } = {}) {
+  let response;
+  if (resolveCompetitive) {
+    response = await resolveOfficialCompetitiveResponse(filter, delayMs);
+  } else {
+    response = await fetchOfficialResponse(filter, officialCompetitiveRq, {
+      attempts,
+      retryMissingSelection: true,
+      delayMs,
+    });
+  }
+
+  const effectiveCompetitiveRq = response.officialCompetitiveRq ?? officialCompetitiveRq;
+  let parsed;
+  try {
+    parsed = parseRates(response.json);
+    if (parsed.slugCount === 0) {
+      throw new FilterCollectionError(
+        "empty-rates",
+        "0件 (レスポンス構造が変わった可能性。rates.rates を要確認)",
+        { url: response.url }
+      );
+    }
+    if (parsed.slugCount !== parsed.rowCount) {
+      throw new FilterCollectionError(
+        "missing-row-id",
+        `一部取りこぼし (slug ${parsed.slugCount} / 行 ${parsed.rowCount})`,
+        { url: response.url }
+      );
+    }
+  } catch (err) {
+    err.officialCompetitiveRq = effectiveCompetitiveRq;
+    throw err;
+  }
+  return {
+    snapshot: { filters: filter, url: response.url, heroCount: parsed.slugCount, heroes: parsed.heroes },
+    officialCompetitiveRq: effectiveCompetitiveRq,
+  };
+}
+
+function axisValues(filter) {
+  return {
+    input: filter.input,
+    map: filter.map,
+    region: filter.region,
+    mode: filter.rq === "0" ? "QP" : "ランク",
+    rq: filter.rq,
+    tier: filter.tier,
+  };
+}
+
+function calculateCoverage(activeFilters, snapshots) {
+  const buckets = new Map();
+  const compoundBuckets = new Map();
+
+  const ensure = (map, key) => {
+    if (!map.has(key)) map.set(key, { expected: 0, captured: 0 });
+    return map.get(key);
+  };
+
+  for (const filter of activeFilters) {
+    for (const [axis, value] of Object.entries(axisValues(filter))) {
+      ensure(buckets, `${axis}=${value}`).expected += 1;
+    }
+    ensure(compoundBuckets, `${filter.input}|${filter.map}|${filter.region}`).expected += 1;
+  }
+
+  for (const snapshot of snapshots) {
+    for (const [axis, value] of Object.entries(axisValues(snapshot.filters))) {
+      ensure(buckets, `${axis}=${value}`).captured += 1;
+    }
+    ensure(compoundBuckets, `${snapshot.filters.input}|${snapshot.filters.map}|${snapshot.filters.region}`).captured += 1;
+  }
+
+  const withRates = (entries) => Object.fromEntries(
+    [...entries].map(([key, value]) => [
+      key,
+      {
+        expected: value.expected,
+        captured: value.captured,
+        rate: value.expected === 0 ? 1 : value.captured / value.expected,
+      },
+    ])
+  );
+
+  const axis = withRates(buckets);
+  const compound = withRates(compoundBuckets);
+  const insufficient = [
+    ...Object.entries(axis)
+      .filter(([, value]) => value.captured < Math.ceil(value.expected * MIN_COVERAGE_RATE))
+      .map(([key, value]) => [`axis:${key}`, value]),
+    ...Object.entries(compound)
+      .filter(([, value]) => value.captured < Math.ceil(value.expected * MIN_COVERAGE_RATE))
+      .map(([key, value]) => [`input-map-region:${key}`, value]),
+  ];
+  return { axis, compound, insufficient };
+}
+
+function assertCoverage(activeFilters, snapshots) {
+  const coverage = calculateCoverage(activeFilters, snapshots);
+  if (coverage.insufficient.length === 0) return coverage;
+
+  console.error(
+    `\n部分欠損の偏りを検知しました。軸またはinput/map/regionグループの取得率が ${
+      Math.round(MIN_COVERAGE_RATE * 100)
+    }% 未満のため、保存を中断します。`
+  );
+  for (const [key, value] of coverage.insufficient.slice(0, 10)) {
+    console.error(`  - ${key}: ${value.captured}/${value.expected}`);
+  }
+  if (coverage.insufficient.length > 10) {
+    console.error(`  ... 他 ${coverage.insufficient.length - 10} グループ`);
+  }
+  process.exit(1);
+}
+
+function readPreviousHeroUniverse(previousPath) {
+  if (!previousPath) return new Set();
+  try {
+    const previous = JSON.parse(readFileSync(previousPath, "utf8"));
+    return new Set(
+      (previous.snapshots ?? []).flatMap((snapshot) => Object.keys(snapshot.heroes ?? {}))
+    );
+  } catch {
+    return new Set();
+  }
+}
+
+function assertHeroAvailability(snapshots, previousPath) {
+  const expectedHeroes = readPreviousHeroUniverse(previousPath);
+  if (expectedHeroes.size === 0) return;
+  for (const snapshot of snapshots) {
+    const captured = Object.keys(snapshot.heroes).length;
+    const minimum = Math.ceil(expectedHeroes.size * MIN_HERO_COVERAGE_RATE);
+    if (captured >= minimum) continue;
+    console.error(
+      `\nヒーロー行の欠損を検知しました: ${filterLabel(snapshot.filters)} は ${captured}/${expectedHeroes.size} 件。` +
+        "前回スナップショット比で大きく欠けているため、保存を中断します。"
+    );
+    process.exit(1);
+  }
+}
+
+function collectQuality(snapshots, failures, previousPath, coverage) {
+  const heroUniverse = readPreviousHeroUniverse(previousPath);
+  for (const snapshot of snapshots) {
+    for (const slug of Object.keys(snapshot.heroes)) heroUniverse.add(slug);
+  }
+
+  const incompleteSnapshots = [];
+  for (const snapshot of snapshots) {
+    const missingHeroes = [...heroUniverse].filter((slug) => !Object.hasOwn(snapshot.heroes, slug)).sort();
+    const requiredMetrics = snapshot.filters.rq === CANONICAL_QUICK_PLAY_RQ
+      ? ["win", "pick"]
+      : QUALITY_METRICS;
+    const missingMetrics = {};
+    for (const [slug, values] of Object.entries(snapshot.heroes)) {
+      const missing = requiredMetrics.filter((metric) => values[metric] == null);
+      if (missing.length > 0) missingMetrics[slug] = missing;
+    }
+    if (missingHeroes.length > 0 || Object.keys(missingMetrics).length > 0) {
+      incompleteSnapshots.push({
+        filters: snapshot.filters,
+        missingHeroes,
+        missingMetrics,
+      });
+    }
+  }
+
+  const missingMetricCount = incompleteSnapshots.reduce(
+    (total, issue) => total + Object.values(issue.missingMetrics).reduce((n, metrics) => n + metrics.length, 0),
+    0
+  );
+  return {
+    status: failures.length > 0 || incompleteSnapshots.length > 0 ? "partial" : "complete",
+    heroUniverse: [...heroUniverse].sort(),
+    failedFilters: failures.map(({ filter, code, message, attempts }) => ({ filter, code, message, attempts })),
+    incompleteSnapshots,
+    incompleteSnapshotCount: incompleteSnapshots.length,
+    missingMetricCount,
+    coverageByAxis: coverage.axis,
+    coverageByInputMapRegion: coverage.compound,
+  };
 }
 
 function heroesSignature(heroes) {
@@ -412,42 +652,74 @@ async function main() {
   const snapshots = [];
   const failures = [];
   let officialCompetitiveRq = null;
+  const retryQueue = [];
   console.log(`取得予定: ${activeFilters.length}/${FILTERS.length} スナップショット (delay ${delayMs}ms)`);
   for (let i = 0; i < activeFilters.length; i++) {
     const filter = activeFilters[i];
-    const mode = filter.rq === "0" ? "QP" : "ランク";
-    const label = `${filter.input}/${filter.map}/${mode}/${filter.region}/${filter.tier}`;
-    let url;
+    const label = filterLabel(filter);
+    const resolvingCompetitive = filter.rq === CANONICAL_COMPETITIVE_RQ && officialCompetitiveRq === null;
     try {
-      let response;
-      if (filter.rq === CANONICAL_COMPETITIVE_RQ && officialCompetitiveRq === null) {
-        response = await resolveOfficialCompetitiveResponse(filter, delayMs);
-        officialCompetitiveRq = response.officialCompetitiveRq;
-      } else {
-        response = await fetchOfficialResponse(filter, officialCompetitiveRq);
-      }
-      url = response.url;
-      const json = response.json;
-      const { heroes, slugCount, rowCount } = parseRates(json);
-      // 部分欠損を保存しない: 0件(parse失敗の疑い)・行単位の取りこぼし(slug≠行数)は
-      // failure 扱いにして、フィルタ取得失敗と同じく後段で「保存から除外」する(失敗が閾値超なら中断)。
-      // 欠けたヒーローを後の時系列分析で「実在の変動」と誤認するのを防ぐ (レビュー B1)。
-      if (slugCount === 0) {
-        console.error(`  ✗ ${label}: 0件 (レスポンス構造が変わった可能性。rates.rates を要確認)`);
-        failures.push({ filter, url, message: "0件 (parse失敗の疑い)" });
-      } else if (slugCount !== rowCount) {
-        console.error(`  ✗ ${label}: slug ${slugCount} 件 / 行 ${rowCount} 件 (差分=id欠落の取りこぼし)`);
-        failures.push({ filter, url, message: `一部取りこぼし (slug ${slugCount} / 行 ${rowCount})` });
-      } else {
-        console.log(`  ✓ ${label}: ${slugCount} 件`);
-        snapshots.push({ filters: filter, url, heroCount: slugCount, heroes });
-      }
+      const result = await fetchFilterSnapshot(filter, officialCompetitiveRq, {
+        attempts: resolvingCompetitive ? 3 : 1,
+        delayMs,
+        resolveCompetitive: resolvingCompetitive,
+      });
+      officialCompetitiveRq = result.officialCompetitiveRq ?? officialCompetitiveRq;
+      console.log(`  ✓ ${label}: ${result.snapshot.heroCount} 件`);
+      snapshots.push(result.snapshot);
     } catch (err) {
-      if (err instanceof OfficialFilterSelectionError) throw err;
-      console.error(`  ✗ ${label}: 取得失敗 — ${err.message}`);
-      failures.push({ filter, url, message: err.message });
+      if (err.officialCompetitiveRq) officialCompetitiveRq = err.officialCompetitiveRq;
+      const fatalSelection =
+        err instanceof OfficialFilterSelectionMismatchError ||
+        (err instanceof OfficialFilterSelectionError && officialCompetitiveRq === null && filter.rq === CANONICAL_COMPETITIVE_RQ);
+      if (fatalSelection) throw err;
+      const failure = filterFailure(
+        err.code ?? "request",
+        err.message,
+        filter,
+        err.url ?? null,
+        1
+      );
+      console.error(`  ✗ ${label}: 取得失敗 — ${failure.message} (再試行キュー)`);
+      failures.push(failure);
+      retryQueue.push(failure);
     }
     if (i < activeFilters.length - 1 && delayMs > 0) await sleep(delayMs); // 礼儀: フィルタ間に間隔
+  }
+
+  if (retryQueue.length > 0) {
+    console.log(`\n再試行: ${retryQueue.length} フィルタ (各フィルタ残り2回まで)`);
+    for (let i = 0; i < retryQueue.length; i++) {
+      const failure = retryQueue[i];
+      const label = filterLabel(failure.filter);
+      try {
+        const result = await fetchFilterSnapshot(failure.filter, officialCompetitiveRq, {
+          attempts: 2,
+          delayMs,
+        });
+        officialCompetitiveRq = result.officialCompetitiveRq ?? officialCompetitiveRq;
+        const index = failures.indexOf(failure);
+        if (index >= 0) failures.splice(index, 1);
+        snapshots.push(result.snapshot);
+        console.log(`  ↻ ${label}: 再試行成功 (${result.snapshot.heroCount} 件)`);
+      } catch (err) {
+        if (err.officialCompetitiveRq) officialCompetitiveRq = err.officialCompetitiveRq;
+        if (err instanceof OfficialFilterSelectionMismatchError) throw err;
+        if (
+          err instanceof OfficialFilterSelectionError &&
+          officialCompetitiveRq === null &&
+          failure.filter.rq === CANONICAL_COMPETITIVE_RQ
+        ) {
+          throw err;
+        }
+        failure.code = err.code ?? failure.code;
+        failure.message = err.message;
+        failure.url = err.url ?? failure.url;
+        failure.attempts = 3;
+        console.error(`  ✗ ${label}: 再試行後も取得失敗 — ${failure.message}`);
+      }
+      if (i < retryQueue.length - 1 && delayMs > 0) await sleep(delayMs);
+    }
   }
 
   if (snapshots.length === 0) {
@@ -455,13 +727,15 @@ async function main() {
     process.exit(1);
   }
 
+  const previousPath = findLatestSnapshotPath(OUT_DIR, date);
+  assertHeroAvailability(snapshots, previousPath);
+  const coverage = assertCoverage(activeFilters, snapshots);
   assertTierAxisNotCollapsed(snapshots);
   assertRankedAxisNotCollapsed(snapshots);
 
   if (failures.length > 0) {
-    const lbl = (f) => `${f.input}/${f.map}/${f.rq === "0" ? "QP" : "ランク"}/${f.region}/${f.tier}`;
     console.warn(`\n⚠ ${failures.length}/${activeFilters.length} フィルタが失敗 (保存から除外):`);
-    for (const f of failures.slice(0, 20)) console.warn(`  - ${lbl(f.filter)}: ${f.message}`);
+    for (const f of failures.slice(0, 20)) console.warn(`  - ${filterLabel(f.filter)}: ${f.message}`);
     if (failures.length > 20) console.warn(`  ... 他 ${failures.length - 20} 件`);
     if (failures.length > maxFailures) {
       console.error(
@@ -472,6 +746,8 @@ async function main() {
     }
     console.warn(`\n閾値内 (<= ${maxFailures} 件) のため、失敗分を除いた ${snapshots.length} 件を保存します。`);
   }
+
+  const collectionQuality = collectQuality(snapshots, failures, previousPath, coverage);
 
   const payload = {
     capturedAt,
@@ -488,6 +764,7 @@ async function main() {
       capturedFilterCount: snapshots.length,
       failedFilterCount: failures.length
     },
+    collectionQuality,
     snapshots,
   };
 
@@ -504,7 +781,6 @@ async function main() {
   // 重複排除: 直近スナップショットと capturedAt 以外が同一なら保存しない。
   // --limit の部分取得は snapshots 件数や filterPlan.capturedFilterCount が変わるため、
   // フル取得の前日分と誤って同一視されることはない。
-  const previousPath = findLatestSnapshotPath(OUT_DIR, date);
   if (previousPath && isSameExceptCapturedAt(payload, previousPath)) {
     console.log(
       `\n重複排除: ${basename(previousPath)} とデータ同一 (capturedAt のみ差分) のため保存をスキップします。`

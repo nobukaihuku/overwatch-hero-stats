@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
-import { mkdtemp, readFile, rm } from "node:fs/promises";
+import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
 import test from "node:test";
@@ -16,6 +16,7 @@ const TIERS = ["All", "Bronze", "Silver", "Gold", "Platinum", "Diamond", "Master
 
 if (MOCK_MODE) {
   let requestCount = 0;
+  const missingSelectionSeen = new Set();
   globalThis.fetch = async (input, init = {}) => {
     const url = new URL(String(input));
     const officialRq = url.searchParams.get("rq");
@@ -32,28 +33,61 @@ if (MOCK_MODE) {
       });
     }
 
-    const supportedRankedRq = MOCK_MODE === "valid-rq1" ? "1" : MOCK_MODE === "valid-rq2" ? "2" : null;
+    const supportedRankedRq = MOCK_MODE === "valid-rq1"
+      ? "1"
+      : ["valid-rq2", "missing-selected-once", "missing-selected-persistent", "missing-selected-axis", "missing-metrics", "missing-hero"].includes(MOCK_MODE)
+        ? "2"
+        : null;
     const isRanked = officialRq === supportedRankedRq;
     const tierIndex = Math.max(0, TIERS.indexOf(url.searchParams.get("tier")));
     const selected = Object.fromEntries(AXES.map((axis) => [axis, url.searchParams.get(axis)]));
 
     if (officialRq !== "0" && !isRanked) selected.rq = "0";
 
+    const targetKey = `${url.searchParams.get("map")}|${url.searchParams.get("region")}|${url.searchParams.get("tier")}`;
+    const missingSelectionTarget =
+      isRanked &&
+      url.searchParams.get("map") === "all-maps" &&
+      url.searchParams.get("tier") === "Grandmaster" &&
+      ((MOCK_MODE === "missing-selected-once" && url.searchParams.get("region") === "Asia" && !missingSelectionSeen.has(targetKey)) ||
+        (MOCK_MODE === "missing-selected-persistent" && url.searchParams.get("region") === "Asia") ||
+        (MOCK_MODE === "missing-selected-axis" && ["Asia", "Europe"].includes(url.searchParams.get("region"))));
+    if (missingSelectionTarget) missingSelectionSeen.add(targetKey);
+
+    const cells = {
+      name: "Ana",
+      winrate: isRanked ? 50 + tierIndex / 10 : 45,
+      pickrate: isRanked ? 10 + tierIndex / 10 : 5,
+      banrate: isRanked ? 1 : 0,
+    };
+    if (MOCK_MODE === "missing-metrics" && url.searchParams.get("tier") === "Grandmaster") {
+      cells.winrate = "--";
+      cells.pickrate = "--";
+      if (isRanked) cells.banrate = "--";
+    }
+
+    const missingHeroTarget =
+      MOCK_MODE === "missing-hero" &&
+      isRanked &&
+      url.searchParams.get("map") === "all-maps" &&
+      url.searchParams.get("tier") === "Grandmaster";
+
     const body = {
       rates: {
         rates: [
           {
             id: "ana",
-            cells: {
-              name: "Ana",
-              winrate: isRanked ? 50 + tierIndex / 10 : 45,
-              pickrate: isRanked ? 10 + tierIndex / 10 : 5,
-              banrate: isRanked ? 1 : 0,
-            },
+            cells,
           },
+          ...(!missingHeroTarget
+            ? [{
+                id: "mercy",
+                cells: { name: "Mercy", winrate: 50, pickrate: 10, banrate: isRanked ? 1 : 0 },
+              }]
+            : []),
         ],
         extrema: {},
-        selected,
+        ...(missingSelectionTarget ? {} : { selected }),
       },
       columns: [],
     };
@@ -64,7 +98,7 @@ if (MOCK_MODE) {
     });
   };
 } else {
-  function runCollector(mode, outDir, { limit = 18, fetchTimeoutMs } = {}) {
+  function runCollector(mode, outDir, { limit = 18, fetchTimeoutMs, envExtra = {} } = {}) {
     return spawnSync(
       process.execPath,
       ["--import", pathToFileURL(THIS_FILE).href, COLLECTOR, `--limit=${limit}`, "--delay-ms=0"],
@@ -77,6 +111,7 @@ if (MOCK_MODE) {
           STATS_DATE_OVERRIDE: TEST_DATE,
           STATS_OUT_DIR: outDir,
           ...(fetchTimeoutMs ? { STATS_FETCH_TIMEOUT_MS: String(fetchTimeoutMs) } : {}),
+          ...envExtra,
         },
         timeout: 6000,
       }
@@ -134,6 +169,99 @@ if (MOCK_MODE) {
       assert.equal(result.status, 1, `${result.stdout}\n${result.stderr}\n${result.error ?? ""}`);
       assert.equal((result.stdout.match(/\[mock-fetch\]/g) ?? []).length, 3);
       assert.match(result.stderr, /公式API応答待ちが 10ms を超えました/);
+      await assert.rejects(readFile(join(outDir, `${TEST_DATE}.json`), "utf8"), { code: "ENOENT" });
+    } finally {
+      await rm(outDir, { recursive: true, force: true });
+    }
+  });
+
+  test("retries a transient missing rates.selected response and saves the complete set", async () => {
+    const outDir = await mkdtemp(join(tmpdir(), "overwatch-stats-selected-retry-"));
+    try {
+      const result = runCollector("missing-selected-once", outDir, { limit: 54 });
+      assert.equal(result.status, 0, `${result.stdout}\n${result.stderr}`);
+      assert.match(result.stdout, /再試行成功/);
+      assert.equal((result.stdout.match(/\[mock-fetch\]/g) ?? []).length, 55);
+      const payload = JSON.parse(await readFile(join(outDir, `${TEST_DATE}.json`), "utf8"));
+      assert.equal(payload.filterPlan.capturedFilterCount, 54);
+      assert.equal(payload.filterPlan.failedFilterCount, 0);
+      assert.equal(payload.collectionQuality.status, "complete");
+    } finally {
+      await rm(outDir, { recursive: true, force: true });
+    }
+  });
+
+  test("keeps a persistent missing-selected filter out of a partial snapshot", async () => {
+    const outDir = await mkdtemp(join(tmpdir(), "overwatch-stats-selected-partial-"));
+    try {
+      const result = runCollector("missing-selected-persistent", outDir, { limit: 54 });
+      assert.equal(result.status, 0, `${result.stdout}\n${result.stderr}`);
+      assert.equal((result.stdout.match(/\[mock-fetch\]/g) ?? []).length, 56);
+      const payload = JSON.parse(await readFile(join(outDir, `${TEST_DATE}.json`), "utf8"));
+      assert.equal(payload.filterPlan.capturedFilterCount, 53);
+      assert.equal(payload.filterPlan.failedFilterCount, 1);
+      assert.equal(payload.collectionQuality.status, "partial");
+      assert.equal(payload.collectionQuality.failedFilters[0].code, "missing-selected");
+    } finally {
+      await rm(outDir, { recursive: true, force: true });
+    }
+  });
+
+  test("preserves null metric values and records incomplete heroes", async () => {
+    const outDir = await mkdtemp(join(tmpdir(), "overwatch-stats-missing-metrics-"));
+    try {
+      const result = runCollector("missing-metrics", outDir, { limit: 18 });
+      assert.equal(result.status, 0, `${result.stdout}\n${result.stderr}`);
+      const payload = JSON.parse(await readFile(join(outDir, `${TEST_DATE}.json`), "utf8"));
+      const affected = payload.snapshots.find((snapshot) => snapshot.filters.tier === "Grandmaster");
+      assert.equal(affected.heroes.ana.win, null);
+      assert.equal(affected.heroes.ana.pick, null);
+      assert.equal(affected.heroes.ana.ban, null);
+      assert.equal(payload.collectionQuality.status, "partial");
+      assert.ok(payload.collectionQuality.missingMetricCount >= 3);
+    } finally {
+      await rm(outDir, { recursive: true, force: true });
+    }
+  });
+
+  test("records a hero row missing from only some filters", async () => {
+    const outDir = await mkdtemp(join(tmpdir(), "overwatch-stats-missing-hero-"));
+    try {
+      const result = runCollector("missing-hero", outDir, { limit: 18 });
+      assert.equal(result.status, 0, `${result.stdout}\n${result.stderr}`);
+      const payload = JSON.parse(await readFile(join(outDir, `${TEST_DATE}.json`), "utf8"));
+      assert.ok(payload.collectionQuality.heroUniverse.includes("mercy"));
+      assert.ok(
+        payload.collectionQuality.incompleteSnapshots.some((issue) => issue.missingHeroes.includes("mercy"))
+      );
+    } finally {
+      await rm(outDir, { recursive: true, force: true });
+    }
+  });
+
+  test("rejects a severe hero-row drop against the previous snapshot", async () => {
+    const outDir = await mkdtemp(join(tmpdir(), "overwatch-stats-hero-coverage-"));
+    try {
+      await writeFile(
+        join(outDir, "2098-12-31.json"),
+        JSON.stringify({ snapshots: [{ heroes: { ana: {}, mercy: {}, genji: {} } }] }),
+        "utf8"
+      );
+      const result = runCollector("missing-hero", outDir, { limit: 18 });
+      assert.equal(result.status, 1, `${result.stdout}\n${result.stderr}`);
+      assert.match(result.stderr, /ヒーロー行の欠損を検知/);
+      await assert.rejects(readFile(join(outDir, `${TEST_DATE}.json`), "utf8"), { code: "ENOENT" });
+    } finally {
+      await rm(outDir, { recursive: true, force: true });
+    }
+  });
+
+  test("rejects axis-concentrated missing filters even within the global failure rate", async () => {
+    const outDir = await mkdtemp(join(tmpdir(), "overwatch-stats-axis-coverage-"));
+    try {
+      const result = runCollector("missing-selected-axis", outDir, { limit: 27 });
+      assert.equal(result.status, 1, `${result.stdout}\n${result.stderr}`);
+      assert.match(result.stderr, /部分欠損の偏りを検知/);
       await assert.rejects(readFile(join(outDir, `${TEST_DATE}.json`), "utf8"), { code: "ENOENT" });
     } finally {
       await rm(outDir, { recursive: true, force: true });
