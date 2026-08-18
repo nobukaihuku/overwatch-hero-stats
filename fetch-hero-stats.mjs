@@ -325,6 +325,10 @@ function filterLabel(filter) {
   return `${filter.input}/${filter.map}/${filter.rq === "0" ? "QP" : "ランク"}/${filter.region}/${filter.tier}`;
 }
 
+function filterKey(filter) {
+  return FILTER_AXES.map((axis) => String(filter[axis])).join("|");
+}
+
 function filterFailure(code, message, filter, url = null, attempts = 1) {
   return { filter, url, code, message, attempts };
 }
@@ -427,6 +431,61 @@ function calculateCoverage(activeFilters, snapshots) {
   return { axis, compound, insufficient };
 }
 
+function quarantineIncompleteMaps(activeFilters, snapshots, failures) {
+  const coverage = calculateCoverage(activeFilters, snapshots);
+  const quarantined = new Map();
+
+  for (const [key, value] of Object.entries(coverage.axis)) {
+    if (!key.startsWith("map=")) continue;
+    if (value.captured >= Math.ceil(value.expected * MIN_COVERAGE_RATE)) continue;
+    quarantined.set(key.slice(4), value);
+  }
+  for (const [key, value] of Object.entries(coverage.compound)) {
+    if (value.captured >= Math.ceil(value.expected * MIN_COVERAGE_RATE)) continue;
+    const [, map] = key.split("|");
+    if (!quarantined.has(map)) {
+      const mapCoverage = coverage.axis[`map=${map}`];
+      quarantined.set(map, mapCoverage);
+    }
+  }
+
+  if (quarantined.size === 0) {
+    return { activeFilters, snapshots, quarantinedMaps: [] };
+  }
+
+  const quarantinedNames = new Set(quarantined.keys());
+  const existingFailures = new Set(failures.map((failure) => filterKey(failure.filter)));
+  for (const filter of activeFilters) {
+    if (!quarantinedNames.has(filter.map) || existingFailures.has(filterKey(filter))) continue;
+    failures.push(
+      filterFailure(
+        "map-quarantined",
+        `マップ ${filter.map} の取得率が品質基準未満のためマップ全体を除外`,
+        filter,
+        null,
+        1
+      )
+    );
+  }
+
+  const quarantinedMaps = [...quarantined].map(([map, value]) => ({
+    map,
+    capturedFilterCountBeforeQuarantine: value.captured,
+    expectedFilterCount: value.expected,
+    rateBeforeQuarantine: value.rate,
+  }));
+  console.warn(`\n⚠ 品質基準未満の ${quarantinedMaps.length} マップを全体隔離します:`);
+  for (const item of quarantinedMaps) {
+    console.warn(`  - ${item.map}: ${item.capturedFilterCountBeforeQuarantine}/${item.expectedFilterCount}`);
+  }
+
+  return {
+    activeFilters: activeFilters.filter((filter) => !quarantinedNames.has(filter.map)),
+    snapshots: snapshots.filter((snapshot) => !quarantinedNames.has(snapshot.filters.map)),
+    quarantinedMaps,
+  };
+}
+
 function assertCoverage(activeFilters, snapshots) {
   const coverage = calculateCoverage(activeFilters, snapshots);
   if (coverage.insufficient.length === 0) return coverage;
@@ -472,7 +531,7 @@ function assertHeroAvailability(snapshots, previousPath) {
   }
 }
 
-function collectQuality(snapshots, failures, previousPath, coverage) {
+function collectQuality(snapshots, failures, previousPath, coverage, quarantinedMaps) {
   const heroUniverse = readPreviousHeroUniverse(previousPath);
   for (const snapshot of snapshots) {
     for (const slug of Object.keys(snapshot.heroes)) heroUniverse.add(slug);
@@ -509,6 +568,7 @@ function collectQuality(snapshots, failures, previousPath, coverage) {
     incompleteSnapshots,
     incompleteSnapshotCount: incompleteSnapshots.length,
     missingMetricCount,
+    quarantinedMaps,
     coverageByAxis: coverage.axis,
     coverageByInputMapRegion: coverage.compound,
   };
@@ -727,9 +787,16 @@ async function main() {
     process.exit(1);
   }
 
+  const quarantine = quarantineIncompleteMaps(activeFilters, snapshots, failures);
+  snapshots.splice(0, snapshots.length, ...quarantine.snapshots);
+  if (snapshots.length === 0) {
+    console.error("\n品質基準未満のマップを隔離した結果、保存可能なフィルタがありません。中断します。");
+    process.exit(1);
+  }
+
   const previousPath = findLatestSnapshotPath(OUT_DIR, date);
   assertHeroAvailability(snapshots, previousPath);
-  const coverage = assertCoverage(activeFilters, snapshots);
+  const coverage = assertCoverage(quarantine.activeFilters, snapshots);
   assertTierAxisNotCollapsed(snapshots);
   assertRankedAxisNotCollapsed(snapshots);
 
@@ -747,7 +814,13 @@ async function main() {
     console.warn(`\n閾値内 (<= ${maxFailures} 件) のため、失敗分を除いた ${snapshots.length} 件を保存します。`);
   }
 
-  const collectionQuality = collectQuality(snapshots, failures, previousPath, coverage);
+  const collectionQuality = collectQuality(
+    snapshots,
+    failures,
+    previousPath,
+    coverage,
+    quarantine.quarantinedMaps
+  );
 
   const payload = {
     capturedAt,
@@ -762,7 +835,8 @@ async function main() {
       modeTiers: MODE_TIERS,
       totalFilterCount: FILTERS.length,
       capturedFilterCount: snapshots.length,
-      failedFilterCount: failures.length
+      failedFilterCount: failures.length,
+      quarantinedMapCount: quarantine.quarantinedMaps.length
     },
     collectionQuality,
     snapshots,
