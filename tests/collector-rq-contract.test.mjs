@@ -35,7 +35,7 @@ if (MOCK_MODE) {
 
     const supportedRankedRq = MOCK_MODE === "valid-rq1"
       ? "1"
-      : ["valid-rq2", "missing-selected-once", "missing-selected-persistent", "missing-selected-axis", "missing-metrics", "missing-hero"].includes(MOCK_MODE)
+      : ["valid-rq2", "missing-selected-once", "missing-selected-persistent", "missing-selected-axis", "missing-map", "missing-metrics", "missing-hero"].includes(MOCK_MODE)
         ? "2"
         : null;
     const isRanked = officialRq === supportedRankedRq;
@@ -45,13 +45,15 @@ if (MOCK_MODE) {
     if (officialRq !== "0" && !isRanked) selected.rq = "0";
 
     const targetKey = `${url.searchParams.get("map")}|${url.searchParams.get("region")}|${url.searchParams.get("tier")}`;
-    const missingSelectionTarget =
-      isRanked &&
-      url.searchParams.get("map") === "all-maps" &&
+    const missingWholeMap =
+      MOCK_MODE === "missing-map" && ["Asia", "Europe"].includes(url.searchParams.get("region"));
+    const missingGrandmaster =
       url.searchParams.get("tier") === "Grandmaster" &&
       ((MOCK_MODE === "missing-selected-once" && url.searchParams.get("region") === "Asia" && !missingSelectionSeen.has(targetKey)) ||
         (MOCK_MODE === "missing-selected-persistent" && url.searchParams.get("region") === "Asia") ||
         (MOCK_MODE === "missing-selected-axis" && ["Asia", "Europe"].includes(url.searchParams.get("region"))));
+    const missingSelectionTarget =
+      isRanked && url.searchParams.get("map") === "all-maps" && (missingWholeMap || missingGrandmaster);
     if (missingSelectionTarget) missingSelectionSeen.add(targetKey);
 
     const cells = {
@@ -263,6 +265,23 @@ if (MOCK_MODE) {
       assert.equal(result.status, 1, `${result.stdout}\n${result.stderr}`);
       assert.match(result.stderr, /部分欠損の偏りを検知/);
       await assert.rejects(readFile(join(outDir, `${TEST_DATE}.json`), "utf8"), { code: "ENOENT" });
+    } finally {
+      await rm(outDir, { recursive: true, force: true });
+    }
+  });
+
+  test("quarantines an incomplete map and saves the remaining maps within the global limit", async () => {
+    const outDir = await mkdtemp(join(tmpdir(), "overwatch-stats-map-quarantine-"));
+    try {
+      const result = runCollector("missing-map", outDir, { limit: 540 });
+      assert.equal(result.status, 0, `${result.stdout}\n${result.stderr}`);
+      assert.match(result.stderr, /品質基準未満の 1 マップを全体隔離/);
+      const payload = JSON.parse(await readFile(join(outDir, `${TEST_DATE}.json`), "utf8"));
+      assert.equal(payload.filterPlan.capturedFilterCount, 513);
+      assert.equal(payload.filterPlan.failedFilterCount, 27);
+      assert.equal(payload.filterPlan.quarantinedMapCount, 1);
+      assert.equal(payload.collectionQuality.quarantinedMaps[0].map, "all-maps");
+      assert.ok(payload.snapshots.every((snapshot) => snapshot.filters.map !== "all-maps"));
     } finally {
       await rm(outDir, { recursive: true, force: true });
     }
