@@ -12,7 +12,12 @@ const COLLECTOR = resolve(REPO_ROOT, "fetch-hero-stats.mjs");
 const TEST_DATE = "2099-01-01";
 const MOCK_MODE = process.env.COLLECTOR_RQ_MOCK_MODE;
 const AXES = ["input", "map", "region", "role", "rq", "tier"];
-const TIERS = ["All", "Bronze", "Silver", "Gold", "Platinum", "Diamond", "Master", "Grandmaster"];
+const TIERS = ["All", "Bronze", "Silver", "Gold", "Platinum", "Emerald", "Diamond", "Master", "Grandmaster"];
+const FILTERS_PER_INPUT_MAP_REGION = 1 + TIERS.length;
+const FILTERS_PER_INPUT_MAP = FILTERS_PER_INPUT_MAP_REGION * 3;
+const DEFAULT_TEST_GROUP_COUNT = 2;
+const DEFAULT_TEST_LIMIT = FILTERS_PER_INPUT_MAP_REGION * DEFAULT_TEST_GROUP_COUNT;
+const TOTAL_FILTER_COUNT = 2 * 31 * 3 * FILTERS_PER_INPUT_MAP_REGION;
 
 if (MOCK_MODE) {
   let requestCount = 0;
@@ -100,7 +105,7 @@ if (MOCK_MODE) {
     });
   };
 } else {
-  function runCollector(mode, outDir, { limit = 18, fetchTimeoutMs, envExtra = {} } = {}) {
+  function runCollector(mode, outDir, { limit = DEFAULT_TEST_LIMIT, fetchTimeoutMs, envExtra = {} } = {}) {
     return spawnSync(
       process.execPath,
       ["--import", pathToFileURL(THIS_FILE).href, COLLECTOR, `--limit=${limit}`, "--delay-ms=0"],
@@ -129,26 +134,36 @@ if (MOCK_MODE) {
       assert.equal((result.stdout.match(/\[mock-fetch\]/g) ?? []).length, expectedRequestCount);
 
       const payload = JSON.parse(await readFile(join(outDir, `${TEST_DATE}.json`), "utf8"));
-      assert.equal(payload.filterPlan.capturedFilterCount, 18);
+      assert.equal(payload.filterPlan.totalFilterCount, TOTAL_FILTER_COUNT);
+      assert.deepEqual(payload.filterPlan.modeTiers[1].tiers, TIERS);
+      assert.equal(payload.filterPlan.capturedFilterCount, DEFAULT_TEST_LIMIT);
       assert.equal(payload.filterPlan.failedFilterCount, 0);
 
       const quickPlay = payload.snapshots.filter((snapshot) => snapshot.filters.rq === "0");
       const ranked = payload.snapshots.filter((snapshot) => snapshot.filters.rq === "2");
-      assert.equal(quickPlay.length, 2);
-      assert.equal(ranked.length, 16);
+      assert.equal(quickPlay.length, DEFAULT_TEST_GROUP_COUNT);
+      assert.equal(ranked.length, TIERS.length * DEFAULT_TEST_GROUP_COUNT);
       assert.ok(quickPlay.every((snapshot) => new URL(snapshot.url).searchParams.get("rq") === "0"));
       assert.ok(ranked.every((snapshot) => new URL(snapshot.url).searchParams.get("rq") === expectedRq));
+
+      const firstRankedGroup = ranked.filter(
+        (snapshot) =>
+          snapshot.filters.input === "PC" &&
+          snapshot.filters.map === "all-maps" &&
+          snapshot.filters.region === "Americas"
+      );
+      assert.deepEqual(firstRankedGroup.map((snapshot) => snapshot.filters.tier), TIERS);
     } finally {
       await rm(outDir, { recursive: true, force: true });
     }
   }
 
-  test("uses official rq=2 when the API accepts it while preserving canonical rq=2", async () => {
-    await assertSelectedRankedRq("valid-rq2", "2", 18);
+  test("includes Emerald and uses official rq=2 while preserving canonical rq=2", async () => {
+    await assertSelectedRankedRq("valid-rq2", "2", DEFAULT_TEST_LIMIT);
   });
 
   test("falls back to official rq=1 when rq=2 is rejected while preserving canonical rq=2", async () => {
-    await assertSelectedRankedRq("valid-rq1", "1", 19);
+    await assertSelectedRankedRq("valid-rq1", "1", DEFAULT_TEST_LIMIT + 1);
   });
 
   test("aborts when every official competitive rq candidate is rejected", async () => {
@@ -180,12 +195,13 @@ if (MOCK_MODE) {
   test("retries a transient missing rates.selected response and saves the complete set", async () => {
     const outDir = await mkdtemp(join(tmpdir(), "overwatch-stats-selected-retry-"));
     try {
-      const result = runCollector("missing-selected-once", outDir, { limit: 54 });
+      const limit = FILTERS_PER_INPUT_MAP_REGION * 3;
+      const result = runCollector("missing-selected-once", outDir, { limit });
       assert.equal(result.status, 0, `${result.stdout}\n${result.stderr}`);
       assert.match(result.stdout, /再試行成功/);
-      assert.equal((result.stdout.match(/\[mock-fetch\]/g) ?? []).length, 55);
+      assert.equal((result.stdout.match(/\[mock-fetch\]/g) ?? []).length, limit + 1);
       const payload = JSON.parse(await readFile(join(outDir, `${TEST_DATE}.json`), "utf8"));
-      assert.equal(payload.filterPlan.capturedFilterCount, 54);
+      assert.equal(payload.filterPlan.capturedFilterCount, limit);
       assert.equal(payload.filterPlan.failedFilterCount, 0);
       assert.equal(payload.collectionQuality.status, "complete");
     } finally {
@@ -196,11 +212,12 @@ if (MOCK_MODE) {
   test("keeps a persistent missing-selected filter out of a partial snapshot", async () => {
     const outDir = await mkdtemp(join(tmpdir(), "overwatch-stats-selected-partial-"));
     try {
-      const result = runCollector("missing-selected-persistent", outDir, { limit: 54 });
+      const limit = FILTERS_PER_INPUT_MAP_REGION * 3;
+      const result = runCollector("missing-selected-persistent", outDir, { limit });
       assert.equal(result.status, 0, `${result.stdout}\n${result.stderr}`);
-      assert.equal((result.stdout.match(/\[mock-fetch\]/g) ?? []).length, 56);
+      assert.equal((result.stdout.match(/\[mock-fetch\]/g) ?? []).length, limit + 2);
       const payload = JSON.parse(await readFile(join(outDir, `${TEST_DATE}.json`), "utf8"));
-      assert.equal(payload.filterPlan.capturedFilterCount, 53);
+      assert.equal(payload.filterPlan.capturedFilterCount, limit - 1);
       assert.equal(payload.filterPlan.failedFilterCount, 1);
       assert.equal(payload.collectionQuality.status, "partial");
       assert.equal(payload.collectionQuality.failedFilters[0].code, "missing-selected");
@@ -261,7 +278,9 @@ if (MOCK_MODE) {
   test("rejects axis-concentrated missing filters even within the global failure rate", async () => {
     const outDir = await mkdtemp(join(tmpdir(), "overwatch-stats-axis-coverage-"));
     try {
-      const result = runCollector("missing-selected-axis", outDir, { limit: 27 });
+      const result = runCollector("missing-selected-axis", outDir, {
+        limit: FILTERS_PER_INPUT_MAP_REGION * 3,
+      });
       assert.equal(result.status, 1, `${result.stdout}\n${result.stderr}`);
       assert.match(result.stderr, /部分欠損の偏りを検知/);
       await assert.rejects(readFile(join(outDir, `${TEST_DATE}.json`), "utf8"), { code: "ENOENT" });
@@ -273,12 +292,13 @@ if (MOCK_MODE) {
   test("quarantines an incomplete map and saves the remaining maps within the global limit", async () => {
     const outDir = await mkdtemp(join(tmpdir(), "overwatch-stats-map-quarantine-"));
     try {
-      const result = runCollector("missing-map", outDir, { limit: 540 });
+      const limit = FILTERS_PER_INPUT_MAP * 20;
+      const result = runCollector("missing-map", outDir, { limit });
       assert.equal(result.status, 0, `${result.stdout}\n${result.stderr}`);
       assert.match(result.stderr, /品質基準未満の 1 マップを全体隔離/);
       const payload = JSON.parse(await readFile(join(outDir, `${TEST_DATE}.json`), "utf8"));
-      assert.equal(payload.filterPlan.capturedFilterCount, 513);
-      assert.equal(payload.filterPlan.failedFilterCount, 27);
+      assert.equal(payload.filterPlan.capturedFilterCount, limit - FILTERS_PER_INPUT_MAP);
+      assert.equal(payload.filterPlan.failedFilterCount, FILTERS_PER_INPUT_MAP);
       assert.equal(payload.filterPlan.quarantinedMapCount, 1);
       assert.equal(payload.collectionQuality.quarantinedMaps[0].map, "all-maps");
       assert.ok(payload.snapshots.every((snapshot) => snapshot.filters.map !== "all-maps"));

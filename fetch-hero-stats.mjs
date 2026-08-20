@@ -59,7 +59,7 @@ const UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML,
 // ---------- 収集するフィルタの組み合わせ ----------
 // 公式フィルタの確定値 (rates ページの <option> より):
 //   region : Americas / Asia / Europe
-//   tier   : All / Bronze / Silver / Gold / Platinum / Diamond / Master / Grandmaster
+//   tier   : All / Bronze / Silver / Gold / Platinum / Emerald / Diamond / Master / Grandmaster
 //            (Grandmaster は「グランドマスター&チャンピオン」統合)
 //   input  : PC / Console     role : All ほかサブロール多数     map : all-maps ほか個別マップ多数
 // role は公式FAQ上「表示内容の絞り込み」で、再計算フィルタではないため All だけを取る。
@@ -100,7 +100,7 @@ const MAPS = [
 ];
 const ROLE = "All";
 const REGIONS = ["Americas", "Asia", "Europe"];
-const COMP_TIERS = ["All", "Bronze", "Silver", "Gold", "Platinum", "Diamond", "Master", "Grandmaster"];
+const COMP_TIERS = ["All", "Bronze", "Silver", "Gold", "Platinum", "Emerald", "Diamond", "Master", "Grandmaster"];
 // 公式APIの競技値は 2026-08-12〜13 に 1 と 2 の間で切り替わったため、run開始時に候補を検証する。
 // 保存済み payload との互換性を保つため、canonical の競技値は常に 2 を維持する。
 const CANONICAL_QUICK_PLAY_RQ = "0";
@@ -113,7 +113,7 @@ const MODE_TIERS = [
   { rq: CANONICAL_COMPETITIVE_RQ, tiers: COMP_TIERS },
 ];
 
-// 2入力 × 31マップ × 3地域 × (QP全体1 + 競技8ティア) = 1674 スナップショット
+// 2入力 × 31マップ × 3地域 × (QP全体1 + 競技9ティア) = 1860 スナップショット
 const FILTERS = [];
 for (const input of INPUTS)
   for (const map of MAPS)
