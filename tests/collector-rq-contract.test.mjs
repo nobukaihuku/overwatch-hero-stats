@@ -18,15 +18,25 @@ const FILTERS_PER_INPUT_MAP = FILTERS_PER_INPUT_MAP_REGION * 3;
 const DEFAULT_TEST_GROUP_COUNT = 2;
 const DEFAULT_TEST_LIMIT = FILTERS_PER_INPUT_MAP_REGION * DEFAULT_TEST_GROUP_COUNT;
 const TOTAL_FILTER_COUNT = 2 * 31 * 3 * FILTERS_PER_INPUT_MAP_REGION;
+const METRIC_CASES = [
+  ...[-1, 100.01, -Infinity, Infinity, NaN, "-1", "100.01", "Infinity", "-Infinity", "NaN",
+    "50garbage", "50%garbage", "", " ", "%", "--", null, undefined, true, false, [], {}, ["50"]]
+    .map((value) => ({ value, expected: null })),
+  ...[0, 100, "0", "100", "25.5%", " 42 % ", "12.5"]
+    .map((value) => ({ value, expected: Number(String(value).trim().replace(/%$/, "")) })),
+];
 
 if (MOCK_MODE) {
   let requestCount = 0;
   const missingSelectionSeen = new Set();
+  const requestsByUrl = new Map();
   globalThis.fetch = async (input, init = {}) => {
     const url = new URL(String(input));
     const officialRq = url.searchParams.get("rq");
     requestCount += 1;
     console.log(`[mock-fetch] ${requestCount} rq=${officialRq}`);
+    const urlAttempts = (requestsByUrl.get(url.href) ?? 0) + 1;
+    requestsByUrl.set(url.href, urlAttempts);
 
     if (MOCK_MODE === "timeout") {
       return await new Promise((_, reject) => {
@@ -38,16 +48,19 @@ if (MOCK_MODE) {
       });
     }
 
-    const supportedRankedRq = MOCK_MODE === "valid-rq1"
+    const supportedRankedRq = MOCK_MODE === "valid-rq1" || MOCK_MODE.includes("probe-rq1")
       ? "1"
-      : ["valid-rq2", "missing-selected-once", "missing-selected-persistent", "missing-selected-axis", "missing-map", "missing-metrics", "missing-hero"].includes(MOCK_MODE)
-        ? "2"
-        : null;
+      : ["fallback", "timeout"].includes(MOCK_MODE) ? null : "2";
     const isRanked = officialRq === supportedRankedRq;
     const tierIndex = Math.max(0, TIERS.indexOf(url.searchParams.get("tier")));
     const selected = Object.fromEntries(AXES.map((axis) => [axis, url.searchParams.get(axis)]));
 
     if (officialRq !== "0" && !isRanked) selected.rq = "0";
+    const probeTarget = officialRq !== "0" &&
+      url.searchParams.get("region") === "Americas" && url.searchParams.get("tier") === "All";
+    if (MOCK_MODE === "probe-transport-persistent" && probeTarget) throw new Error("mock transport failure");
+    if (MOCK_MODE === "selection-mismatch" && url.searchParams.get("region") === "Asia" &&
+        url.searchParams.get("tier") === "Grandmaster") selected.input = "Console";
 
     const targetKey = `${url.searchParams.get("map")}|${url.searchParams.get("region")}|${url.searchParams.get("tier")}`;
     const missingWholeMap =
@@ -94,10 +107,30 @@ if (MOCK_MODE) {
             : []),
         ],
         extrema: {},
-        ...(missingSelectionTarget ? {} : { selected }),
+        ...(missingSelectionTarget ||
+          (MOCK_MODE === "probe-rq1-retried-rejection" && probeTarget && officialRq === "2" && urlAttempts < 3)
+          ? {} : { selected }),
       },
       columns: [],
     };
+
+    const parseTarget = isRanked &&
+      (MOCK_MODE.startsWith("probe-") ? probeTarget :
+        url.searchParams.get("region") === "Asia" && url.searchParams.get("tier") === "Grandmaster");
+    if (parseTarget && (MOCK_MODE.includes("persistent") || MOCK_MODE.includes("retried-rejection") ||
+        (MOCK_MODE.includes("transient") && urlAttempts < 3))) {
+      if (MOCK_MODE.includes("empty") || MOCK_MODE === "probe-rq1-retried-rejection") body.rates.rates = [];
+      if (MOCK_MODE.includes("missing-row-id")) body.rates.rates.push({ cells });
+    }
+    if (MOCK_MODE === "metric-normalization") {
+      body.rates.rates.push(...METRIC_CASES.map(({ value }, index) => ({
+        id: `metric-${index}`,
+        cells: parseTarget ? { winrate: value, pickrate: value, banrate: value } :
+          { winrate: 50, pickrate: 10, banrate: isRanked ? 1 : 0 },
+      })));
+      // JSON cannot encode NaN/Infinity; json() also exercises the numeric guard directly.
+      return { ok: true, json: async () => body };
+    }
 
     return new Response(JSON.stringify(body), {
       status: 200,
@@ -221,6 +254,7 @@ if (MOCK_MODE) {
       assert.equal(payload.filterPlan.failedFilterCount, 1);
       assert.equal(payload.collectionQuality.status, "partial");
       assert.equal(payload.collectionQuality.failedFilters[0].code, "missing-selected");
+      assert.equal(payload.collectionQuality.failedFilters[0].attempts, 3);
     } finally {
       await rm(outDir, { recursive: true, force: true });
     }
@@ -238,6 +272,94 @@ if (MOCK_MODE) {
       assert.equal(affected.heroes.ana.ban, null);
       assert.equal(payload.collectionQuality.status, "partial");
       assert.ok(payload.collectionQuality.missingMetricCount >= 3);
+    } finally {
+      await rm(outDir, { recursive: true, force: true });
+    }
+  });
+
+  test("normalizes invalid percentages to null while preserving zero, 100, and valid strings", async () => {
+    const outDir = await mkdtemp(join(tmpdir(), "overwatch-stats-metric-range-"));
+    try {
+      const result = runCollector("metric-normalization", outDir, { limit: 30 });
+      assert.equal(result.status, 0, `${result.stdout}\n${result.stderr}`);
+      const payload = JSON.parse(await readFile(join(outDir, `${TEST_DATE}.json`), "utf8"));
+      const affected = payload.snapshots.find((snapshot) =>
+        snapshot.filters.region === "Asia" && snapshot.filters.tier === "Grandmaster");
+      assert.equal(affected.heroCount, METRIC_CASES.length + 2);
+      for (const [index, { value, expected }] of METRIC_CASES.entries()) {
+        assert.deepEqual(affected.heroes[`metric-${index}`],
+          { win: expected, pick: expected, ban: expected }, `metric input ${String(value)}`);
+      }
+      assert.equal(payload.collectionQuality.status, "partial");
+      assert.equal(payload.collectionQuality.incompleteSnapshotCount, 1);
+      assert.equal(payload.collectionQuality.missingMetricCount,
+        METRIC_CASES.filter(({ expected }) => expected === null).length * 3);
+      assert.equal(payload.collectionQuality.failedFilters.length, 0);
+    } finally {
+      await rm(outDir, { recursive: true, force: true });
+    }
+  });
+
+  for (const mode of ["empty-rates-transient", "missing-row-id-transient", "probe-empty-transient"]) {
+    test(`recovers ${mode} on the third actual request`, async () => {
+      const outDir = await mkdtemp(join(tmpdir(), "overwatch-stats-parse-retry-"));
+      try {
+        const limit = 30;
+        const result = runCollector(mode, outDir, { limit });
+        assert.equal(result.status, 0, `${result.stdout}\n${result.stderr}`);
+        assert.equal((result.stdout.match(/\[mock-fetch\]/g) ?? []).length, limit + 2);
+        if (!mode.startsWith("probe-")) assert.match(result.stdout, /再試行成功/);
+        assert.doesNotMatch(result.stdout, /rq=1/);
+        const payload = JSON.parse(await readFile(join(outDir, `${TEST_DATE}.json`), "utf8"));
+        assert.equal(payload.filterPlan.capturedFilterCount, limit);
+        assert.equal(payload.collectionQuality.status, "complete");
+        assert.equal(payload.collectionQuality.failedFilters.length, 0);
+      } finally {
+        await rm(outDir, { recursive: true, force: true });
+      }
+    });
+  }
+
+  for (const [mode, code, attempts, extraRequests] of [
+    ["empty-rates-persistent", "empty-rates", 3, 2],
+    ["missing-row-id-persistent", "missing-row-id", 3, 2],
+    ["probe-empty-persistent", "empty-rates", 5, 4],
+    ["probe-transport-persistent", "request", 5, 4],
+    ["probe-rq1-empty-persistent", "empty-rates", 6, 5],
+    ["probe-rq1-retried-rejection", "empty-rates", 8, 7],
+  ]) {
+    test(`records actual attempts for ${mode}`, async () => {
+      const outDir = await mkdtemp(join(tmpdir(), "overwatch-stats-parse-partial-"));
+      try {
+        const limit = 30;
+        const result = runCollector(mode, outDir, { limit });
+        assert.equal(result.status, 0, `${result.stdout}\n${result.stderr}`);
+        assert.equal((result.stdout.match(/\[mock-fetch\]/g) ?? []).length, limit + extraRequests);
+        if (!mode.includes("rq1")) assert.doesNotMatch(result.stdout, /rq=1/);
+        const payload = JSON.parse(await readFile(join(outDir, `${TEST_DATE}.json`), "utf8"));
+        assert.equal(payload.filterPlan.capturedFilterCount, limit - 1);
+        assert.equal(payload.collectionQuality.status, "partial");
+        assert.equal(payload.collectionQuality.failedFilters.length, 1);
+        assert.equal(payload.collectionQuality.failedFilters[0].code, code);
+        assert.equal(payload.collectionQuality.failedFilters[0].attempts, attempts);
+        const expectedRq = mode.includes("rq1") ? "1" : "2";
+        assert.ok(payload.snapshots.filter((snapshot) => snapshot.filters.rq === "2")
+          .every((snapshot) => new URL(snapshot.url).searchParams.get("rq") === expectedRq));
+      } finally {
+        await rm(outDir, { recursive: true, force: true });
+      }
+    });
+  }
+
+  test("aborts immediately on a normal filter selection mismatch", async () => {
+    const outDir = await mkdtemp(join(tmpdir(), "overwatch-stats-selection-mismatch-"));
+    try {
+      const result = runCollector("selection-mismatch", outDir, { limit: 30 });
+      assert.equal(result.status, 1, `${result.stdout}\n${result.stderr}`);
+      assert.equal((result.stdout.match(/\[mock-fetch\]/g) ?? []).length, 20);
+      assert.match(result.stderr, /選択値が要求と不一致/);
+      assert.doesNotMatch(result.stdout, /再試行:/);
+      await assert.rejects(readFile(join(outDir, `${TEST_DATE}.json`), "utf8"), { code: "ENOENT" });
     } finally {
       await rm(outDir, { recursive: true, force: true });
     }

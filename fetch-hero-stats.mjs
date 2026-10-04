@@ -228,12 +228,31 @@ async function fetchOfficialResponse(
 ) {
   const { officialFilter, url } = buildRequest(filter, officialCompetitiveRq);
   let lastError;
+  let selectionMatched = false;
   for (let attempt = 1; attempt <= attempts; attempt++) {
     try {
       const json = await fetchJsonOnce(url);
       assertOfficialSelection(json, officialFilter);
-      return { json, url };
+      selectionMatched = true;
+      const parsed = parseRates(json);
+      if (parsed.slugCount === 0) {
+        throw new FilterCollectionError(
+          "empty-rates",
+          "0件 (レスポンス構造が変わった可能性。rates.rates を要確認)",
+          { url }
+        );
+      }
+      if (parsed.slugCount !== parsed.rowCount) {
+        throw new FilterCollectionError(
+          "missing-row-id",
+          `一部取りこぼし (slug ${parsed.slugCount} / 行 ${parsed.rowCount})`,
+          { url }
+        );
+      }
+      return { parsed, url, attempts: attempt };
     } catch (err) {
+      err.attempts = attempt;
+      if (selectionMatched) err.officialCompetitiveRq = officialCompetitiveRq;
       lastError = err;
       const retryableSelection = err instanceof OfficialFilterSelectionMissingError && retryMissingSelection;
       const retryableTransport = !(err instanceof OfficialFilterSelectionError);
@@ -246,6 +265,7 @@ async function fetchOfficialResponse(
 
 async function resolveOfficialCompetitiveResponse(filter, delayMs) {
   const rejected = [];
+  let attempts = 0;
   for (let i = 0; i < OFFICIAL_COMPETITIVE_RQ_CANDIDATES.length; i++) {
     const candidate = OFFICIAL_COMPETITIVE_RQ_CANDIDATES[i];
     try {
@@ -255,8 +275,10 @@ async function resolveOfficialCompetitiveResponse(filter, delayMs) {
         delayMs,
       });
       console.log(`公式競技モードを rq=${candidate} で確定`);
-      return { ...response, officialCompetitiveRq: candidate };
+      return { ...response, attempts: attempts + response.attempts, officialCompetitiveRq: candidate };
     } catch (err) {
+      attempts += err.attempts;
+      err.attempts = attempts;
       if (err instanceof OfficialFilterSelectionMissingError) throw err;
       if (!(err instanceof OfficialFilterSelectionError)) throw err;
       rejected.push(`rq=${candidate}: ${err.message}`);
@@ -266,9 +288,11 @@ async function resolveOfficialCompetitiveResponse(filter, delayMs) {
       }
     }
   }
-  throw new OfficialFilterSelectionError(
+  const error = new OfficialFilterSelectionError(
     `公式競技モードを確定できません (${rejected.join(" / ")})。保存を中断します。`
   );
+  error.attempts = attempts;
+  throw error;
 }
 
 async function fetchJsonOnce(url) {
@@ -295,12 +319,11 @@ async function fetchJsonOnce(url) {
 }
 
 function normNum(value) {
-  if (value == null) return null;
-  if (typeof value === "number") return Number.isFinite(value) ? value : null;
-  const text = String(value).trim().replace(/%$/, "");
-  if (text === "" || text === "--") return null;
-  const parsed = Number.parseFloat(text);
-  return Number.isFinite(parsed) ? parsed : null;
+  if (typeof value !== "number" && typeof value !== "string") return null;
+  const text = typeof value === "string" ? value.trim().replace(/%$/, "") : value;
+  if (typeof text === "string" && text.trim() === "") return null;
+  const parsed = Number(text);
+  return Number.isFinite(parsed) && parsed >= 0 && parsed <= 100 ? parsed : null;
 }
 
 // JSON から { slug: {win, pick, ban} } を抽出。出力 shape は既存データと同じ。
@@ -346,27 +369,7 @@ async function fetchFilterSnapshot(filter, officialCompetitiveRq, { attempts, de
   }
 
   const effectiveCompetitiveRq = response.officialCompetitiveRq ?? officialCompetitiveRq;
-  let parsed;
-  try {
-    parsed = parseRates(response.json);
-    if (parsed.slugCount === 0) {
-      throw new FilterCollectionError(
-        "empty-rates",
-        "0件 (レスポンス構造が変わった可能性。rates.rates を要確認)",
-        { url: response.url }
-      );
-    }
-    if (parsed.slugCount !== parsed.rowCount) {
-      throw new FilterCollectionError(
-        "missing-row-id",
-        `一部取りこぼし (slug ${parsed.slugCount} / 行 ${parsed.rowCount})`,
-        { url: response.url }
-      );
-    }
-  } catch (err) {
-    err.officialCompetitiveRq = effectiveCompetitiveRq;
-    throw err;
-  }
+  const parsed = response.parsed;
   return {
     snapshot: { filters: filter, url: response.url, heroCount: parsed.slugCount, heroes: parsed.heroes },
     officialCompetitiveRq: effectiveCompetitiveRq,
@@ -738,7 +741,7 @@ async function main() {
         err.message,
         filter,
         err.url ?? null,
-        1
+        err.attempts
       );
       console.error(`  ✗ ${label}: 取得失敗 — ${failure.message} (再試行キュー)`);
       failures.push(failure);
@@ -775,7 +778,7 @@ async function main() {
         failure.code = err.code ?? failure.code;
         failure.message = err.message;
         failure.url = err.url ?? failure.url;
-        failure.attempts = 3;
+        failure.attempts += err.attempts;
         console.error(`  ✗ ${label}: 再試行後も取得失敗 — ${failure.message}`);
       }
       if (i < retryQueue.length - 1 && delayMs > 0) await sleep(delayMs);
