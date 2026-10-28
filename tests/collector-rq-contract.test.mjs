@@ -29,6 +29,7 @@ const METRIC_CASES = [
 if (MOCK_MODE) {
   let requestCount = 0;
   const missingSelectionSeen = new Set();
+  const mismatchSeen = new Set();
   const requestsByUrl = new Map();
   globalThis.fetch = async (input, init = {}) => {
     const url = new URL(String(input));
@@ -59,10 +60,18 @@ if (MOCK_MODE) {
     const probeTarget = officialRq !== "0" &&
       url.searchParams.get("region") === "Americas" && url.searchParams.get("tier") === "All";
     if (MOCK_MODE === "probe-transport-persistent" && probeTarget) throw new Error("mock transport failure");
-    if (MOCK_MODE === "selection-mismatch" && url.searchParams.get("region") === "Asia" &&
-        url.searchParams.get("tier") === "Grandmaster") selected.input = "Console";
-
     const targetKey = `${url.searchParams.get("map")}|${url.searchParams.get("region")}|${url.searchParams.get("tier")}`;
+    const mismatchTarget = url.searchParams.get("region") === "Asia" && url.searchParams.get("tier") === "Grandmaster";
+    const selectionMismatch =
+      (MOCK_MODE === "selection-mismatch-persistent" && mismatchTarget) ||
+      (MOCK_MODE === "selection-mismatch-once" && mismatchTarget && !mismatchSeen.has(targetKey)) ||
+      (MOCK_MODE === "selection-mismatch-systemic" && officialRq !== "0" && url.searchParams.get("region") !== "Americas");
+    if (selectionMismatch) {
+      mismatchSeen.add(targetKey);
+      // 2026-10-28 run 40664679407 と同じ形: 要求と無関係に既定ビュー (all-maps / rq=0) が返る。
+      selected.map = "all-maps";
+      selected.rq = "0";
+    }
     const missingWholeMap =
       MOCK_MODE === "missing-map" && ["Asia", "Europe"].includes(url.searchParams.get("region"));
     const missingGrandmaster =
@@ -351,13 +360,73 @@ if (MOCK_MODE) {
     });
   }
 
-  test("aborts immediately on a normal filter selection mismatch", async () => {
-    const outDir = await mkdtemp(join(tmpdir(), "overwatch-stats-selection-mismatch-"));
+  test("recovers a transient selection mismatch on the retry pass and saves the complete set", async () => {
+    const outDir = await mkdtemp(join(tmpdir(), "overwatch-stats-selection-mismatch-once-"));
     try {
-      const result = runCollector("selection-mismatch", outDir, { limit: 30 });
-      assert.equal(result.status, 1, `${result.stdout}\n${result.stderr}`);
-      assert.equal((result.stdout.match(/\[mock-fetch\]/g) ?? []).length, 20);
+      const limit = 30;
+      const result = runCollector("selection-mismatch-once", outDir, { limit });
+      assert.equal(result.status, 0, `${result.stdout}\n${result.stderr}`);
       assert.match(result.stderr, /選択値が要求と不一致/);
+      assert.match(result.stdout, /再試行: 1 フィルタ/);
+      assert.match(result.stdout, /再試行成功/);
+      // 再試行は失敗した1条件だけ: 初回 limit 件 + 再試行 1 件
+      assert.equal((result.stdout.match(/\[mock-fetch\]/g) ?? []).length, limit + 1);
+      const payload = JSON.parse(await readFile(join(outDir, `${TEST_DATE}.json`), "utf8"));
+      assert.equal(payload.filterPlan.capturedFilterCount, limit);
+      assert.equal(payload.filterPlan.failedFilterCount, 0);
+      assert.equal(payload.collectionQuality.status, "complete");
+      const recovered = payload.snapshots.find(
+        (snapshot) => snapshot.filters.region === "Asia" && snapshot.filters.tier === "Grandmaster"
+      );
+      assert.equal(recovered.filters.rq, "2");
+      assert.equal(new URL(recovered.url).searchParams.get("rq"), "2");
+      assert.equal(recovered.heroes.ana.ban, 1);
+    } finally {
+      await rm(outDir, { recursive: true, force: true });
+    }
+  });
+
+  test("records a persistent selection mismatch as a failed filter without aborting the run", async () => {
+    const outDir = await mkdtemp(join(tmpdir(), "overwatch-stats-selection-mismatch-persistent-"));
+    try {
+      const limit = 30;
+      const result = runCollector("selection-mismatch-persistent", outDir, { limit });
+      assert.equal(result.status, 0, `${result.stdout}\n${result.stderr}`);
+      assert.match(result.stderr, /選択値が要求と不一致/);
+      assert.match(result.stderr, /再試行後も取得失敗/);
+      // 初回1回 + 第2パスで最大2回 = 3回 (missing-selected と同じ)
+      assert.equal((result.stdout.match(/\[mock-fetch\]/g) ?? []).length, limit + 2);
+      const payload = JSON.parse(await readFile(join(outDir, `${TEST_DATE}.json`), "utf8"));
+      assert.equal(payload.filterPlan.capturedFilterCount, limit - 1);
+      assert.equal(payload.filterPlan.failedFilterCount, 1);
+      assert.equal(payload.collectionQuality.status, "partial");
+      assert.equal(payload.collectionQuality.failedFilters.length, 1);
+      const [failed] = payload.collectionQuality.failedFilters;
+      assert.equal(failed.code, "selection-mismatch");
+      assert.equal(failed.attempts, 3);
+      assert.deepEqual(
+        { region: failed.filter.region, tier: failed.filter.tier, rq: failed.filter.rq },
+        { region: "Asia", tier: "Grandmaster", rq: "2" }
+      );
+      assert.match(failed.message, /rq: requested="2", selected="0"/);
+      // 不一致の応答は保存されない
+      assert.ok(!payload.snapshots.some(
+        (snapshot) => snapshot.filters.region === "Asia" && snapshot.filters.tier === "Grandmaster"
+      ));
+      assert.ok(payload.snapshots.every((snapshot) => snapshot.filters.rq !== "2" || snapshot.heroes.ana.ban === 1));
+    } finally {
+      await rm(outDir, { recursive: true, force: true });
+    }
+  });
+
+  test("aborts without retrying when selection mismatches exceed the failure threshold", async () => {
+    const outDir = await mkdtemp(join(tmpdir(), "overwatch-stats-selection-mismatch-systemic-"));
+    try {
+      // limit 30 → 失敗閾値 floor(30 * 0.05) = 1 件。Americas 10 件成功後、Asia の競技 2 件目で閾値超過。
+      const result = runCollector("selection-mismatch-systemic", outDir, { limit: 30 });
+      assert.equal(result.status, 1, `${result.stdout}\n${result.stderr}`);
+      assert.match(result.stderr, /選択値の不一致が 2 件に達し、失敗閾値 1 件/);
+      assert.equal((result.stdout.match(/\[mock-fetch\]/g) ?? []).length, 13);
       assert.doesNotMatch(result.stdout, /再試行:/);
       await assert.rejects(readFile(join(outDir, `${TEST_DATE}.json`), "utf8"), { code: "ENOENT" });
     } finally {
