@@ -32,7 +32,12 @@
 //   検知して中断するため、日付の欠落は「縮退日」も意味するようになった。
 // 部分欠損(2026-08-18): 一時的なHTTP/JSON/選択情報欠損は第2パスで再試行し、回復しない
 //   フィルタだけを除外して保存できる。ヒーローの未提供セルは0に補完せずnullのまま保持し、
-//   collectionQuality に欠損とcoverageを記録する。選択値の不一致と軸の偏った欠損は保存しない。
+//   collectionQuality に欠損とcoverageを記録する。軸の偏った欠損は保存しない。
+// 選択値の不一致(2026-10-28): 公式が1条件だけ既定ビュー(all-maps/rq=0)を返す日があり、従来は
+//   その時点で1日分を丸ごと中断していた。不一致の応答は保存しない規則はそのままに、不一致を
+//   他の失敗と同じ第2パス再試行の対象にし、再試行後も不一致の条件だけを失敗フィルタ
+//   (code: selection-mismatch) として除外・記録する。不一致が失敗閾値を超えた時点では
+//   公式側の縮退(systemic)とみなし、再試行を待たずに中断する。
 //
 // 実行: npm run stats:fetch        (取得して保存)
 //       npm run stats:fetch -- --dry  (取得して内容を表示するだけ・保存しない)
@@ -204,7 +209,7 @@ function assertOfficialSelection(json, expectedFilter) {
     )
     .join("; ");
   throw new OfficialFilterSelectionMismatchError(
-    `公式応答の選択値が要求と不一致です (${details})。保存を中断します。`
+    `公式応答の選択値が要求と不一致です (${details})。この応答は保存しません。`
   );
 }
 
@@ -224,7 +229,7 @@ function buildRequest(filter, officialCompetitiveRq) {
 async function fetchOfficialResponse(
   filter,
   officialCompetitiveRq,
-  { attempts = 1, retryMissingSelection = true, delayMs = 0 } = {}
+  { attempts = 1, retryMissingSelection = true, retrySelectionMismatch = false, delayMs = 0 } = {}
 ) {
   const { officialFilter, url } = buildRequest(filter, officialCompetitiveRq);
   let lastError;
@@ -254,7 +259,11 @@ async function fetchOfficialResponse(
       err.attempts = attempt;
       if (selectionMatched) err.officialCompetitiveRq = officialCompetitiveRq;
       lastError = err;
-      const retryableSelection = err instanceof OfficialFilterSelectionMissingError && retryMissingSelection;
+      // 選択不一致の再試行は通常フィルタのみ。競技 rq の候補探査では不一致が「候補の棄却」を
+      // 意味するため、resolveOfficialCompetitiveResponse は既定(false)のまま呼ぶ。
+      const retryableSelection =
+        (err instanceof OfficialFilterSelectionMissingError && retryMissingSelection) ||
+        (err instanceof OfficialFilterSelectionMismatchError && retrySelectionMismatch);
       const retryableTransport = !(err instanceof OfficialFilterSelectionError);
       if (attempt >= attempts || (!retryableSelection && !retryableTransport)) throw err;
       if (delayMs > 0) await sleep(Math.min(delayMs, 1000 * attempt));
@@ -364,6 +373,7 @@ async function fetchFilterSnapshot(filter, officialCompetitiveRq, { attempts, de
     response = await fetchOfficialResponse(filter, officialCompetitiveRq, {
       attempts,
       retryMissingSelection: true,
+      retrySelectionMismatch: true,
       delayMs,
     });
   }
@@ -716,6 +726,7 @@ async function main() {
   const failures = [];
   let officialCompetitiveRq = null;
   const retryQueue = [];
+  let selectionMismatchCount = 0;
   console.log(`取得予定: ${activeFilters.length}/${FILTERS.length} スナップショット (delay ${delayMs}ms)`);
   for (let i = 0; i < activeFilters.length; i++) {
     const filter = activeFilters[i];
@@ -732,9 +743,10 @@ async function main() {
       snapshots.push(result.snapshot);
     } catch (err) {
       if (err.officialCompetitiveRq) officialCompetitiveRq = err.officialCompetitiveRq;
+      // 競技 rq を確定できない場合だけ即時中断。通常フィルタの選択不一致(公式が既定ビューを
+      // 返した等)は他の失敗と同様に第2パスで再試行し、回復しなければ失敗フィルタとして除外する。
       const fatalSelection =
-        err instanceof OfficialFilterSelectionMismatchError ||
-        (err instanceof OfficialFilterSelectionError && officialCompetitiveRq === null && filter.rq === CANONICAL_COMPETITIVE_RQ);
+        err instanceof OfficialFilterSelectionError && officialCompetitiveRq === null && filter.rq === CANONICAL_COMPETITIVE_RQ;
       if (fatalSelection) throw err;
       const failure = filterFailure(
         err.code ?? "request",
@@ -746,6 +758,17 @@ async function main() {
       console.error(`  ✗ ${label}: 取得失敗 — ${failure.message} (再試行キュー)`);
       failures.push(failure);
       retryQueue.push(failure);
+      if (err instanceof OfficialFilterSelectionMismatchError) {
+        selectionMismatchCount += 1;
+        if (selectionMismatchCount > maxFailures) {
+          console.error(
+            `\n選択値の不一致が ${selectionMismatchCount} 件に達し、失敗閾値 ${maxFailures} 件` +
+              ` (${Math.round(maxFailureRate * 100)}%) を超えました。` +
+              " 公式側の縮退 (systemic) の疑いがあるため、再試行せずに中断します (保存しません)。"
+          );
+          process.exit(1);
+        }
+      }
     }
     if (i < activeFilters.length - 1 && delayMs > 0) await sleep(delayMs); // 礼儀: フィルタ間に間隔
   }
@@ -767,7 +790,6 @@ async function main() {
         console.log(`  ↻ ${label}: 再試行成功 (${result.snapshot.heroCount} 件)`);
       } catch (err) {
         if (err.officialCompetitiveRq) officialCompetitiveRq = err.officialCompetitiveRq;
-        if (err instanceof OfficialFilterSelectionMismatchError) throw err;
         if (
           err instanceof OfficialFilterSelectionError &&
           officialCompetitiveRq === null &&
