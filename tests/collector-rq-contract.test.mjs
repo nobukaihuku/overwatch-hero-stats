@@ -17,7 +17,7 @@ const FILTERS_PER_INPUT_MAP_REGION = 1 + TIERS.length;
 const FILTERS_PER_INPUT_MAP = FILTERS_PER_INPUT_MAP_REGION * 3;
 const DEFAULT_TEST_GROUP_COUNT = 2;
 const DEFAULT_TEST_LIMIT = FILTERS_PER_INPUT_MAP_REGION * DEFAULT_TEST_GROUP_COUNT;
-const TOTAL_FILTER_COUNT = 2 * 31 * 3 * FILTERS_PER_INPUT_MAP_REGION;
+const TOTAL_FILTER_COUNT = 2 * 32 * 3 * FILTERS_PER_INPUT_MAP_REGION;
 const METRIC_CASES = [
   ...[-1, 100.01, -Infinity, Infinity, NaN, "-1", "100.01", "Infinity", "-Infinity", "NaN",
     "50garbage", "50%garbage", "", " ", "%", "--", null, undefined, true, false, [], {}, ["50"]]
@@ -177,6 +177,9 @@ if (MOCK_MODE) {
 
       const payload = JSON.parse(await readFile(join(outDir, `${TEST_DATE}.json`), "utf8"));
       assert.equal(payload.filterPlan.totalFilterCount, TOTAL_FILTER_COUNT);
+      // Watchpoint: Grímsvötn は公式 value "grimsvotn" (接頭辞なし) で収集する。
+      assert.ok(payload.filterPlan.maps.includes("grimsvotn"));
+      assert.ok(!payload.filterPlan.maps.includes("watchpoint-grimsvotn"));
       assert.deepEqual(payload.filterPlan.modeTiers[1].tiers, TIERS);
       assert.equal(payload.filterPlan.capturedFilterCount, DEFAULT_TEST_LIMIT);
       assert.equal(payload.filterPlan.failedFilterCount, 0);

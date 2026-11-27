@@ -87,6 +87,9 @@ const MAPS = [
   "route-66",
   "shambali-monastery",
   "watchpoint-gibraltar",
+  // Watchpoint: Grímsvötn (エスコート)。公式 value は "watchpoint-" 接頭辞なしの "grimsvotn"
+  // (2026-11-27 確認。"watchpoint-grimsvotn" を渡すと公式は all-maps に縮退して返す)。
+  "grimsvotn",
   "aatlis",
   "new-junk-city",
   "suravasa",
@@ -118,7 +121,7 @@ const MODE_TIERS = [
   { rq: CANONICAL_COMPETITIVE_RQ, tiers: COMP_TIERS },
 ];
 
-// 2入力 × 31マップ × 3地域 × (QP全体1 + 競技9ティア) = 1860 スナップショット
+// 2入力 × 32マップ × 3地域 × (QP全体1 + 競技9ティア) = 1920 スナップショット
 const FILTERS = [];
 for (const input of INPUTS)
   for (const map of MAPS)
